@@ -1,0 +1,31 @@
+{
+  "name": "ember-formBuilder",
+  "summary": "Short package description",
+  "description": "Ember FormBuilder provides a DSL for quickly building forms similar to ActionPack's FormBuilder and SimpleForm",
+  "homepage": "https://github.com/dockyar/ember-formBuilder",
+  "author": "Brian Cardarella",
+  "version": "0.0.1",
+
+  "directories": {
+    "lib": "lib"
+  },
+
+  "dependencies": {
+    "spade": "~> 1.0",
+    "ember-runtime": ">= 0"
+  },
+  "dependencies:development": {
+    "spade-qunit": "~> 1.0.0"
+  },
+  "bpm:build": {
+    "bpm_libs.js": {
+      "files": ["lib"],
+      "modes": "*"
+    },
+    "ember-formBuilder/bpm_tests.js": {
+      "files": ["tests"],
+      "modes": ["debug"]
+    }
+  }
+}
+

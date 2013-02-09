@@ -1,0 +1,13 @@
+{
+  "name": "ember-formBuilder-project",
+  "bpm": "1.0.0",
+  "dependencies": {
+    "ember-formBuilder": ">= 0"
+  },
+
+  "bpm:build": {
+    "bpm_libs.js": {
+      "minifier": "uglify-js"
+    }
+  }
+}
