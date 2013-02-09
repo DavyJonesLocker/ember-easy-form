@@ -6,8 +6,6 @@ var original_lookup = Ember.lookup, lookup;
 
 module('the formFor helper', {
   setup: function() {
-    model = Ember.Object.create({
-    }); 
   },
   teardown: function() {
     Ember.run(function() {
@@ -36,8 +34,22 @@ var assertHTML = function(view, expectedHTML) {
 test('renders a form element', function() {
   view = Ember.View.create({
     template: templateFor('{{#formFor model}}{{/formFor}}'),
-    model: model
+    context: {
+      model: {}
+    }
   });
   append(view);
   ok(view.$().find('form').get(0));
+});
+
+test('sets the context within the form to the object', function() {
+  view = Ember.View.create({
+    template: templateFor('{{#formFor model}}{{value}}{{/formFor}}'),
+    context: {
+      model: { value: 'model' },
+      value: 'view'
+    }
+  });
+  append(view);
+  equal(view.$().find('form').text(), 'model');
 });
