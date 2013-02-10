@@ -44,6 +44,12 @@ This will result in the following semantic structure:
 </form>
 ```
 
+When the `focusOut` event is triggered on input elements the associated
+model will run the validations for that property. Any error messages
+will appear in the associated `span.error` element. The containing `div`
+will also have the class `.field_with_errors` applied. When the
+validation passes the error message and classes are removed.
+
 ## Authors ##
 
 * [Brian Cardarella](http://twitter.com/bcardarella)
