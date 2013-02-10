@@ -12,6 +12,11 @@ Ember.FormBuilder.Input = Ember.View.extend({
     return this.label || this.property.underscore().split('_').join(' ').capitalize();
   },
   inputHelper: function() {
-    return 'textField';
+    switch(this.as) {
+      case 'text':
+        return 'textArea';
+      default:
+        return 'textField';
+    }
   }
 });

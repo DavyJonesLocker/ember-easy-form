@@ -41,3 +41,16 @@ test('renders semantic form elements', function() {
   equal(view.$().find('input').val(), 'Brian');
   equal(view.$().find('input').attr('type'), 'text');
 });
+
+test('renders semantic form elements with text area', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input firstName as="text"}}'),
+    container: container,
+    context: {
+      firstName: 'Brian'
+    }
+  });
+  append(view);
+  equal(view.$().find('label').text(), 'First name');
+  equal(view.$().find('textarea').val(), 'Brian');
+});
