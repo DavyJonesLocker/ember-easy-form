@@ -14,7 +14,7 @@ question with `DockYard` so we can find it.
 
 The `formFor` helper is used like so:
 
-```js
+```handlebars
 {{#formFor model}}
   {{input firstName}}
   {{input lastName}}
