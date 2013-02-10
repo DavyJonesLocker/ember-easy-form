@@ -10,9 +10,39 @@ the gem please ask the question on
 [Stack Overflow](http://stackoverflow.com). Be sure to tag the
 question with `DockYard` so we can find it.
 
-## About ##
+## Usage ##
 
-## Installation ##
+The `formFor` helper is used like so:
+
+```js
+{{#formFor model}}
+  {{input firstName}}
+  {{input lastName}}
+  {{input bio as="text"}}
+{{/formFor}}
+```
+
+This will result in the following semantic structure:
+
+```html
+<form>
+  <div class="input string">
+    <label for="ember1">First name</label>
+    <input id="ember1" type="text"/>
+    <span class="error"></span>
+  </div>
+  <div class="input string">
+    <label for="ember1">First name</label>
+    <input id="ember1" type="text"/>
+    <span class="error"></span>
+  </div>
+  <div class="input string">
+    <label for="ember1">Bio</label>
+    <textarea id="ember1"></textarea>
+    <span class="error"></span>
+  </div>
+</form>
+```
 
 ## Authors ##
 
