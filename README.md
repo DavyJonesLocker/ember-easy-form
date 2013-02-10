@@ -54,6 +54,8 @@ validation passes the error message and classes are removed.
 
 * [Brian Cardarella](http://twitter.com/bcardarella)
 
+This is partially influenced by [Ember FormBuilder](https://github.com/luan/ember-formbuilder) by [Luan Haddad Ricardo dos Santos](https://twitter.com/cfcluan)
+
 [We are very thankful for the many contributors](https://github.com/dockyard/ember-formBuilder/graphs/contributors)
 
 ## Versioning ##
@@ -65,6 +67,7 @@ This gem follows [Semantic Versioning](http://semver.org)
 Please do! We are always looking to improve this gem. Please see our
 [Contribution Guidelines](https://github.com/dockyard/ember-formBuilder/blob/master/CONTRIBUTING.md)
 on how to properly submit issues and pull requests.
+
 
 ## Legal ##
 
