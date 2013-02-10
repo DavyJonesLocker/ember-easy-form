@@ -17,8 +17,8 @@
   // Handle extending prototypes
   QUnit.config.urlConfig.push('extendprototypes');
 
-  var extendPrototypes = QUnit.urlParams.extendprototypes;
-  ENV['EXTEND_PROTOTYPES'] = !!extendPrototypes;
+  // var extendPrototypes = QUnit.urlParams.extendprototypes;
+  // ENV['EXTEND_PROTOTYPES'] = !!extendPrototypes;
 
   // Don't worry about jQuery version
   ENV['FORCE_JQUERY'] = true;
