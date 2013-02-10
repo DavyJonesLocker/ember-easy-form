@@ -32,13 +32,13 @@ This will result in the following semantic structure:
     <span class="error"></span>
   </div>
   <div class="input string">
-    <label for="ember1">First name</label>
-    <input id="ember1" type="text"/>
+    <label for="ember2">First name</label>
+    <input id="ember2" type="text"/>
     <span class="error"></span>
   </div>
   <div class="input string">
-    <label for="ember1">Bio</label>
-    <textarea id="ember1"></textarea>
+    <label for="ember3">Bio</label>
+    <textarea id="ember3"></textarea>
     <span class="error"></span>
   </div>
 </form>
