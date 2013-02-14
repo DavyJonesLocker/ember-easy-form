@@ -53,3 +53,19 @@ test('sets the context within the form to the object', function() {
   append(view);
   equal(view.$().find('form').text(), 'model');
 });
+
+// test('submitting form with errors prevents form submission and renders errors', function() {
+  // view = Ember.View.create({
+    // template: templateFor('{{input firstName}}{{input lastName}}{{submit}}'),
+    // container: container,
+    // context: model
+  // });
+  // append(view);
+  // ok(!view.$().find('div.field_with_errors').get(0));
+  // equal(view.$().find('span.error').length, 2) 
+  // Ember.run(function() {
+    // view._childViews[0].trigger('focusOut');
+  // });
+  // ok(view.$().find('div.field_with_errors').get(0));
+  // equal(view.$().find('span.error').text(), 'Error!');
+// });

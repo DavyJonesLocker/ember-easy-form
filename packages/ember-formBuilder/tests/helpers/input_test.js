@@ -14,6 +14,7 @@ module('input helpers', {
     };
     model = {
       firstName: 'Brian',
+      lastName: 'Cardarella',
       validate: function(property) {
         this.errors.set(property, 'Error!');
       },
