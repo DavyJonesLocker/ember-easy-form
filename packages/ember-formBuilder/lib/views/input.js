@@ -6,11 +6,13 @@ Ember.FormBuilder.Input = Ember.View.extend({
     this._super();
     this.set('model', this._context);
     this.set('template', Ember.Handlebars.compile('<label for="'+this.labelFor()+'"}}>'+this.labelText()+'</label>\n{{'+this.inputHelper()+' '+this.property+'}}{{error '+this.property+'}}'));
-    this.reopen({
-      error: function() {
-        return this.model.errors.get(this.property) !== undefined;
-      }.property('model.errors.'+this.property)
-    });
+    if(this.model.errors) {
+      this.reopen({
+        error: function() {
+          return this.model.errors.get(this.property) !== undefined;
+        }.property('model.errors.'+this.property)
+      });
+    }
   },
   labelFor: function() {
     return Ember.guidFor(this.model);
@@ -26,6 +28,8 @@ Ember.FormBuilder.Input = Ember.View.extend({
     }
   },
   focusOut: function() {
-    this.model.validate(this.property);
+    if (this.model.validate) {
+      this.model.validate(this.property);
+    }
   }
 });

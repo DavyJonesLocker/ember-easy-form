@@ -74,3 +74,22 @@ test('renders error for invalid data', function() {
   ok(view.$().find('div.field_with_errors').get(0));
   equal(view.$().find('span.error').text(), 'Error!');
 });
+
+test('renders semantic form elements when model does not have validation support', function() {
+  var model = {
+    firstName: 'Brian',
+    lastName: 'Cardarella'
+  };
+  view = Ember.View.create({
+    template: templateFor('{{input firstName}}'),
+    container: container,
+    context: model
+  });
+  append(view);
+  equal(view.$().find('label').text(), 'First name');
+  equal(view.$().find('input').val(), 'Brian');
+  equal(view.$().find('input').attr('type'), 'text');
+  Ember.run(function() {
+    view._childViews[0].trigger('focusOut');
+  });
+});
