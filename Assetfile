@@ -1,7 +1,7 @@
 instance_eval File.read(EmberDev.support_path.join('Assetfile'))
 
 distros = {
-  :full    => %w(ember-formBuilder)
+  :full => %w(ember-formBuilder)
 }
 
 output "dist"
