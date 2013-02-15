@@ -89,7 +89,4 @@ test('renders semantic form elements when model does not have validation support
   equal(view.$().find('label').text(), 'First name');
   equal(view.$().find('input').val(), 'Brian');
   equal(view.$().find('input').attr('type'), 'text');
-  Ember.run(function() {
-    view._childViews[0].trigger('focusOut');
-  });
 });
