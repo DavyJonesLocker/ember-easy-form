@@ -71,7 +71,7 @@ test('sets the context within the form to the object', function() {
   equal(view.$().find('form').text(), 'model');
 });
 
-test('clicking with invalid model does not call submit action on controller', function() {
+test('submitting with invalid model does not call submit action on controller', function() {
   valid = false;
   view = Ember.View.create({
     template: templateFor('{{#formFor model}}{{/formFor}}'),
@@ -88,7 +88,7 @@ test('clicking with invalid model does not call submit action on controller', fu
   equal(controller.get('count'), 0);
 });
 
-test('clicking with valid model calls submit action on controller', function() {
+test('submitting with valid model calls submit action on controller', function() {
   valid = true;
   view = Ember.View.create({
     template: templateFor('{{#formFor model}}{{/formFor}}'),
@@ -96,6 +96,23 @@ test('clicking with valid model calls submit action on controller', function() {
     controller: controller,
     context: {
       model: model
+    }
+  });
+  append(view);
+  Ember.run(function() {
+    view._childViews[1].trigger('submit');
+  });
+  equal(controller.get('count'), 1);
+});
+
+test('submitting with model that does not have validate method', function() {
+  valid = true;
+  view = Ember.View.create({
+    template: templateFor('{{#formFor model}}{{/formFor}}'),
+    container: container,
+    controller: controller,
+    context: {
+      model: {}
     }
   });
   append(view);
