@@ -59,33 +59,3 @@ test('custom value', function() {
   append(view);
   equal(view.$().find('input').prop('value'), 'Create');
 });
-
-test('clicking with invalid model does not call submit action on controller', function() {
-  valid = false;
-  view = Ember.View.create({
-    template: templateFor('{{submit "Create"}}'),
-    container: container,
-    controller: controller,
-    context: model
-  });
-  append(view);
-  Ember.run(function() {
-    view._childViews[0].trigger('onClick');
-  });
-  equal(controller.get('count'), 0);
-});
-
-test('clicking with valid model calls submit action on controller', function() {
-  valid = true;
-  view = Ember.View.create({
-    template: templateFor('{{submit "Create"}}'),
-    container: container,
-    controller: controller,
-    context: model
-  });
-  append(view);
-  Ember.run(function() {
-    view._childViews[0].trigger('onClick');
-  });
-  equal(controller.get('count'), 1);
-});
