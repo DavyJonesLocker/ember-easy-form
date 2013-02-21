@@ -90,3 +90,56 @@ test('renders semantic form elements when model does not have validation support
   equal(view.$().find('input').val(), 'Brian');
   equal(view.$().find('input').attr('type'), 'text');
 });
+
+test('allows label text to be set', function() {
+  var model = {
+    firstName: 'Brian',
+    lastName: 'Cardarella'
+  };
+  view = Ember.View.create({
+    template: templateFor('{{input firstName label="Your First Name"}}'),
+    container: container,
+    context: model
+  });
+  append(view);
+  equal(view.$().find('label').text(), 'Your First Name');
+});
+
+test('allows setting of input attributes', function() {
+  var model = {
+    secret: ''
+  };
+  view = Ember.View.create({
+    template: templateFor('{{input secret type="hidden"}}'),
+    container: container,
+    context: model
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'hidden');
+});
+
+test('auto sets input type to password if name includes password', function() {
+  var model = {
+    passwordConfirmation: ''
+  };
+  view = Ember.View.create({
+    template: templateFor('{{input passwordConfirmation}}'),
+    container: container,
+    context: model
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'password');
+});
+
+test('auto sets input type to email if name includes email', function() {
+  var model = {
+    email: ''
+  };
+  view = Ember.View.create({
+    template: templateFor('{{input email}}'),
+    container: container,
+    context: model
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'email');
+});

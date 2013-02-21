@@ -5,7 +5,7 @@ Ember.FormBuilder.Input = Ember.View.extend({
   init: function() {
     this._super();
     this.set('model', this._context);
-    this.set('template', Ember.Handlebars.compile('<label for="'+this.labelFor()+'"}}>'+this.labelText()+'</label>\n{{'+this.inputHelper()+' '+this.property+'}}{{error '+this.property+'}}'));
+    this.set('template', Ember.Handlebars.compile('<label for="'+this.labelFor()+'"}}>'+this.labelText()+'</label>\n{{'+this.inputHelper()+' '+this.property+this.printInputOptions()+'}}{{error '+this.property+'}}'));
     if(this.model.errors) {
       this.reopen({
         error: function() {
@@ -26,6 +26,27 @@ Ember.FormBuilder.Input = Ember.View.extend({
     } else {
       return 'textField';
     }
+  },
+  printInputOptions: function() {
+    var string = '', key, inputOptions;
+    inputOptions = this.prepareInputOptions(this.inputOptions);
+    if (inputOptions) {
+      for (key in inputOptions) {
+        string = string.concat('' + key + '="' + this.inputOptions[key] + '"');
+      }
+      string.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+      return ' ' + string;
+    }
+  },
+  prepareInputOptions: function(options) {
+    if (!options.type) {
+      if (this.property.match(/password/)) {
+        options.type = 'password';
+      } else if (this.property.match(/email/)) {
+        options.type = 'email';
+      }
+    }
+    return options;
   },
   focusOut: function() {
     if (this.model.validate) {

@@ -4,7 +4,7 @@
   "description": "Ember FormBuilder provides a DSL for quickly building forms similar to ActionPack's FormBuilder and SimpleForm",
   "homepage": "https://github.com/dockyar/ember-formBuilder",
   "author": "Brian Cardarella",
-  "version": "0.0.1",
+  "version": "0.1.0",
 
   "directories": {
     "lib": "lib"

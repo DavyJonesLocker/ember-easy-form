@@ -44,6 +44,27 @@ This will result in the following semantic structure:
 </form>
 ```
 
+## Customizing Inputs
+
+You can customize your input by passing certain options.
+
+```handlebars
+{{input secret type="hidden"}}
+```
+
+`ember-formBuilder` will also try to determine the type automatically
+based upon the property name:
+
+```handlebars
+{{input email}}
+{{input password}}
+```
+
+This will set the first input with `type="email"` and the second with
+`type="password"`
+
+## Validations
+
 When the `focusOut` event is triggered on input elements the associated
 model will run the validations for that property. Any error messages
 will appear in the associated `span.error` element. The containing `div`
@@ -67,7 +88,6 @@ This gem follows [Semantic Versioning](http://semver.org)
 Please do! We are always looking to improve this gem. Please see our
 [Contribution Guidelines](https://github.com/dockyard/ember-formBuilder/blob/master/CONTRIBUTING.md)
 on how to properly submit issues and pull requests.
-
 
 ## Legal ##
 
