@@ -63,6 +63,18 @@ based upon the property name:
 This will set the first input with `type="email"` and the second with
 `type="password"`
 
+Pass the `label` option to set the label text:
+
+```handlebars
+{{input firstName label="Your Name"}}
+```
+
+Pass the `placeholder` option to set a placeholder:
+
+```handlebars
+{{input firstName placeholder="Enter your first name"}}
+```
+
 ## Validations
 
 When the `focusOut` event is triggered on input elements the associated
