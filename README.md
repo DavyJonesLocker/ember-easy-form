@@ -2,6 +2,25 @@
 
 EasyForm for Ember
 
+## Getting a build ##
+
+[Please choose from our list of builds for Ember-EasyForm](https://github.com/bcardarella/ember-builds/tree/master/easyForm)
+
+## Building yourself ##
+
+You will require Ruby to be installed on your system. If it is please
+run the following:
+
+```bash
+gem install bundler
+git clone git://github.com/dockyard/ember-easyForm.git
+cd ember-easyForm
+bundle install
+bundle exec rake dist
+```
+
+The builds will be in the `dist/` directory.
+
 ## Looking for help? ##
 
 If it is a bug [please open an issue on
