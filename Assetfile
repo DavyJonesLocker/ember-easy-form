@@ -1,13 +1,13 @@
 instance_eval File.read(EmberDev.support_path.join('Assetfile'))
 
 distros = {
-  :full => %w(ember-formBuilder)
+  :full => %w(ember-easyForm)
 }
 
 output "dist"
 
 distros.each do |name, modules|
-  name = "ember-formBuilder"
+  name = "ember-easyForm"
 
   input "dist/modules" do
     module_paths = modules.map{|m| "#{m}.js" }

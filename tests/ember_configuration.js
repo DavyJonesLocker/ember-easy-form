@@ -30,6 +30,6 @@
 
   EmberDev.distros = {
     spade:   'ember-spade.js',
-    build:   'ember-formBuilder.js',
+    build:   'ember-easyForm.js',
   };
 })();

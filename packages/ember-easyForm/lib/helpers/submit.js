@@ -5,5 +5,5 @@ Ember.Handlebars.registerHelper('submit', function(value, options) {
   }
   options.hash.context = this;
   options.hash.value = value || 'Submit';
-  return Ember.Handlebars.helpers.view.call(this, Ember.FormBuilder.Submit, options);
+  return Ember.Handlebars.helpers.view.call(this, Ember.EasyForm.Submit, options);
 });

@@ -1,4 +1,4 @@
-Ember.FormBuilder.Error = Ember.View.extend({
+Ember.EasyForm.Error = Ember.View.extend({
   tagName: 'span',
   classNames: ['error'],
   init: function() {

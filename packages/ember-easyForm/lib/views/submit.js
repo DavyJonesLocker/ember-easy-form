@@ -1,4 +1,4 @@
-Ember.FormBuilder.Submit = Ember.View.extend({
+Ember.EasyForm.Submit = Ember.View.extend({
   tagName: 'input',
   attributeBindings: ['type', 'value'],
   type: 'submit',

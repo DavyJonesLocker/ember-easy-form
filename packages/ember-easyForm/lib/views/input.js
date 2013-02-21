@@ -1,4 +1,4 @@
-Ember.FormBuilder.Input = Ember.View.extend({
+Ember.EasyForm.Input = Ember.View.extend({
   tagName: 'div',
   classNames: ['input', 'string'],
   classNameBindings: ['error:field_with_errors'],

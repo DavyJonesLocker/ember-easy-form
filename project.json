@@ -1,8 +1,8 @@
 {
-  "name": "ember-formBuilder-project",
+  "name": "ember-easyForm-project",
   "bpm": "1.0.0",
   "dependencies": {
-    "ember-formBuilder": ">= 0"
+    "ember-easyForm": ">= 0"
   },
 
   "bpm:build": {

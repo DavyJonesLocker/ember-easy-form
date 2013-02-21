@@ -1,11 +1,11 @@
-# Ember FormBuilder #
+# Ember EasyForm #
 
-FormBuilder for Ember
+EasyForm for Ember
 
 ## Looking for help? ##
 
 If it is a bug [please open an issue on
-GitHub](https://github.com/dockyard/ember-formBuilder/issues). If you need help using
+GitHub](https://github.com/dockyard/ember-easyForm/issues). If you need help using
 the gem please ask the question on
 [Stack Overflow](http://stackoverflow.com). Be sure to tag the
 question with `DockYard` so we can find it.
@@ -52,7 +52,7 @@ You can customize your input by passing certain options.
 {{input secret type="hidden"}}
 ```
 
-`ember-formBuilder` will also try to determine the type automatically
+`ember-easyForm` will also try to determine the type automatically
 based upon the property name:
 
 ```handlebars
@@ -87,9 +87,9 @@ validation passes the error message and classes are removed.
 
 * [Brian Cardarella](http://twitter.com/bcardarella)
 
-This is partially influenced by [Ember FormBuilder](https://github.com/luan/ember-formbuilder) by [Luan Haddad Ricardo dos Santos](https://twitter.com/cfcluan)
+This is partially influenced by [Ember EasyForm](https://github.com/luan/ember-formbuilder) by [Luan Haddad Ricardo dos Santos](https://twitter.com/cfcluan)
 
-[We are very thankful for the many contributors](https://github.com/dockyard/ember-formBuilder/graphs/contributors)
+[We are very thankful for the many contributors](https://github.com/dockyard/ember-easyForm/graphs/contributors)
 
 ## Versioning ##
 
@@ -98,7 +98,7 @@ This gem follows [Semantic Versioning](http://semver.org)
 ## Want to help? ##
 
 Please do! We are always looking to improve this gem. Please see our
-[Contribution Guidelines](https://github.com/dockyard/ember-formBuilder/blob/master/CONTRIBUTING.md)
+[Contribution Guidelines](https://github.com/dockyard/ember-easyForm/blob/master/CONTRIBUTING.md)
 on how to properly submit issues and pull requests.
 
 ## Legal ##

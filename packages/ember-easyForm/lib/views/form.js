@@ -1,4 +1,4 @@
-Ember.FormBuilder.Form = Ember.View.extend({
+Ember.EasyForm.Form = Ember.View.extend({
   tagName: 'form',
   attributeBindings: ['novalidate'],
   novalidate: 'novalidate',
