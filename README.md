@@ -87,7 +87,7 @@ validation passes the error message and classes are removed.
 
 * [Brian Cardarella](http://twitter.com/bcardarella)
 
-This is partially influenced by [Ember EasyForm](https://github.com/luan/ember-formbuilder) by [Luan Haddad Ricardo dos Santos](https://twitter.com/cfcluan)
+This is partially influenced by [Ember FormBuilder](https://github.com/luan/ember-formbuilder) by [Luan Haddad Ricardo dos Santos](https://twitter.com/cfcluan)
 
 [We are very thankful for the many contributors](https://github.com/dockyard/ember-easyForm/graphs/contributors)
 
