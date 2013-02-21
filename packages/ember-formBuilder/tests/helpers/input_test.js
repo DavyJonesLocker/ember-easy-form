@@ -143,3 +143,67 @@ test('auto sets input type to email if name includes email', function() {
   append(view);
   equal(view.$().find('input').attr('type'), 'email');
 });
+
+test('auto sets input type to number if property meta attribute is a number', function() {
+  var model = {
+    age: 30,
+    metaForProperty: function(property) {
+      var obj = { 'type': 'number' };
+      if (property === 'age') {
+        return obj;
+      }
+    }
+  };
+  view = Ember.View.create({
+    template: templateFor('{{input age}}'),
+    container: container,
+    context: model
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'number');
+});
+
+test('auto sets input type to number if property is a number', function() {
+  var model = {
+    age: 30
+  };
+  view = Ember.View.create({
+    template: templateFor('{{input age}}'),
+    container: container,
+    context: model
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'number');
+});
+
+test('auto sets input type to date if property meta attribute is a date', function() {
+  var model = {
+    birthday: new Date(),
+    metaForProperty: function(property) {
+      var obj = { 'type': 'date' };
+      if (property === 'birthday') {
+        return obj;
+      }
+    }
+  };
+  view = Ember.View.create({
+    template: templateFor('{{input birthday}}'),
+    container: container,
+    context: model
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'date');
+});
+
+test('auto sets input type to number if property is a number', function() {
+  var model = {
+    birthday: new Date()
+  };
+  view = Ember.View.create({
+    template: templateFor('{{input birthday}}'),
+    container: container,
+    context: model
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'date');
+});

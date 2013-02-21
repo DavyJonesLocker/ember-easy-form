@@ -39,11 +39,24 @@ Ember.FormBuilder.Input = Ember.View.extend({
     }
   },
   prepareInputOptions: function(options) {
+    var context;
     if (!options.type) {
       if (this.property.match(/password/)) {
         options.type = 'password';
       } else if (this.property.match(/email/)) {
         options.type = 'email';
+      } else {
+        // controller
+        if (this._context.content) {
+          context = this._context.content;
+        } else {
+          context = this._context;
+        }
+        if ((typeof(context.constructor.metaForProperty) === 'function' && context.constructor.metaForProperty(this.property).type === 'number') || typeof(context[this.property]) === 'number') {
+          options.type = 'number';
+        } else if ((typeof(context.constructor.metaForProperty) === 'function' && context.constructor.metaForProperty(this.property).type === 'date') || (context[this.property] !== undefined && context[this.property].constructor === Date)) {
+          options.type = 'date';
+        }
       }
     }
     return options;
