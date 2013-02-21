@@ -4,7 +4,7 @@ EasyForm for Ember
 
 ## Getting a build ##
 
-[Please choose from our list of builds for Ember-EasyForm](https://github.com/bcardarella/ember-builds/tree/master/easyForm)
+[Please choose from our list of builds for Ember-EasyForm](https://github.com/dockyard/ember-builds/tree/master/easyForm)
 
 ## Building yourself ##
 
