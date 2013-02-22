@@ -9,10 +9,10 @@ Model = Ember.Object.extend({
   },
 });
 
-module('textField helper', {
+module('textArea helper', {
   setup: function() {
     model = Model.create({
-      firstName: 'Brian',
+      bio: 'In a van down by the river...',
     });
     controller = Ember.ObjectController.create();
     controller.set('content', model);
@@ -34,10 +34,9 @@ var append = function(view) {
 
 test('renders a text field', function() {
   view = Ember.View.create({
-    template: templateFor('{{textField firstName}}'),
+    template: templateFor('{{textArea bio}}'),
     controller: controller
   });
   append(view);
-  equal(view.$().find('input').val(), 'Brian');
-  equal(view.$().find('input').prop('type'), 'text');
+  equal(view.$().find('textarea').val(), 'In a van down by the river...');
 });

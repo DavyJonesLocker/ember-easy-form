@@ -1,8 +1,13 @@
-var model, view, container, controller, valid;
+var model, Model, view, container, controller, valid;
 var templateFor = function(template) {
   return Ember.Handlebars.compile(template);
 };
 var original_lookup = Ember.lookup, lookup;
+Model = Ember.Object.extend({
+  validate: function() {
+    return valid;
+  },
+});
 
 module('the formFor helper', {
   setup: function() {
@@ -12,15 +17,13 @@ module('the formFor helper', {
       var name = fullName.split(':')[1];
       return Ember.TEMPLATES[name];
     };
-    model = {
+    model = Model.create({
       firstName: 'Brian',
       lastName: 'Cardarella',
-      validate: function() {
-        return valid;
-      },
       errors: Ember.Object.create()
-    };
+    });
     controller = Ember.Controller.create();
+    controller.set('content', model);
     controller.set('count', 0);
     controller.set('submit', function() { this.set('count', this.get('count') + 1); });
   },
@@ -50,36 +53,19 @@ var assertHTML = function(view, expectedHTML) {
 
 test('renders a form element', function() {
   view = Ember.View.create({
-    template: templateFor('{{#formFor model}}{{/formFor}}'),
-    context: {
-      model: {}
-    }
+    template: templateFor('{{#formFor controller}}{{/formFor}}'),
+    controller: controller
   });
   append(view);
   ok(view.$().find('form').get(0));
 });
 
-test('sets the context within the form to the object', function() {
-  view = Ember.View.create({
-    template: templateFor('{{#formFor model}}{{value}}{{/formFor}}'),
-    context: {
-      model: { value: 'model' },
-      value: 'view'
-    }
-  });
-  append(view);
-  equal(view.$().find('form').text(), 'model');
-});
-
 test('submitting with invalid model does not call submit action on controller', function() {
   valid = false;
   view = Ember.View.create({
-    template: templateFor('{{#formFor model}}{{/formFor}}'),
+    template: templateFor('{{#formFor controller}}{{/formFor}}'),
     container: container,
-    controller: controller,
-    context: {
-      model: model
-    }
+    controller: controller
   });
   append(view);
   Ember.run(function() {
@@ -91,12 +77,9 @@ test('submitting with invalid model does not call submit action on controller', 
 test('submitting with valid model calls submit action on controller', function() {
   valid = true;
   view = Ember.View.create({
-    template: templateFor('{{#formFor model}}{{/formFor}}'),
+    template: templateFor('{{#formFor controller}}{{/formFor}}'),
     container: container,
-    controller: controller,
-    context: {
-      model: model
-    }
+    controller: controller
   });
   append(view);
   Ember.run(function() {
@@ -108,12 +91,9 @@ test('submitting with valid model calls submit action on controller', function()
 test('submitting with model that does not have validate method', function() {
   valid = true;
   view = Ember.View.create({
-    template: templateFor('{{#formFor model}}{{/formFor}}'),
+    template: templateFor('{{#formFor controller}}{{/formFor}}'),
     container: container,
-    controller: controller,
-    context: {
-      model: {}
-    }
+    controller: controller
   });
   append(view);
   Ember.run(function() {

@@ -1,25 +1,29 @@
-var model, view, container;
+var model, Model, view, valid, container, controller;
 var templateFor = function(template) {
   return Ember.Handlebars.compile(template);
 };
 var original_lookup = Ember.lookup, lookup;
+Model = Ember.Object.extend({
+  validate: function(property) {
+    this.errors.set(property, 'Error!');
+  },
+});
 
 module('input helpers', {
   setup: function() {
-    container = new Ember.Container();
-    container.optionsForType('template', { instantiate: false });
-    container.resolver = function(fullName) {
-      var name = fullName.split(':')[1];
-      return Ember.TEMPLATES[name];
-    };
-    model = {
+    // container = new Ember.Container();
+    // container.optionsForType('template', { instantiate: false });
+    // container.resolver = function(fullName) {
+      // var name = fullName.split(':')[1];
+      // return Ember.TEMPLATES[name];
+    // };
+    model = Model.create({
       firstName: 'Brian',
       lastName: 'Cardarella',
-      validate: function(property) {
-        this.errors.set(property, 'Error!');
-      },
       errors: Ember.Object.create()
-    };
+    });
+    controller = Ember.ObjectController.create();
+    controller.set('content', model);
   },
   teardown: function() {
     Ember.run(function() {
@@ -39,8 +43,7 @@ var append = function(view) {
 test('renders semantic form elements', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName}}'),
-    container: container,
-    context: model
+    controller: controller
   });
   append(view);
   equal(view.$().find('label').text(), 'First name');
@@ -51,8 +54,7 @@ test('renders semantic form elements', function() {
 test('renders semantic form elements with text area', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName as="text"}}'),
-    container: container,
-    context: model
+    controller: controller
   });
   append(view);
   equal(view.$().find('label').text(), 'First name');
@@ -62,8 +64,7 @@ test('renders semantic form elements with text area', function() {
 test('renders error for invalid data', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName}}'),
-    container: container,
-    context: model
+    controller: controller
   });
   append(view);
   ok(!view.$().find('div.field_with_errors').get(0));
@@ -76,14 +77,16 @@ test('renders error for invalid data', function() {
 });
 
 test('renders semantic form elements when model does not have validation support', function() {
-  var model = {
+  var model = Model.create({
     firstName: 'Brian',
     lastName: 'Cardarella'
-  };
+  });
+
+  model.validate = undefined;
+  controller.set('content', model);
   view = Ember.View.create({
     template: templateFor('{{input firstName}}'),
-    container: container,
-    context: model
+    controller: controller
   });
   append(view);
   equal(view.$().find('label').text(), 'First name');
@@ -92,117 +95,92 @@ test('renders semantic form elements when model does not have validation support
 });
 
 test('allows label text to be set', function() {
-  var model = {
-    firstName: 'Brian',
-    lastName: 'Cardarella'
-  };
   view = Ember.View.create({
     template: templateFor('{{input firstName label="Your First Name"}}'),
-    container: container,
-    context: model
+    controller: controller
   });
   append(view);
   equal(view.$().find('label').text(), 'Your First Name');
 });
 
 test('allows setting of input attributes', function() {
-  var model = {
-    secret: ''
-  };
   view = Ember.View.create({
     template: templateFor('{{input secret type="hidden"}}'),
-    container: container,
-    context: model
+    controller: controller
   });
   append(view);
   equal(view.$().find('input').attr('type'), 'hidden');
 });
 
 test('auto sets input type to password if name includes password', function() {
-  var model = {
-    passwordConfirmation: ''
-  };
   view = Ember.View.create({
     template: templateFor('{{input passwordConfirmation}}'),
-    container: container,
-    context: model
+    controller: controller
   });
   append(view);
   equal(view.$().find('input').attr('type'), 'password');
 });
 
 test('auto sets input type to email if name includes email', function() {
-  var model = {
-    email: ''
-  };
   view = Ember.View.create({
     template: templateFor('{{input email}}'),
-    container: container,
-    context: model
+    controller: controller
   });
   append(view);
   equal(view.$().find('input').attr('type'), 'email');
 });
 
 test('auto sets input type to number if property meta attribute is a number', function() {
-  var model = {
-    age: 30,
+   model.reopen({ 
     metaForProperty: function(property) {
       var obj = { 'type': 'number' };
       if (property === 'age') {
         return obj;
       }
     }
-  };
+  });
+  model.set('age', 30);
   view = Ember.View.create({
     template: templateFor('{{input age}}'),
-    container: container,
-    context: model
+    controller: controller
   });
   append(view);
   equal(view.$().find('input').attr('type'), 'number');
 });
 
 test('auto sets input type to number if property is a number', function() {
-  var model = {
-    age: 30
-  };
+  model.set('age', 30);
   view = Ember.View.create({
     template: templateFor('{{input age}}'),
-    container: container,
-    context: model
+    controller: controller
   });
   append(view);
   equal(view.$().find('input').attr('type'), 'number');
 });
 
 test('auto sets input type to date if property meta attribute is a date', function() {
-  var model = {
-    birthday: new Date(),
+  model.reopen({
     metaForProperty: function(property) {
       var obj = { 'type': 'date' };
       if (property === 'birthday') {
         return obj;
       }
     }
-  };
+  });
+  model.set('birthday', new Date());
   view = Ember.View.create({
     template: templateFor('{{input birthday}}'),
-    container: container,
-    context: model
+    controller: controller
   });
   append(view);
   equal(view.$().find('input').attr('type'), 'date');
 });
 
 test('auto sets input type to number if property is a number', function() {
-  var model = {
-    birthday: new Date()
-  };
+  model.set('birthday', new Date());
   view = Ember.View.create({
     template: templateFor('{{input birthday}}'),
-    container: container,
-    context: model
+    controller: controller
   });
   append(view);
   equal(view.$().find('input').attr('type'), 'date');

@@ -3,7 +3,9 @@ Ember.EasyForm.Form = Ember.View.extend({
   attributeBindings: ['novalidate'],
   novalidate: 'novalidate',
   submit: function(event) {
-    if (this.get('context').validate === undefined || this.get('context').validate()) {
+    var object = this.get('context').get('content');
+
+    if (object.validate === undefined || object.validate()) {
       this.get('controller').send('submit');
     }
     if (event) {
