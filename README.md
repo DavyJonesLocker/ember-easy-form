@@ -1,5 +1,7 @@
 # Ember EasyForm #
 
+[![Build Status](https://secure.travis-ci.org/dockyard/ember-easyForm.png?branch=3-2-stable)](http://travis-ci.org/dockyard/ember-easyForm)
+
 EasyForm for Ember
 
 ## Getting a build ##
