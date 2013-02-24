@@ -114,7 +114,7 @@ This is partially influenced by [Ember FormBuilder](https://github.com/luan/embe
 
 ## Versioning ##
 
-This gem follows [Semantic Versioning](http://semver.org)
+This library follows [Semantic Versioning](http://semver.org)
 
 ## Want to help? ##
 
