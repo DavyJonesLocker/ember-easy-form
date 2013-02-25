@@ -4,6 +4,12 @@
 
 EasyForm for Ember
 
+Development on this library will be on-going until `1.0`. We follow
+`Semantic Versioning` so expect backwards incompatible changes between
+minor version bumps. Patch version bumps will not introduce backwards
+incompatible changes but older minor version will not be actively
+supported.
+
 ## Getting a build ##
 
 [Please choose from our list of builds for Ember-EasyForm](https://github.com/dockyard/ember-builds/tree/master/easyForm)
