@@ -11,12 +11,6 @@ Model = Ember.Object.extend({
 
 module('input helpers', {
   setup: function() {
-    // container = new Ember.Container();
-    // container.optionsForType('template', { instantiate: false });
-    // container.resolver = function(fullName) {
-      // var name = fullName.split(':')[1];
-      // return Ember.TEMPLATES[name];
-    // };
     model = Model.create({
       firstName: 'Brian',
       lastName: 'Cardarella',

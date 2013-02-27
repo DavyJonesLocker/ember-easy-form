@@ -110,6 +110,12 @@ will appear in the associated `span.error` element. The containing `div`
 will also have the class `.field_with_errors` applied. When the
 validation passes the error message and classes are removed.
 
+It is expected the controller have access to an `errors` objects (if
+directly defined on the controller itself or on the `content` object)
+and each key should correspond to the property in question. The value of
+each key can be a string or an array. If an array the first value in the
+array will be used for display.
+
 ## Authors ##
 
 * [Brian Cardarella](http://twitter.com/bcardarella)
