@@ -5,8 +5,10 @@ var templateFor = function(template) {
 var original_lookup = Ember.lookup, lookup;
 Model = Ember.Object.extend({
   validate: function() {
-    return valid;
-  },
+    var promise = new Ember.Deferred();
+    promise.resolve();
+    return promise;
+  }
 });
 
 module('the formFor helper', {
@@ -60,22 +62,25 @@ test('renders a form element', function() {
   ok(view.$().find('form').get(0));
 });
 
-test('submitting with invalid model does not call submit action on controller', function() {
-  valid = false;
-  view = Ember.View.create({
-    template: templateFor('{{#formFor controller}}{{/formFor}}'),
-    container: container,
-    controller: controller
-  });
-  append(view);
+asyncTest('submitting with invalid model does not call submit action on controller', function() {
   Ember.run(function() {
+    model.set('isValid', false);
+    view = Ember.View.create({
+      template: templateFor('{{#formFor controller}}{{/formFor}}'),
+      container: container,
+      controller: controller
+    });
+    append(view);
     view._childViews[1].trigger('submit');
+    setTimeout(function() {
+      equal(controller.get('count'), 0);
+      start();
+    }, 50);
   });
-  equal(controller.get('count'), 0);
 });
 
-test('submitting with valid model calls submit action on controller', function() {
-  valid = true;
+asyncTest('submitting with valid model calls submit action on controller', function() {
+  model.set('isValid', true);
   view = Ember.View.create({
     template: templateFor('{{#formFor controller}}{{/formFor}}'),
     container: container,
@@ -85,19 +90,26 @@ test('submitting with valid model calls submit action on controller', function()
   Ember.run(function() {
     view._childViews[1].trigger('submit');
   });
-  equal(controller.get('count'), 1);
+  setTimeout(function() {
+    equal(controller.get('count'), 1);
+    start();
+  }, 50);
 });
 
-test('submitting with model that does not have validate method', function() {
-  valid = true;
-  view = Ember.View.create({
-    template: templateFor('{{#formFor controller}}{{/formFor}}'),
-    container: container,
-    controller: controller
-  });
-  append(view);
+asyncTest('submitting with model that does not have validate method', function() {
+  delete model.validate;
   Ember.run(function() {
+    model.set('isValid', true);
+    view = Ember.View.create({
+      template: templateFor('{{#formFor controller}}{{/formFor}}'),
+      container: container,
+      controller: controller
+    });
+    append(view);
     view._childViews[1].trigger('submit');
+    setTimeout(function() {
+      equal(controller.get('count'), 1);
+      start();
+    }, 50);
   });
-  equal(controller.get('count'), 1);
 });

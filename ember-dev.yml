@@ -3,6 +3,6 @@ name: Ember EasyForm
 assetfile: 'Assetfile'
 testing_suites:
   default:
-    - "package=all&jquery=1.7.2&extendprototypes=true"
+    - "package=all&extendprototypes=true"
 testing_packages:
   - ember-easyForm
