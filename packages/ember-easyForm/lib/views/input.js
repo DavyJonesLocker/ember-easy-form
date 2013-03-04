@@ -23,13 +23,17 @@ Ember.EasyForm.Input = Ember.View.extend({
     return '{{labelField '+this.property+' '+options+'}}';
   },
   inputField: function() {
-    var options = '', key, inputOptions = ['type'];
+    var options = '', key, inputOptions = ['type', 'placeholder'];
     for (var i = 0; i < inputOptions.length; i++) {
       key = inputOptions[i];
       if (this[key]) {
+        if (typeof(this[key]) === 'boolean') {
+          this[key] = key;
+        }
         options = options.concat(''+key+'="'+this[inputOptions[i]]+'"');
       }
     }
+
     options.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 
     return '{{inputField '+this.property+' '+options+'}}';
