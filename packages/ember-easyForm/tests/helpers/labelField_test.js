@@ -5,7 +5,7 @@ var templateFor = function(template) {
 var original_lookup = Ember.lookup, lookup;
 Model = Ember.Object.extend();
 
-module('error helpers', {
+module('labelField helpers', {
   setup: function() {
     container = new Ember.Container();
     container.optionsForType('template', { instantiate: false });
@@ -15,8 +15,6 @@ module('error helpers', {
     };
     model = Model.create({
       firstName: 'Brian',
-      lastName: 'Cardarella',
-      errors: Ember.Object.create()
     });
     controller = Ember.ObjectController.create();
     controller.set('content', model);
@@ -36,28 +34,22 @@ var append = function(view) {
   });
 };
 
-test('error helper should bind to first error message in array', function() {
+test('renders a label field', function() {
   view = Ember.View.create({
-    template: templateFor('{{error firstName}}'),
+    template: templateFor('{{labelField firstName}}'),
     container: container,
     controller: controller
   });
   append(view);
-  equal(view.$().find('span.error').text(), '');
-  Ember.run(function() {
-    model.errors.set('firstName', ["can't be blank"]);
+  equal(view.$().find('label').text(), 'First name');
+});
+
+test('renders a label field with custom text', function() {
+  view = Ember.View.create({
+    template: templateFor('{{labelField firstName text="Your first name"}}'),
+    container: container,
+    controller: controller
   });
-  equal(view.$().find('span.error').text(), "can't be blank");
-  Ember.run(function() {
-    model.errors.set('firstName', ['is invalid', "can't be blank"]);
-  });
-  equal(view.$().find('span.error').text(), 'is invalid');
-  Ember.run(function() {
-    model.errors.set('firstName', []);
-  });
-  equal(view.$().find('span.error').text(), '');
-  Ember.run(function() {
-    model.errors.set('firstName', undefined);
-  });
-  equal(view.$().find('span.error').text(), '');
+  append(view);
+  equal(view.$().find('label').text(), 'Your first name');
 });

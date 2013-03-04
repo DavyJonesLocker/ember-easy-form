@@ -1,7 +1,9 @@
 Ember.EasyForm.Input = Ember.View.extend({
   init: function() {
     this._super();
-    this.set('template', Ember.Handlebars.compile('<label for="'+this.labelFor()+'"}}>'+this.labelText()+'</label>\n{{'+this.inputHelper()+' '+this.property+this.printInputOptions()+'}}{{error '+this.property+'}}'));
+    if (!this.isBlock) {
+      this.set('template', Ember.Handlebars.compile(this.fieldsForInput()));
+    }
     if(this.get('context').get('errors') !== undefined) {
       this.reopen({
         error: function() {
@@ -12,58 +14,33 @@ Ember.EasyForm.Input = Ember.View.extend({
   },
   tagName: 'div',
   classNames: ['input', 'string'],
-  classNameBindings: ['error:field_with_errors'],
-  labelFor: function() {
-    return Ember.guidFor(this.get('context').get(this.property));
+  classNameBindings: ['error:fieldWithErrors'],
+  fieldsForInput: function() {
+    return this.labelField()+this.inputField()+this.errorField();
   },
-  labelText: function() {
-    return this.label || this.property.underscore().split('_').join(' ').capitalize();
+  labelField: function() {
+    var options = this.label ? 'text="'+this.label+'"' : '';
+    return '{{labelField '+this.property+' '+options+'}}';
   },
-  inputHelper: function() {
-    if(this.as === 'text') {
-      return 'textArea';
-    } else {
-      return 'textField';
-    }
-  },
-  printInputOptions: function() {
-    var string = '', key, inputOptions;
-    inputOptions = this.prepareInputOptions(this.inputOptions);
-    if (inputOptions) {
-      for (key in inputOptions) {
-        string = string.concat('' + key + '="' + this.inputOptions[key] + '"');
-      }
-      string.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-      return ' ' + string;
-    }
-  },
-  prepareInputOptions: function(options) {
-    var object = this.get('context').get('content');
-    if (!options.type) {
-      if (this.property.match(/password/)) {
-        options.type = 'password';
-      } else if (this.property.match(/email/)) {
-        options.type = 'email';
-      } else {
-        if (this.propertyType(object, this.property) === 'number' || typeof(object.get(this.property)) === 'number') {
-          options.type = 'number';
-        } else if (this.propertyType(object, this.property) === 'date' || (object.get(this.property) !== undefined && object.get(this.property).constructor === Date)) {
-          options.type = 'date';
-        }
+  inputField: function() {
+    var options = '', key, inputOptions = ['type'];
+    for (var i = 0; i < inputOptions.length; i++) {
+      key = inputOptions[i];
+      if (this[key]) {
+        options = options.concat(''+key+'="'+this[inputOptions[i]]+'"');
       }
     }
-    return options;
+    options.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+
+    return '{{inputField '+this.property+' '+options+'}}';
+  },
+  errorField: function() {
+    var options = '';
+    return '{{errorField '+this.property+' '+options+'}}';
   },
   focusOut: function() {
     if (this.get('context').get('content').validate) {
       this.get('context').get('content').validate(this.property);
-    }
-  },
-  propertyType: function(object, property) {
-    try {
-      return object.constructor.metaForProperty(property);
-    } catch(e) {
-      return null;
     }
   }
 });

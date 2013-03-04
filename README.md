@@ -116,6 +116,64 @@ and each key should correspond to the property in question. The value of
 each key can be a string or an array. If an array the first value in the
 array will be used for display.
 
+## Input Blocks
+
+Inputs can be used in the default inline form as already seen or they can
+be used as blocks such as:
+
+```handlebars
+{{#input firstName}}
+  {{inputField firstName}}{{labelField firstName}}
+  <br/>
+  {{erroField firstName}}
+{{/input}}
+```
+
+Inside the block you can add any markup you'd like and everything will
+be wrapped inside the container `div` that is created by the original
+`input`. You can should use the following helpers:
+
+### labelField
+
+Renders the label field used by `input`. The first paramater is the
+property, the remainder paramaters are options.
+
+#### options
+
+* `text` - the text for the label
+
+```handlebars
+{{labelField firstName text="Your first name"}}
+```
+
+### inputField
+
+Renders the input field used by `input`. The first parameter is the
+property, the remaining properties are options. The input itself will
+default a `type` of `password` if the property contains "password",
+likewise for "email".
+
+#### options
+
+* `type` - overrides the type of the input
+* `as` - accepts the following:
+  * `text` - renders a `textarea` input
+
+```handlebars
+{{inputField bio as="text"}}
+{{inputField email}}
+```
+
+### errorField
+
+Renders the error span used by `input` where the first available
+validation error message will be rendered. The first parameter will be
+the property.
+
+```handlebars
+{{errorField firstName}}
+```
+
 ## Authors ##
 
 * [Brian Cardarella](http://twitter.com/bcardarella)
