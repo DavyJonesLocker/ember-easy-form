@@ -21,7 +21,7 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
       } else {
         if (propertyType(context, property) === 'number' || typeof(context.get(property)) === 'number') {
           options.hash.type = 'number';
-        } else if (propertyType(context, property) === 'date' || (context.get(property) !== undefined && context.get(property).constructor === Date)) {
+        } else if (propertyType(context, property) === 'date' || (!Ember.isNone(context.get(property)) && context.get(property).constructor === Date)) {
           options.hash.type = 'date';
         }
       }
