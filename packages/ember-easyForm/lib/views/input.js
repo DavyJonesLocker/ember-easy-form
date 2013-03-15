@@ -15,6 +15,8 @@ Ember.EasyForm.Input = Ember.View.extend({
   tagName: 'div',
   classNames: ['input', 'string'],
   classNameBindings: ['error:fieldWithErrors'],
+  concatenatedProperties: ['inputOptions'],
+  inputOptions: ['type', 'placeholder'],
   fieldsForInput: function() {
     return this.labelField()+this.inputField()+this.errorField();
   },
@@ -23,7 +25,7 @@ Ember.EasyForm.Input = Ember.View.extend({
     return '{{labelField '+this.property+' '+options+'}}';
   },
   inputField: function() {
-    var options = '', key, inputOptions = ['type', 'placeholder'];
+    var options = '', key, inputOptions = this.inputOptions;
     for (var i = 0; i < inputOptions.length; i++) {
       key = inputOptions[i];
       if (this[key]) {
