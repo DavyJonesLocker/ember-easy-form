@@ -45,8 +45,12 @@ Ember.EasyForm.Input = Ember.View.extend({
     return '{{errorField '+this.property+' '+options+'}}';
   },
   focusOut: function() {
-    if (this.get('context').get('content').validate) {
-      this.get('context').get('content').validate(this.property);
+    if (!Ember.isNone(this.get('context.validate'))) {
+      if (!Ember.isNone(this.get('context').validate)) {
+        this.get('context').validate(this.property);
+      } else {
+        this.get('context.content').validate(this.property);
+      }
     }
   }
 });

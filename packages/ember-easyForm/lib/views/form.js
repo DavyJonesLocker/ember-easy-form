@@ -3,17 +3,22 @@ Ember.EasyForm.Form = Ember.View.extend({
   attributeBindings: ['novalidate'],
   novalidate: 'novalidate',
   submit: function(event) {
-    var object = this.get('context').get('content'), _this = this;
+    var _this = this, promise;
 
     if (event) {
       event.preventDefault();
     }
 
-    if (object.validate === undefined) {
+    if (Ember.isNone(this.get('context.validate'))) {
       this.get('controller').send('submit');
     } else {
-      object.validate().then(function() {
-        if (object.get('isValid') === true) {
+      if (!Ember.isNone(this.get('context').validate)) {
+        promise = this.get('context').validate();
+      } else {
+        promise = this.get('context.content').validate();
+      }
+      promise.then(function() {
+        if (_this.get('context.isValid') === true) {
           _this.get('controller').send('submit');
         }
       });

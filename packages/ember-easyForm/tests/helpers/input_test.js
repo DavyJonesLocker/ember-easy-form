@@ -6,7 +6,7 @@ var original_lookup = Ember.lookup, lookup;
 Model = Ember.Object.extend({
   validate: function(property) {
     this.errors.set(property, 'Error!');
-  },
+  }
 });
 
 module('input helpers', {

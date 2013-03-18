@@ -24,10 +24,10 @@ module('the formFor helper', {
       lastName: 'Cardarella',
       errors: Ember.Object.create()
     });
-    controller = Ember.Controller.create();
+    controller = Ember.ObjectController.create();
     controller.set('content', model);
     controller.set('count', 0);
-    controller.set('submit', function() { this.set('count', this.get('count') + 1); });
+    controller.submit = function() { return this.incrementProperty('count'); };
   },
   teardown: function() {
     Ember.run(function() {

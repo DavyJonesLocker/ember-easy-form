@@ -13,7 +13,7 @@ Ember.EasyForm.Error = Ember.View.extend({
       } else {
         return (this.get('controller.errors.'+this.property) || [])[0];
       }
-    }.property('controller.content.errors.'+this.property);
+    }.property('controller.errors.'+this.property);
     this.reopen(watchFunc);
 
     this.set('template', Ember.Handlebars.compile('{{view.'+this.property+'Watch}}'));
