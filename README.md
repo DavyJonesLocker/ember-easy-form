@@ -76,7 +76,7 @@ This will result in the following semantic structure:
 You can customize your input by passing certain options.
 
 ```handlebars
-{{input secret type="hidden"}}
+{{input secret as="hidden"}}
 ```
 
 `ember-easyForm` will also try to determine the type automatically
@@ -141,10 +141,16 @@ likewise for "email".
 
 ##### options
 
-* `type` - overrides the type of the input
 * `placeholder` - sets the placeholder attribute
 * `as` - accepts the following:
   * `text` - renders a `textarea` input
+  * `email`
+  * `password`
+  * `url`
+  * `color`
+  * `tel`
+  * `search` 
+  * `hidden`
 
 ```handlebars
 {{inputField bio as="text"}}

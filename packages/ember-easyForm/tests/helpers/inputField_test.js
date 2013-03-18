@@ -62,9 +62,99 @@ test('auto sets input type to password if name includes password', function() {
   equal(view.$().find('input').attr('type'), 'password');
 });
 
+test('auto sets input type to password if forced to passwordr', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField token as="password"}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'password');
+});
+
+test('auto sets input type to url if name includes url', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField url}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'url');
+});
+
+test('auto sets input type to url if forced to url', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField website as="url"}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'url');
+});
+
+test('auto sets input type to color if name includes color', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField color}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'color');
+});
+
+test('auto sets input type to color if forced to color', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField hue as="color"}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'color');
+});
+
+test('auto sets input type to tel if name includes tel', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField telephone}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'tel');
+});
+
+test('auto sets input type to tel if forced to tel', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField phoneNumber as="tel"}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'tel');
+});
+
+test('auto sets input type to search if name includes search', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField search}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'search');
+});
+
+test('auto sets input type to search if forced to search', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField query as="search"}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'search');
+});
+
 test('auto sets input type to email if name includes email', function() {
   view = Ember.View.create({
     template: templateFor('{{inputField email}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'email');
+});
+
+test('auto sets input type to email if forced to email', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField receivedAt as="email"}}'),
     controller: controller
   });
   append(view);

@@ -100,7 +100,7 @@ test('block form for input', function() {
 
 test('sets input attributes propertly', function() {
   view = Ember.View.create({
-    template: templateFor('{{input receiveAt type="email" placeholder="Your email"}}'),
+    template: templateFor('{{input receiveAt as="email" placeholder="Your email"}}'),
     controller: controller
   });
   append(view);

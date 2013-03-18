@@ -13,11 +13,19 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
   if (options.hash.as === 'text') {
     return Ember.Handlebars.helpers.view.call(context, Ember.TextArea, options);
   } else {
-    if (!options.hash.type) {
+    if (!options.hash.as) {
       if (property.match(/password/)) {
         options.hash.type = 'password';
       } else if (property.match(/email/)) {
         options.hash.type = 'email';
+      } else if (property.match(/url/)) {
+        options.hash.type = 'url';
+      } else if (property.match(/color/)) {
+        options.hash.type = 'color';
+      } else if (property.match(/^tel/)) {
+        options.hash.type = 'tel';
+      } else if (property.match(/search/)) {
+        options.hash.type = 'search';
       } else {
         if (propertyType(context, property) === 'number' || typeof(context.get(property)) === 'number') {
           options.hash.type = 'number';
@@ -25,6 +33,8 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
           options.hash.type = 'date';
         }
       }
+    } else {
+      options.hash.type = options.hash.as;
     }
     return Ember.Handlebars.helpers.view.call(context, Ember.TextField, options);
   }
