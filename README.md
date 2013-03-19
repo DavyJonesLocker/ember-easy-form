@@ -167,6 +167,11 @@ the property.
 {{errorField firstName}}
 ```
 
+## Gotchas
+
+* The context changes inside a `{{formFor}}` tag. To use a computed property inside a form, remember to use `{{controller.property}}`.
+
+
 ## Validations
 
 When the `focusOut` event is triggered on input elements the associated
