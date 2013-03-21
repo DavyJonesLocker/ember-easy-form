@@ -12,7 +12,7 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
   options.hash.viewName = 'inputField-'+options.data.view.elementId;
 
   if (options.hash.as === 'text') {
-    return Ember.Handlebars.helpers.view.call(context, Ember.TextArea, options);
+    return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.TextArea, options);
   } else {
     if (!options.hash.as) {
       if (property.match(/password/)) {
@@ -37,6 +37,6 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
     } else {
       options.hash.type = options.hash.as;
     }
-    return Ember.Handlebars.helpers.view.call(context, Ember.TextField, options);
+    return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.TextField, options);
   }
 });
