@@ -9,6 +9,7 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
   };
 
   options.hash.valueBinding = property;
+  options.hash.viewName = 'inputField-'+options.data.view.elementId;
 
   if (options.hash.as === 'text') {
     return Ember.Handlebars.helpers.view.call(context, Ember.TextArea, options);

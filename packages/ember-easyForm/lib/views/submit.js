@@ -3,6 +3,7 @@ Ember.EasyForm.Submit = Ember.View.extend({
   attributeBindings: ['type', 'value'],
   type: 'submit',
   init: function() {
+    this._super();
     this.set('value', this.value);
   },
   onClick: function() {

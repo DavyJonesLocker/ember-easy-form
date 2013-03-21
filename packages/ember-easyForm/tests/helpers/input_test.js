@@ -108,3 +108,14 @@ test('sets input attributes propertly', function() {
   equal(input.prop('type'), 'email');
   equal(input.prop('placeholder'), 'Your email');
 });
+
+test('binds label to input field', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input firstName}}'),
+    controller: controller
+  });
+  append(view);
+  var input = view.$().find('input');
+  var label = view.$().find('label');
+  equal(input.prop('id'), label.prop('for'));
+});

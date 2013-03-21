@@ -15,6 +15,9 @@ Ember.EasyForm.Input = Ember.View.extend({
   tagName: 'div',
   classNames: ['input', 'string'],
   classNameBindings: ['error:fieldWithErrors'],
+  didInsertElement: function() {
+    this.set('labelField-'+this.elementId+'.for', this.get('inputField-'+this.elementId+'.elementId'));
+  },
   concatenatedProperties: ['inputOptions'],
   inputOptions: ['as', 'placeholder'],
   fieldsForInput: function() {
