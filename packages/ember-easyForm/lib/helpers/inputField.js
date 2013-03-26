@@ -2,7 +2,7 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
   var context = this,
       propertyType = function(property) {
     try {
-      return context.constructor.metaForProperty(property);
+      return (context.get('content') || context).constructor.metaForProperty(property).type;
     } catch(e) {
       return null;
     }
@@ -28,9 +28,9 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
       } else if (property.match(/search/)) {
         options.hash.type = 'search';
       } else {
-        if (propertyType(context, property) === 'number' || typeof(context.get(property)) === 'number') {
+        if (propertyType(property) === 'number' || typeof(context.get(property)) === 'number') {
           options.hash.type = 'number';
-        } else if (propertyType(context, property) === 'date' || (!Ember.isNone(context.get(property)) && context.get(property).constructor === Date)) {
+        } else if (propertyType(property) === 'date' || (!Ember.isNone(context.get(property)) && context.get(property).constructor === Date)) {
           options.hash.type = 'date';
         }
       }
