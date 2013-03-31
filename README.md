@@ -59,7 +59,7 @@ This will result in the following semantic structure:
     <span class="error"></span>
   </div>
   <div class="input string">
-    <label for="ember2">First name</label>
+    <label for="ember2">Last name</label>
     <input id="ember2" type="text"/>
     <span class="error"></span>
   </div>
