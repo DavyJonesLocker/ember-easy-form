@@ -22,7 +22,12 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   concatenatedProperties: ['inputOptions'],
   inputOptions: ['as', 'placeholder'],
   fieldsForInput: function() {
-    return this.labelField()+this.inputField()+this.errorField()+this.hintField();
+    return this.labelField() +
+           this.wrapControls(
+             this.inputField() +
+             this.errorField() +
+             this.hintField()
+           );
   },
   labelField: function() {
     var options = this.label ? 'text="'+this.label+'"' : '';
@@ -51,6 +56,15 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   hintField: function() {
     var options = this.hint ? 'text="'+this.hint+'"' : '';
     return '{{hintField '+this.property+' '+options+'}}';
+  },
+  wrapControls: function(controls) {
+    if (this.getWrapperConfig('wrapControls')) {
+      return '<div class="' + this.getWrapperConfig('controlsWrapperClass') + '">' +
+             controls +
+             '</div>';
+    } else {
+      return controls;
+    }
   },
   focusOut: function() {
     if (!Ember.isNone(this.get('context.validate'))) {

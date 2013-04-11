@@ -144,3 +144,33 @@ test('uses the wrapper config', function() {
   ok(view.$().find('span.my-error').get(0), 'errorClass not defined');
 });
 
+test('wraps controls when defined', function() {
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {wrapControls: true, controlsWrapperClass: 'my-wrapper'});
+  view = Ember.View.create({
+    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName hint="my hint"}}{{/formFor}}'),
+    controller: controller
+  });
+  append(view);
+  Ember.run(function() {
+    view._childViews[1]._childViews[0].trigger('focusOut');
+  });
+  var controlsWrapper = view.$().find('div.my-wrapper');
+  ok(controlsWrapper.get(0), 'controls were not wrapped');
+  ok(controlsWrapper.find('input').get(0), 'the input field should be inside the wrapper');
+  ok(controlsWrapper.find('span.error').get(0), 'the error should be inside the wrapper');
+  ok(controlsWrapper.find('span.hint').get(0), 'the hint should be inside the wrapper');
+});
+
+test('does not wrap controls when not defined', function() {
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {wrapControls: false, controlsWrapperClass: 'my-wrapper'});
+  view = Ember.View.create({
+    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName hint="my hint"}}{{/formFor}}'),
+    controller: controller
+  });
+  append(view);
+  Ember.run(function() {
+    view._childViews[1]._childViews[0].trigger('focusOut');
+  });
+  var controlsWrapper = view.$().find('div.my-wrapper');
+  equal(view.$().find('div.my-wrapper').length, 0, 'should not create the controls wrapper');
+});

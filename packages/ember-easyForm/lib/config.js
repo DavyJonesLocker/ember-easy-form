@@ -6,7 +6,9 @@ Ember.EasyForm.Config = Ember.Namespace.create({
       inputClass: 'input',
       errorClass: 'error',
       hintClass: 'hint',
-      labelClass: ''
+      labelClass: '',
+      wrapControls: false,
+      controlsWrapperClass: ''
     }
   },
   registerWrapper: function(name, wrapper) {
