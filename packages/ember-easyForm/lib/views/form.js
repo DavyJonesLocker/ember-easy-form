@@ -1,7 +1,12 @@
-Ember.EasyForm.Form = Ember.View.extend({
+Ember.EasyForm.Form = Ember.EasyForm.BaseView.extend({
   tagName: 'form',
   attributeBindings: ['novalidate'],
   novalidate: 'novalidate',
+  wrapper: 'default',
+  init: function() {
+    this._super();
+    this.classNames.push(this.getWrapperConfig('formClass'));
+  },
   submit: function(event) {
     var _this = this, promise;
 

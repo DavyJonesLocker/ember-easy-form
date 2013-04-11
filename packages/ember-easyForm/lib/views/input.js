@@ -1,6 +1,8 @@
-Ember.EasyForm.Input = Ember.View.extend({
+Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   init: function() {
     this._super();
+    this.classNameBindings.push('error:' + this.getWrapperConfig('fieldErrorClass'));
+    this.classNames.push(this.getWrapperConfig('inputClass'));
     if (!this.isBlock) {
       this.set('template', Ember.Handlebars.compile(this.fieldsForInput()));
     }
@@ -13,8 +15,7 @@ Ember.EasyForm.Input = Ember.View.extend({
     }
   },
   tagName: 'div',
-  classNames: ['input', 'string'],
-  classNameBindings: ['error:fieldWithErrors'],
+  classNames: ['string'],
   didInsertElement: function() {
     this.set('labelField-'+this.elementId+'.for', this.get('inputField-'+this.elementId+'.elementId'));
   },

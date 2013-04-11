@@ -53,3 +53,15 @@ test('does not render a hint field without custom text', function() {
   append(view);
   equal(view.$().find('span.hint').length, 0, 'The hint element should not have been created');
 });
+
+
+test('uses the wrapper config', function() {
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {hintClass: 'my-hint'});
+  view = Ember.View.create({
+    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{hintField firstName text="Some text"}}{{/formFor}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  ok(view.$().find('span.my-hint').get(0), 'hintClass not defined');
+});

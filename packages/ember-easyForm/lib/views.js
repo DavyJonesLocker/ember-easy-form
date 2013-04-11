@@ -1,3 +1,4 @@
+require('ember-easyForm/views/base_view');
 require('ember-easyForm/views/checkbox');
 require('ember-easyForm/views/error');
 require('ember-easyForm/views/form');

@@ -61,3 +61,17 @@ test('error helper should bind to first error message in array', function() {
   });
   equal(view.$().find('span.error').text(), '');
 });
+
+test('uses the wrapper config', function() {
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {errorClass: 'my-error'});
+  view = Ember.View.create({
+    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{errorField firstName}}{{/formFor}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  Ember.run(function() {
+    model.errors.set('firstName', ["can't be blank"]);
+  });
+  ok(view.$().find('span.my-error').get(0), 'errorClass not defined');
+});

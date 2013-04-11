@@ -62,6 +62,16 @@ test('renders a form element', function() {
   ok(view.$().find('form').get(0));
 });
 
+test('uses the defined wrapper', function() {
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {formClass: 'my-form-class'});
+  view = Ember.View.create({
+    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{/formFor}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('form').attr('class'), 'ember-view my-form-class');
+});
+
 asyncTest('submitting with invalid model does not call submit action on controller', function() {
   Ember.run(function() {
     model.set('isValid', false);

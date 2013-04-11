@@ -53,3 +53,14 @@ test('renders a label field with custom text', function() {
   append(view);
   equal(view.$().find('label').text(), 'Your first name');
 });
+
+test('uses the wrapper config', function() {
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {labelClass: 'my-label'});
+  view = Ember.View.create({
+    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{labelField firstName}}{{/formFor}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  ok(view.$().find('label.my-label').get(0), 'labelClass not defined');
+});

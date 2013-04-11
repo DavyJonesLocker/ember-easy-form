@@ -128,3 +128,19 @@ test('binds label to input field', function() {
   var label = view.$().find('label');
   equal(input.prop('id'), label.prop('for'));
 });
+
+test('uses the wrapper config', function() {
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {inputClass: 'my-input', errorClass: 'my-error', fieldErrorClass: 'my-fieldWithErrors'});
+  view = Ember.View.create({
+    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName}}{{/formFor}}'),
+    controller: controller
+  });
+  append(view);
+  Ember.run(function() {
+    view._childViews[1]._childViews[0].trigger('focusOut');
+  });
+  ok(view.$().find('div.my-input').get(0), 'inputClass not defined');
+  ok(view.$().find('div.my-fieldWithErrors').get(0), 'fieldErrorClass not defined');
+  ok(view.$().find('span.my-error').get(0), 'errorClass not defined');
+});
+
