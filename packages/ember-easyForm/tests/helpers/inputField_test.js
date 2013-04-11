@@ -15,6 +15,7 @@ module('inputField helpers', {
     };
     model = Model.create({
       firstName: 'Brian',
+      lastName: 'Cardarella'
     });
     controller = Ember.ObjectController.create();
     controller.set('content', model);
@@ -162,7 +163,7 @@ test('auto sets input type to email if forced to email', function() {
 });
 
 test('auto sets input type to number if property meta attribute is a number', function() {
-   model.reopen({ 
+   model.reopen({
     metaForProperty: function(property) {
       var obj = { 'type': 'number' };
       if (property === 'age') {
@@ -224,4 +225,16 @@ test('renders semantic form elements with text area', function() {
   });
   append(view);
   equal(view.$().find('textarea').val(), 'Brian');
+});
+
+test('uses the custom input type when defined', function() {
+  Ember.EasyForm.Config.registerInputType('my_input', Ember.EasyForm.TextArea);
+  Ember.EasyForm.Config.registerInputType('another_input', Ember.EasyForm.TextField);
+  view = Ember.View.create({
+    template: templateFor('{{inputField firstName as="my_input"}}{{inputField lastName as="another_input"}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('textarea').val(), 'Brian');
+  equal(view.$().find('input').val(), 'Cardarella');
 });

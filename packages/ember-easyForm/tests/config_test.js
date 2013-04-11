@@ -19,3 +19,13 @@ test('merge the default wrapper with the custom one', function() {
   equal(wrapper.errorClass, 'my-error');
   equal(wrapper.hintClass, 'hint');
 });
+
+test('register custom input types', function() {
+  Ember.EasyForm.Config.registerInputType('my_input', Ember.EasyForm.Select);
+  Ember.EasyForm.Config.registerInputType('another_input', Ember.EasyForm.Label);
+
+  var inputType = Ember.EasyForm.Config.getInputType('my_input');
+  equal(inputType, Ember.EasyForm.Select);
+  inputType = Ember.EasyForm.Config.getInputType('another_input');
+  equal(inputType, Ember.EasyForm.Label);
+});

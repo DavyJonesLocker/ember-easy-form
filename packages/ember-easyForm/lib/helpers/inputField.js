@@ -35,6 +35,12 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
         }
       }
     } else {
+      var inputType = Ember.EasyForm.Config.getInputType(options.hash.as);
+      if (inputType) {
+        options.hash.property = property;
+        return Ember.Handlebars.helpers.view.call(context, inputType, options);
+      }
+
       options.hash.type = options.hash.as;
     }
     return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.TextField, options);
