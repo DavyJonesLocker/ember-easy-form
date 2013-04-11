@@ -174,3 +174,15 @@ test('does not wrap controls when not defined', function() {
   var controlsWrapper = view.$().find('div.my-wrapper');
   equal(view.$().find('div.my-wrapper').length, 0, 'should not create the controls wrapper');
 });
+
+test('passes the inputConfig to the input field', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input firstName as=text inputConfig="class:span5;rows:2"}}'),
+    controller: controller
+  });
+  append(view);
+  var textarea = view.$().find('textarea');
+  console.log(view.$().html());
+  equal(textarea.attr('class'), 'ember-view ember-text-area span5');
+  equal(textarea.attr('rows'), '2');
+});
