@@ -87,6 +87,15 @@ test('allows label text to be set', function() {
   equal(view.$().find('label').text(), 'Your First Name');
 });
 
+test('allows hint text to be set', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input firstName hint="My hint text"}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('span.hint').text(), 'My hint text');
+});
+
 test('block form for input', function() {
   view = Ember.View.create({
     template: templateFor('{{#input firstName}}{{labelField firstName}}{{inputField firstName}}{{errorField firstName}}{{/input}}'),
