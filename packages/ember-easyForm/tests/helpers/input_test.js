@@ -171,7 +171,6 @@ test('does not wrap controls when not defined', function() {
   Ember.run(function() {
     view._childViews[1]._childViews[0].trigger('focusOut');
   });
-  var controlsWrapper = view.$().find('div.my-wrapper');
   equal(view.$().find('div.my-wrapper').length, 0, 'should not create the controls wrapper');
 });
 
@@ -182,7 +181,6 @@ test('passes the inputConfig to the input field', function() {
   });
   append(view);
   var textarea = view.$().find('textarea');
-  console.log(view.$().html());
   equal(textarea.attr('class'), 'ember-view ember-text-area span5');
   equal(textarea.attr('rows'), '2');
 });

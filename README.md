@@ -102,6 +102,20 @@ Pass the `placeholder` option to set a placeholder:
 {{input firstName placeholder="Enter your first name"}}
 ```
 
+Pass the `hint` option to set a hint:
+
+```handlebars
+{{input firstName hint="Enter your first name"}}
+```
+
+Pass the `inputConfig` option to set the options used by the input field:
+
+```handlebars
+{{input description as=text inputConfig="class:span5;rows:4"}}
+```
+
+The `inputConfig` uses the following format: `option1:value1;option2:value2`. Each value inside the `inputConfig` must be separated by a semicolon (`;`) and the option name and its value must be separated by a colon (`:`).
+
 ### Input Blocks
 
 Inputs can be used in the default inline form as already seen or they can
@@ -149,7 +163,7 @@ likewise for "email".
   * `url`
   * `color`
   * `tel`
-  * `search` 
+  * `search`
   * `hidden`
 
 ```handlebars
@@ -166,6 +180,88 @@ the property.
 ```handlebars
 {{errorField firstName}}
 ```
+
+#### hintField
+
+Renders a text containing instructions to the user. The first parameter is the property, the remaining properties are options.
+
+##### options
+
+* `text` - the text for the hint
+
+```handlebars
+{{hintField firstName text="Your first name"}}
+```
+
+### Custom Input Types
+
+You can register custom input types used in the `as` option of `input`. To register the custom input, use the method `Ember.EasyForm.Config.registerInputType` passing the name of the custom input, and its view.
+
+```javascript
+Ember.EasyForm.Config.registerInputType('my_input', Ember.EasyForm.TextField);
+```
+
+To use the custom input, define the `as` option:
+
+```handlebars
+{{input name as=my_input}}
+```
+
+
+## Wrappers
+To customize how the form will be rendered you can use **wrappers**. A wrapper defines the classes used by controls, errors, labels and hints.
+
+### Options
+
+* `formClass` - class used by the `form`
+* `fieldErrorClass` - class used by the field containing errors
+* `inputClass` - class used by the `div` containing all elements of the input (label, input, error and hint)
+* `errorClass` - class used by the error message
+* `hintClass` - class used by the hint message
+* `labelClass` - class used by the label
+* `wrapControls` - boolean defining if the controls should be wrapped in a div. It wraps the input, error and hint (as used by the Twitter Bootstrap)
+* `controlsWrapperClass` - class used by the div that wraps the input controls (see above)
+
+### Registering a wrapper
+To register a wrapper, use the method `Ember.EasyForm.Config.registerWrapper` passing the wrapper name and its options. You can define many wrappers, using each one when appropriate.
+
+```javascript
+Ember.EasyForm.Config.registerWrapper('twitter-bootstrap', {
+  formClass: 'form-horizontal',
+  fieldErrorClass: 'error',
+  errorClass: 'help-inline',
+  hintClass: 'help-block',
+  labelClass: 'control-label',
+  inputClass: 'control-group',
+  wrapControls: true,
+  controlsWrapperClass: 'controls'
+});
+```
+
+You can replace the default wrapper simple by registering a wrapper named ``default``.
+
+When you register a wrapper, you don't have to inform all options. If some option is not defined, the default value will be used.
+
+### Using a wrapper
+To use a wrapper, define the `wrapper` option in the form. All elements inside the form will use the values defined in this wrapper.
+
+```handlebars
+{{#formFor controller wrapper="twitter-bootstrap"}}
+{{input firstName}}
+{{/formFor}}
+```
+
+### Default wrapper
+The default wrapper contains the following values:
+
+* `formClass` - "" (empty)
+* `fieldErrorClass` - "fieldWithErrors"
+* `inputClass` - "input"
+* `errorClass` - "error"
+* `hintClass` - "hint"
+* `labelClass` - "" (empty)
+* `wrapControls` - false
+* `controlsWrapperClass` - "" (empty)
 
 ## Validations
 

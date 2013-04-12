@@ -11,10 +11,10 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
   options.hash.valueBinding = property;
   options.hash.viewName = 'inputField-'+options.data.view.elementId;
 
-  if (options.hash.inputConfig){
+  if (options.hash.inputConfig) {
     var configs = options.hash.inputConfig.split(';');
-    var i=configs.length;
-    while(i--){
+    var i = configs.length;
+    while(i--) {
       var config = configs[i].split(':');
       options.hash[config[0]] = config[1];
     }
