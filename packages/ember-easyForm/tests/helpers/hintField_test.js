@@ -5,7 +5,7 @@ var templateFor = function(template) {
 var original_lookup = Ember.lookup, lookup;
 Model = Ember.Object.extend();
 
-module('labelField helpers', {
+module('hintField helpers', {
   setup: function() {
     container = new Ember.Container();
     container.optionsForType('template', { instantiate: false });
@@ -34,33 +34,34 @@ var append = function(view) {
   });
 };
 
-test('renders a label field', function() {
+test('renders a hint field with custom text', function() {
   view = Ember.View.create({
-    template: templateFor('{{labelField firstName}}'),
+    template: templateFor('{{hintField firstName text="Some text"}}'),
     container: container,
     controller: controller
   });
   append(view);
-  equal(view.$().find('label').text(), 'First name');
+  equal(view.$().find('span.hint').text(), 'Some text');
 });
 
-test('renders a label field with custom text', function() {
+test('does not render a hint field without custom text', function() {
   view = Ember.View.create({
-    template: templateFor('{{labelField firstName text="Your first name"}}'),
+    template: templateFor('{{hintField firstName}}'),
     container: container,
     controller: controller
   });
   append(view);
-  equal(view.$().find('label').text(), 'Your first name');
+  equal(view.$().find('span.hint').length, 0, 'The hint element should not have been created');
 });
+
 
 test('uses the wrapper config', function() {
-  Ember.EasyForm.Config.registerWrapper('my_wrapper', {labelClass: 'my-label'});
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {hintClass: 'my-hint'});
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{labelField firstName}}{{/formFor}}'),
+    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{hintField firstName text="Some text"}}{{/formFor}}'),
     container: container,
     controller: controller
   });
   append(view);
-  ok(view.$().find('label.my-label').get(0), 'labelClass not defined');
+  ok(view.$().find('span.my-hint').get(0), 'hintClass not defined');
 });

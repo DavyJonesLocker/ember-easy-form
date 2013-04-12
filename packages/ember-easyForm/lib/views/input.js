@@ -1,6 +1,8 @@
-Ember.EasyForm.Input = Ember.View.extend({
+Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   init: function() {
     this._super();
+    this.classNameBindings.push('error:' + this.getWrapperConfig('fieldErrorClass'));
+    this.classNames.push(this.getWrapperConfig('inputClass'));
     if (!this.isBlock) {
       this.set('template', Ember.Handlebars.compile(this.fieldsForInput()));
     }
@@ -13,15 +15,19 @@ Ember.EasyForm.Input = Ember.View.extend({
     }
   },
   tagName: 'div',
-  classNames: ['input', 'string'],
-  classNameBindings: ['error:fieldWithErrors'],
+  classNames: ['string'],
   didInsertElement: function() {
     this.set('labelField-'+this.elementId+'.for', this.get('inputField-'+this.elementId+'.elementId'));
   },
   concatenatedProperties: ['inputOptions'],
-  inputOptions: ['as', 'placeholder'],
+  inputOptions: ['as', 'placeholder', 'inputConfig'],
   fieldsForInput: function() {
-    return this.labelField()+this.inputField()+this.errorField();
+    return this.labelField() +
+           this.wrapControls(
+             this.inputField() +
+             this.errorField() +
+             this.hintField()
+           );
   },
   labelField: function() {
     var options = this.label ? 'text="'+this.label+'"' : '';
@@ -46,6 +52,19 @@ Ember.EasyForm.Input = Ember.View.extend({
   errorField: function() {
     var options = '';
     return '{{errorField '+this.property+' '+options+'}}';
+  },
+  hintField: function() {
+    var options = this.hint ? 'text="'+this.hint+'"' : '';
+    return '{{hintField '+this.property+' '+options+'}}';
+  },
+  wrapControls: function(controls) {
+    if (this.getWrapperConfig('wrapControls')) {
+      return '<div class="' + this.getWrapperConfig('controlsWrapperClass') + '">' +
+             controls +
+             '</div>';
+    } else {
+      return controls;
+    }
   },
   focusOut: function() {
     if (!Ember.isNone(this.get('context.validate'))) {

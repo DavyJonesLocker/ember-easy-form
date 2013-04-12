@@ -87,6 +87,15 @@ test('allows label text to be set', function() {
   equal(view.$().find('label').text(), 'Your First Name');
 });
 
+test('allows hint text to be set', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input firstName hint="My hint text"}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('span.hint').text(), 'My hint text');
+});
+
 test('block form for input', function() {
   view = Ember.View.create({
     template: templateFor('{{#input firstName}}{{labelField firstName}}{{inputField firstName}}{{errorField firstName}}{{/input}}'),
@@ -118,4 +127,60 @@ test('binds label to input field', function() {
   var input = view.$().find('input');
   var label = view.$().find('label');
   equal(input.prop('id'), label.prop('for'));
+});
+
+test('uses the wrapper config', function() {
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {inputClass: 'my-input', errorClass: 'my-error', fieldErrorClass: 'my-fieldWithErrors'});
+  view = Ember.View.create({
+    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName}}{{/formFor}}'),
+    controller: controller
+  });
+  append(view);
+  Ember.run(function() {
+    view._childViews[1]._childViews[0].trigger('focusOut');
+  });
+  ok(view.$().find('div.my-input').get(0), 'inputClass not defined');
+  ok(view.$().find('div.my-fieldWithErrors').get(0), 'fieldErrorClass not defined');
+  ok(view.$().find('span.my-error').get(0), 'errorClass not defined');
+});
+
+test('wraps controls when defined', function() {
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {wrapControls: true, controlsWrapperClass: 'my-wrapper'});
+  view = Ember.View.create({
+    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName hint="my hint"}}{{/formFor}}'),
+    controller: controller
+  });
+  append(view);
+  Ember.run(function() {
+    view._childViews[1]._childViews[0].trigger('focusOut');
+  });
+  var controlsWrapper = view.$().find('div.my-wrapper');
+  ok(controlsWrapper.get(0), 'controls were not wrapped');
+  ok(controlsWrapper.find('input').get(0), 'the input field should be inside the wrapper');
+  ok(controlsWrapper.find('span.error').get(0), 'the error should be inside the wrapper');
+  ok(controlsWrapper.find('span.hint').get(0), 'the hint should be inside the wrapper');
+});
+
+test('does not wrap controls when not defined', function() {
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {wrapControls: false, controlsWrapperClass: 'my-wrapper'});
+  view = Ember.View.create({
+    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName hint="my hint"}}{{/formFor}}'),
+    controller: controller
+  });
+  append(view);
+  Ember.run(function() {
+    view._childViews[1]._childViews[0].trigger('focusOut');
+  });
+  equal(view.$().find('div.my-wrapper').length, 0, 'should not create the controls wrapper');
+});
+
+test('passes the inputConfig to the input field', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input firstName as=text inputConfig="class:span5;rows:2"}}'),
+    controller: controller
+  });
+  append(view);
+  var textarea = view.$().find('textarea');
+  equal(textarea.attr('class'), 'ember-view ember-text-area span5');
+  equal(textarea.attr('rows'), '2');
 });
