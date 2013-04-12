@@ -11,6 +11,15 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
   options.hash.valueBinding = property;
   options.hash.viewName = 'inputField-'+options.data.view.elementId;
 
+  if (options.hash.inputConfig) {
+    var configs = options.hash.inputConfig.split(';');
+    var i = configs.length;
+    while(i--) {
+      var config = configs[i].split(':');
+      options.hash[config[0]] = config[1];
+    }
+  }
+
   if (options.hash.as === 'text') {
     return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.TextArea, options);
   } else {
@@ -35,6 +44,12 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
         }
       }
     } else {
+      var inputType = Ember.EasyForm.Config.getInputType(options.hash.as);
+      if (inputType) {
+        options.hash.property = property;
+        return Ember.Handlebars.helpers.view.call(context, inputType, options);
+      }
+
       options.hash.type = options.hash.as;
     }
     return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.TextField, options);

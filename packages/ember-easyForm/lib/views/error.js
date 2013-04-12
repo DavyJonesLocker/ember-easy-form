@@ -1,9 +1,10 @@
-Ember.EasyForm.Error = Ember.View.extend({
+Ember.EasyForm.Error = Ember.EasyForm.BaseView.extend({
   tagName: 'span',
-  classNames: ['error'],
   init: function() {
     var watchFunc;
     this._super();
+
+    this.classNames.push(this.getWrapperConfig('errorClass'));
 
     // TODO: un-fuglify this
     watchFunc = {};
