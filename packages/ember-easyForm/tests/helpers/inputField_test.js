@@ -209,13 +209,13 @@ test('auto sets input type to date if property meta attribute is a date', functi
 });
 
 test('auto sets input type to number if property is a number', function() {
-  model.set('birthday', new Date());
+  model.set('age', 30);
   view = Ember.View.create({
-    template: templateFor('{{inputField birthday}}'),
+    template: templateFor('{{inputField age}}'),
     controller: controller
   });
   append(view);
-  equal(view.$().find('input').attr('type'), 'date');
+  equal(view.$().find('input').attr('type'), 'number');
 });
 
 test('renders semantic form elements with text area', function() {
