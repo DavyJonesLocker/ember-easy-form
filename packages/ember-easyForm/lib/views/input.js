@@ -6,7 +6,7 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
     if (!this.isBlock) {
       this.set('template', Ember.Handlebars.compile(this.fieldsForInput()));
     }
-    if(this.get('context').get('errors') !== undefined) {
+    if(this.get('context').get('errors')) {
       this.reopen({
         error: function() {
           return this.get('context').get('errors').get(this.property) !== undefined;
