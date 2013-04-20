@@ -19,6 +19,7 @@ module('inputField helpers', {
     });
     controller = Ember.ObjectController.create();
     controller.set('content', model);
+    controller.set('optionsForGender', ['Male', 'Female', 'Other']);
   },
   teardown: function() {
     Ember.run(function() {
@@ -255,4 +256,14 @@ test('uses the custom input type when defined', function() {
   append(view);
   equal(view.$().find('textarea').val(), 'Brian');
   equal(view.$().find('input').val(), 'Cardarella');
+});
+
+test('auto generates a select input with options if forced to select', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField friends as="select" collection="optionsForGender"}}'),
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('select').length, 1);
+  equal(view.$().find('select option').length, 3);
 });
