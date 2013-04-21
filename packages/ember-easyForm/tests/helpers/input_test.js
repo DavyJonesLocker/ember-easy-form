@@ -52,7 +52,7 @@ test('renders error for invalid data', function() {
   });
   append(view);
   ok(!view.$().find('div.fieldWithErrors').get(0));
-  equal(view.$().find('span.error').text(), '');
+  ok(!view.$().find('span.error').get(0));
   Ember.run(function() {
     view._childViews[0].trigger('focusOut');
   });
