@@ -1,6 +1,6 @@
 Ember.EasyForm.Config = Ember.Namespace.create({
   _wrappers: {
-    default: {
+    'default': {
       formClass: '',
       fieldErrorClass: 'fieldWithErrors',
       inputClass: 'input',
