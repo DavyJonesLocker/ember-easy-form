@@ -43,6 +43,13 @@ The `formFor` helper is used like so:
   {{input firstName}}
   {{input lastName}}
   {{input bio as="text"}}
+  {{input country as='select'
+       collection="App.countries"
+       selection="country"
+       optionValuePath="content.id"
+       optionLabelPath="content.name"
+       prompt="Select Country"
+  }}
 {{/formFor}}
 ```
 
@@ -63,6 +70,13 @@ This will result in the following semantic structure:
   <div class="input string">
     <label for="ember3">Bio</label>
     <textarea id="ember3"></textarea>
+    <span class="error"></span>
+  </div>
+  <div class="input string">
+    <label for="ember4">Country</label>
+    <select id="ember4">
+      xxx
+    </select>
     <span class="error"></span>
   </div>
 </form>

@@ -23,7 +23,12 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
   if (options.hash.as === 'text') {
     return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.TextArea, options);
   } else if (options.hash.as === 'select') {
-    options.hash.contentBinding = options.hash.collection;
+    delete(options.hash.valueBinding);
+
+    options.hash.contentBinding   = options.hash.collection;
+    options.hash.selectionBinding = options.hash.selection;
+    options.hash.valueBinding     = options.hash.value;
+
     return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.Select, options);
   } else {
     if (!options.hash.as) {
