@@ -1,4 +1,4 @@
-var model, Model, view, container, controller, valid;
+var model, Model, view, container, controller, valid, countries;
 var templateFor = function(template) {
   return Ember.Handlebars.compile(template);
 };
@@ -13,12 +13,17 @@ module('inputField helpers', {
       var name = fullName.split(':')[1];
       return Ember.TEMPLATES[name];
     };
+    countries = [Model.create({ id: 1, name: 'South Aftica' }), Model.create({ id: 2, name: 'United States' })];
+
     model = Model.create({
       firstName: 'Brian',
-      lastName: 'Cardarella'
+      lastName: 'Cardarella',
+      country: countries[1]
     });
+
     controller = Ember.ObjectController.create();
     controller.set('content', model);
+    controller.set('optionsForCountry', countries);
   },
   teardown: function() {
     Ember.run(function() {
@@ -255,4 +260,46 @@ test('uses the custom input type when defined', function() {
   append(view);
   equal(view.$().find('textarea').val(), 'Brian');
   equal(view.$().find('input').val(), 'Cardarella');
+});
+
+test('generates a select input and options', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField country as="select" collection="optionsForCountry"}}'),
+    controller: controller
+  });
+
+  append(view);
+  equal(view.$().find('select').length, 1);
+  equal(view.$().find('select option').length, 2);
+});
+
+test('generates a select input and options with prompt', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField country as="select" collection="optionsForCountry" prompt="Select Country"}}'),
+    controller: controller
+  });
+
+  append(view);
+  equal(view.$().find('select').length, 1);
+  equal(view.$().find('select option').length, 3);
+});
+
+test('generates a select input with correct selection', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField country as="select" collection="optionsForCountry" selection="country" optionValuePath="content.id" optionLabelPath="content.name"}}'),
+    controller: controller
+  });
+
+  append(view);
+  ok(view.$().find('select option:selected').html().match(/United States/));
+});
+
+test('generates a select input correct value', function() {
+  view = Ember.View.create({
+    template: templateFor('{{inputField country as="select" collection="optionsForCountry" value="country.id" optionValuePath="content.id" optionLabelPath="content.name"}}'),
+    controller: controller
+  });
+
+  append(view);
+  ok(view.$().find('select option:selected').html().match(/United States/));
 });
