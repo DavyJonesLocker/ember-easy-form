@@ -136,7 +136,7 @@ be used as blocks such as:
 {{#input firstName}}
   {{inputField firstName}}{{labelField firstName}}
   <br/>
-  {{erroField firstName}}
+  {{errorField firstName}}
 {{/input}}
 ```
 
