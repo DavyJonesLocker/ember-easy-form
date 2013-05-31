@@ -81,7 +81,7 @@ asyncTest('submitting with invalid model does not call submit action on controll
       controller: controller
     });
     append(view);
-    view._childViews[1].trigger('submit');
+    view._childViews[0].trigger('submit');
     setTimeout(function() {
       equal(controller.get('count'), 0);
       start();
@@ -98,7 +98,7 @@ asyncTest('submitting with valid model calls submit action on controller', funct
   });
   append(view);
   Ember.run(function() {
-    view._childViews[1].trigger('submit');
+    view._childViews[0].trigger('submit');
   });
   setTimeout(function() {
     equal(controller.get('count'), 1);
@@ -116,7 +116,7 @@ asyncTest('submitting with model that does not have validate method', function()
       controller: controller
     });
     append(view);
-    view._childViews[1].trigger('submit');
+    view._childViews[0].trigger('submit');
     setTimeout(function() {
       equal(controller.get('count'), 1);
       start();

@@ -137,7 +137,7 @@ test('uses the wrapper config', function() {
   });
   append(view);
   Ember.run(function() {
-    view._childViews[1]._childViews[0].trigger('focusOut');
+    view._childViews[0]._childViews[0].trigger('focusOut');
   });
   ok(view.$().find('div.my-input').get(0), 'inputClass not defined');
   ok(view.$().find('div.my-fieldWithErrors').get(0), 'fieldErrorClass not defined');
@@ -152,7 +152,7 @@ test('wraps controls when defined', function() {
   });
   append(view);
   Ember.run(function() {
-    view._childViews[1]._childViews[0].trigger('focusOut');
+    view._childViews[0]._childViews[0].trigger('focusOut');
   });
   var controlsWrapper = view.$().find('div.my-wrapper');
   ok(controlsWrapper.get(0), 'controls were not wrapped');
@@ -169,7 +169,7 @@ test('does not wrap controls when not defined', function() {
   });
   append(view);
   Ember.run(function() {
-    view._childViews[1]._childViews[0].trigger('focusOut');
+    view._childViews[0]._childViews[0].trigger('focusOut');
   });
   equal(view.$().find('div.my-wrapper').length, 0, 'should not create the controls wrapper');
 });
