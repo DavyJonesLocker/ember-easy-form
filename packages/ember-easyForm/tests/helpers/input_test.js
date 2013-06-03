@@ -184,3 +184,20 @@ test('passes the inputConfig to the input field', function() {
   equal(textarea.attr('class'), 'ember-view ember-text-area span5');
   equal(textarea.attr('rows'), '2');
 });
+
+test('sets errors in models created without the "errors" object', function(){
+  delete model.errors;
+
+  view = Ember.View.create({
+    template: templateFor('{{input firstName}}'),
+    controller: controller
+  });
+  append(view);
+  ok(!view.$().find('div.fieldWithErrors').get(0));
+  ok(!view.$().find('span.error').get(0));
+  Ember.run(function() {
+    model.set('errors', {firstName: 'Some error!'});
+  });
+  ok(view.$().find('div.fieldWithErrors').get(0));
+  equal(view.$().find('span.error').text(), 'Some error!');
+});
