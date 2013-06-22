@@ -7,6 +7,6 @@ Ember.EasyForm.Label = Ember.EasyForm.BaseView.extend({
     this.set('template', this.renderText());
   },
   renderText: function() {
-    return Ember.Handlebars.compile(this.text ? '{{view.text}}' : this.property.underscore().split('_').join(' ').capitalize());
+    return Ember.Handlebars.compile(this.text || this.property.underscore().split('_').join(' ').capitalize());
   }
 });

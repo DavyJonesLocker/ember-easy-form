@@ -16,12 +16,7 @@ module('input helpers', {
       lastName: 'Cardarella',
       errors: Ember.Object.create()
     });
-    controller = Ember.ObjectController.create({
-      placeholder: 'A placeholder',
-      label: 'A label',
-      hint: 'A hint',
-      prompt: 'A prompt'
-    });
+    controller = Ember.ObjectController.create();
     controller.set('content', model);
   },
   teardown: function() {
@@ -112,7 +107,7 @@ test('block form for input', function() {
   equal(view.$().find('input').attr('type'), 'text');
 });
 
-test('sets input attributes property', function() {
+test('sets input attributes propertly', function() {
   view = Ember.View.create({
     template: templateFor('{{input receiveAt as="email" placeholder="Your email"}}'),
     controller: controller
@@ -205,59 +200,4 @@ test('sets errors in models created without the "errors" object', function(){
   });
   ok(view.$().find('div.fieldWithErrors').get(0));
   equal(view.$().find('span.error').text(), 'Some error!');
-});
-
-test('sets input attributes property as bindings', function() {
-  view = Ember.View.create({
-    template: templateFor('{{input firstName placeholderBinding="placeholder" labelBinding="label" hintBinding="hint"}}'),
-    controller: controller
-  });
-  append(view);
-
-  var input = view.$().find('input');
-  var label = view.$().find('label');
-  var hint = view.$().find('.hint');
-  equal(input.prop('placeholder'), controller.get('placeholder'));
-  equal(label.text(), controller.get('label'));
-  equal(hint.text(), controller.get('hint'));
-
-  Ember.run(function() {
-    controller.setProperties({
-      placeholder: 'Write your first name',
-      label: 'First name (not a last name)',
-      hint: 'Usually different than your last name'
-    });
-  });
-  
-  equal(input.prop('placeholder'), controller.get('placeholder'));
-  equal(label.text(), controller.get('label'));
-  equal(hint.text(), controller.get('hint'));
-});
-
-test('sets select prompt property as bindings', function() {
-  view = Ember.View.create({
-    template: templateFor('{{input firstName as="select" labelBinding="label" hintBinding="hint" promptBinding="prompt"}}'),
-    controller: controller
-  });
-  append(view);
-
-  var option = view.$().find('option');
-  var label = view.$().find('label');
-  var hint = view.$().find('.hint');
-
-  equal(option.text(), controller.get('prompt'));
-  equal(label.text(), controller.get('label'));
-  equal(hint.text(), controller.get('hint'));
-
-  Ember.run(function() {
-    controller.setProperties({
-      prompt: 'Select an option',
-      label: 'First name (not a last name)',
-      hint: 'Usually different than your last name'
-    });
-  });
-  
-  equal(option.text(), controller.get('prompt'));
-  equal(label.text(), controller.get('label'));
-  equal(hint.text(), controller.get('hint'));
 });
