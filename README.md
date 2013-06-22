@@ -107,17 +107,41 @@ Pass the `label` option to set the label text:
 {{input firstName label="Your Name"}}
 ```
 
+`label` could be pass as binding as well:
+
+```handlebars
+{{input firstName labelBinding="label"}}
+```
+
+where `label` could be a computed property defined in your controller.
+
 Pass the `placeholder` option to set a placeholder:
 
 ```handlebars
 {{input firstName placeholder="Enter your first name"}}
 ```
 
+`placeholder` could be pass as binding as well:
+
+```handlebars
+{{input firstName placeholderBinding="placeholder"}}
+```
+
+where `placeholder` could be a computed property defined in your controller. `prompt` for select can be pass as a binding as well. 
+
 Pass the `hint` option to set a hint:
 
 ```handlebars
 {{input firstName hint="Enter your first name"}}
 ```
+
+`hint` could be pass as binding as well:
+
+```handlebars
+{{input firstName hintBinding="hint"}}
+```
+
+where `hint` could be a computed property defined in your controller.
 
 Pass the `inputConfig` option to set the options used by the input field:
 
