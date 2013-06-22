@@ -18,8 +18,9 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   didInsertElement: function() {
     this.set('labelField-'+this.elementId+'.for', this.get('inputField-'+this.elementId+'.elementId'));
   },
-  concatenatedProperties: ['inputOptions'],
+  concatenatedProperties: ['inputOptions', 'bindableInputOptions'],
   inputOptions: ['as', 'placeholder', 'inputConfig', 'collection', 'prompt', 'optionValuePath', 'optionLabelPath', 'selection', 'value'],
+  bindableInputOptions: ['placeholder', 'prompt'],
   fieldsForInput: function() {
     return this.labelField() +
            this.wrapControls(
@@ -29,18 +30,33 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
            );
   },
   labelField: function() {
-    var options = this.label ? 'text="'+this.label+'"' : '';
+    var options, userOptions = this.inputOptions[this.inputOptions.length - 1];
+    
+    if (userOptions['labelBinding']) {
+      options = 'textBinding="'+userOptions['labelBinding']+'"';
+    } else {
+      options = this.label ? 'text="'+this.label+'"' : '';
+    }
+
     return '{{labelField '+this.property+' '+options+'}}';
   },
   inputField: function() {
-    var options = '', key, inputOptions = this.inputOptions;
-    for (var i = 0; i < inputOptions.length; i++) {
+    var options = '', key, value, keyBinding, inputOptions = this.inputOptions, userOptions = inputOptions[inputOptions.length - 1], bindableInputOptions = this.bindableInputOptions;
+    for (var i = 0; i < inputOptions.length-1; i++) {
       key = inputOptions[i];
       if (this[key]) {
         if (typeof(this[key]) === 'boolean') {
           this[key] = key;
         }
-        options = options.concat(''+key+'="'+this[inputOptions[i]]+'"');
+        value = this[inputOptions[i]];
+        
+        keyBinding = key + 'Binding';
+        if (userOptions[keyBinding] && bindableInputOptions.contains(key)) {
+          key = keyBinding;
+          value = userOptions[key];
+        }
+        
+        options = options.concat(''+key+'="'+value+'"');
       }
     }
 
@@ -53,7 +69,14 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
     return '{{#if errors.' + this.property + '}}{{{errorField '+this.property+' '+options+'}}{{/if}}';
   },
   hintField: function() {
-    var options = this.hint ? 'text="'+this.hint+'"' : '';
+    var options, userOptions = this.inputOptions[this.inputOptions.length - 1];
+
+    if (userOptions['hintBinding']) {
+      options = 'textBinding="'+userOptions['hintBinding']+'"';
+    } else {
+      options = this.hint ? 'text="'+this.hint+'"' : '';
+    }
+
     return '{{hintField '+this.property+' '+options+'}}';
   },
   wrapControls: function(controls) {
