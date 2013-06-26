@@ -50,7 +50,7 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   },
   errorField: function() {
     var options = '';
-    return '{{#if errors.' + this.property + '}}{{{errorField '+this.property+' '+options+'}}{{/if}}';
+    return '{{#if errors.' + this.property + '}}{{errorField '+this.property+' '+options+'}}{{/if}}';
   },
   hintField: function() {
     var options = this.hint ? 'text="'+this.hint+'"' : '';
