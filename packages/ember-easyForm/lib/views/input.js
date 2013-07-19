@@ -36,11 +36,17 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
     var options = '', key, inputOptions = this.inputOptions;
     for (var i = 0; i < inputOptions.length; i++) {
       key = inputOptions[i];
-      if (this[key]) {
-        if (typeof(this[key]) === 'boolean') {
+      if(typeof key !== "string") {
+        continue;
+      }
+      if(this.get(key) === undefined) {
+        continue;
+      }
+      if (this.get(key)) {
+        if (typeof(this.get(key)) === 'boolean') {
           this[key] = key;
         }
-        options = options.concat(''+key+'="'+this[inputOptions[i]]+'"');
+        options = options.concat(''+key+'="'+this.get(key)+'"');
       }
     }
 
