@@ -1,4 +1,22 @@
+require 'barber'
+
 instance_eval File.read(EmberDev.support_path.join('Assetfile'))
+
+class InlineHandlebarsPrecompiler < Rake::Pipeline::Filter
+  def precompile_templates(data)
+    data.gsub!(/Ember\.Handlebars\.compile\(['"](.*)['"]\)/) do
+      Barber::Ember::InlinePrecompiler.call($1)
+    end
+  end
+
+  def generate_output(inputs, output)
+    inputs.each do |input|
+      result = File.read(input.fullpath)
+      precompile_templates(result)
+      output.write result
+    end
+  end
+end
 
 distros = {
   :full => %w(ember-easyForm)
@@ -16,11 +34,13 @@ distros.each do |name, modules|
     end
 
     match "#{name}.js" do
+      filter InlineHandlebarsPrecompiler
       filter VersionInfo
     end
 
     # Strip dev code
     match "#{name}.prod.js" do
+      filter InlineHandlebarsPrecompiler
       filter(EmberStripDebugMessagesFilter) { ["#{name}.prod.js", "min/#{name}.js"] }
     end
 

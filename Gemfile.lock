@@ -30,10 +30,14 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
       uuidtools (~> 2.1)
+    barber (0.4.2)
+      ember-source
+      execjs
+      handlebars-source
     colored (1.2)
     diff-lcs (1.2.4)
-    ember-source (1.0.0.rc4)
-      handlebars-source (= 1.0.0.rc4)
+    ember-source (1.0.0.rc7)
+      handlebars-source (= 1.0.12)
     execjs (1.4.0)
       multi_json (~> 1.0)
     ffi (1.8.1)
@@ -41,7 +45,7 @@ GEM
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
       posix-spawn (~> 0.3.6)
-    handlebars-source (1.0.0.rc4)
+    handlebars-source (1.0.12)
     json (1.8.0)
     kicker (2.6.1)
       listen
@@ -73,6 +77,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  barber (~> 0.4.2)
   ember-dev!
-  ember-source (= 1.0.0.rc4)
+  ember-source (= 1.0.0.rc7)
+  handlebars-source (~> 1.0.12)
   rake-pipeline!

@@ -1,12 +1,17 @@
 Ember.EasyForm.Label = Ember.EasyForm.BaseView.extend({
   tagName: 'label',
   attributeBindings: ['for'],
+  labelText: function() {
+    return this.get('text') || this.get('property').underscore().split('_').join(' ').capitalize();
+  }.property('text', 'property'),
   init: function() {
     this._super();
     this.classNames.push(this.getWrapperConfig('labelClass'));
-    this.set('template', this.renderText());
   },
-  renderText: function() {
-    return Ember.Handlebars.compile(this.text ? '{{view.text}}' : this.property.underscore().split('_').join(' ').capitalize());
-  }
+  render: function(buffer) {
+    buffer.push(Handlebars.Utils.escapeExpression(this.get('labelText')));
+  },
+  labelTextChanged: function() {
+    this.rerender();
+  }.observes('labelText')
 });

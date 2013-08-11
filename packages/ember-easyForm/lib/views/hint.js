@@ -3,6 +3,11 @@ Ember.EasyForm.Hint = Ember.EasyForm.BaseView.extend({
   init: function() {
     this._super();
     this.classNames.push(this.getWrapperConfig('hintClass'));
-    this.set('template', Ember.Handlebars.compile('{{view.text}}'));
-  }
+  },
+  render: function(buffer) {
+    buffer.push(Handlebars.Utils.escapeExpression(this.get('text')));
+  },
+  textChanged: function() {
+    this.rerender();
+  }.observes('text')
 });
