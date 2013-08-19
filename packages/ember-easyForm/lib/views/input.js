@@ -31,7 +31,7 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   },
   labelField: function() {
     var options, userOptions = this.inputOptions[this.inputOptions.length - 1];
-    
+
     if (userOptions['labelBinding']) {
       options = 'textBinding="'+userOptions['labelBinding']+'"';
     } else {
@@ -44,18 +44,24 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
     var options = '', key, value, keyBinding, inputOptions = this.inputOptions, userOptions = inputOptions[inputOptions.length - 1], bindableInputOptions = this.bindableInputOptions;
     for (var i = 0; i < inputOptions.length-1; i++) {
       key = inputOptions[i];
-      if (this[key]) {
-        if (typeof(this[key]) === 'boolean') {
-          this[key] = key;
+      if(typeof key !== "string") {
+        continue;
+      }
+      if(this.get(key) === undefined) {
+        continue;
+      }
+      if (this.get(key)) {
+        if (typeof(this.get(key)) === 'boolean') {
+          this[key] = key; // this.set(key, key) instead, maybe?
         }
-        value = this[inputOptions[i]];
-        
+        value = this.get(key);
+
         keyBinding = key + 'Binding';
         if (userOptions[keyBinding] && bindableInputOptions.contains(key)) {
-          key = keyBinding;
+          key   = keyBinding;
           value = userOptions[key];
         }
-        
+
         options = options.concat(''+key+'="'+value+'"');
       }
     }
