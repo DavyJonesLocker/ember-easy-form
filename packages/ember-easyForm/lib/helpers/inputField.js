@@ -1,4 +1,14 @@
-Ember.Handlebars.registerHelper('inputField', function(property, options) {
+Ember.Handlebars.registerBoundHelper('inputField', function(property, options) {
+  options = Ember.EasyForm.processOptions(property, options);
+
+  // We are using "registerBoundHelper", so, "property" is the value and not the property name.
+  // Here we set the property name.
+  if (options.data.properties.length > 0) {
+    options.hash.property = options.data.properties[0];
+  }
+
+  property = options.hash.property;
+
   var context = this,
       propertyType = function(property) {
     try {
@@ -10,6 +20,16 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
 
   options.hash.valueBinding = property;
   options.hash.viewName = 'inputField-'+options.data.view.elementId;
+
+  if (options.hash.inputOptions) {
+    var inputOptions = options.hash.inputOptions, optionName;
+    for (optionName in inputOptions) {
+      if (inputOptions.hasOwnProperty(optionName)) {
+       options.hash[optionName] = inputOptions[optionName];
+      }
+    }
+    delete options.hash.inputOptions;
+  }
 
   if (options.hash.inputConfig) {
     var configs = options.hash.inputConfig.split(';');
@@ -57,7 +77,6 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
     } else {
       var inputType = Ember.EasyForm.Config.getInputType(options.hash.as);
       if (inputType) {
-        options.hash.property = property;
         return Ember.Handlebars.helpers.view.call(context, inputType, options);
       }
 

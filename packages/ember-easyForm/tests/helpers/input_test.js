@@ -11,6 +11,12 @@ Model = Ember.Object.extend({
 
 module('input helpers', {
   setup: function() {
+    container = new Ember.Container();
+    container.optionsForType('template', { instantiate: false });
+    container.resolver = function(fullName) {
+      var name = fullName.split(':')[1];
+      return Ember.TEMPLATES[name];
+    };
     model = Model.create({
       firstName: 'Brian',
       lastName: 'Cardarella',
@@ -42,6 +48,7 @@ var append = function(view) {
 test('renders semantic form elements', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName}}'),
+    container: container,
     controller: controller
   });
   append(view);
@@ -53,6 +60,7 @@ test('renders semantic form elements', function() {
 test('renders error for invalid data', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName}}'),
+    container: container,
     controller: controller
   });
   append(view);
@@ -75,6 +83,7 @@ test('renders semantic form elements when model does not have validation support
   controller.set('content', model);
   view = Ember.View.create({
     template: templateFor('{{input firstName}}'),
+    container: container,
     controller: controller
   });
   append(view);
@@ -86,6 +95,7 @@ test('renders semantic form elements when model does not have validation support
 test('allows label text to be set', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName label="Your First Name"}}'),
+    container: container,
     controller: controller
   });
   append(view);
@@ -95,6 +105,7 @@ test('allows label text to be set', function() {
 test('allows hint text to be set', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName hint="My hint text"}}'),
+    container: container,
     controller: controller
   });
   append(view);
@@ -104,6 +115,7 @@ test('allows hint text to be set', function() {
 test('block form for input', function() {
   view = Ember.View.create({
     template: templateFor('{{#input firstName}}{{labelField firstName}}{{inputField firstName}}{{errorField firstName}}{{/input}}'),
+    container: container,
     controller: controller
   });
   append(view);
@@ -115,6 +127,7 @@ test('block form for input', function() {
 test('sets input attributes property', function() {
   view = Ember.View.create({
     template: templateFor('{{input receiveAt as="email" placeholder="Your email"}}'),
+    container: container,
     controller: controller
   });
   append(view);
@@ -126,6 +139,7 @@ test('sets input attributes property', function() {
 test('binds label to input field', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName}}'),
+    container: container,
     controller: controller
   });
   append(view);
@@ -138,6 +152,7 @@ test('uses the wrapper config', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {inputClass: 'my-input', errorClass: 'my-error', fieldErrorClass: 'my-fieldWithErrors'});
   view = Ember.View.create({
     template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName}}{{/formFor}}'),
+    container: container,
     controller: controller
   });
   append(view);
@@ -153,6 +168,7 @@ test('wraps controls when defined', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {wrapControls: true, controlsWrapperClass: 'my-wrapper'});
   view = Ember.View.create({
     template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName hint="my hint"}}{{/formFor}}'),
+    container: container,
     controller: controller
   });
   append(view);
@@ -170,6 +186,7 @@ test('does not wrap controls when not defined', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {wrapControls: false, controlsWrapperClass: 'my-wrapper'});
   view = Ember.View.create({
     template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName hint="my hint"}}{{/formFor}}'),
+    container: container,
     controller: controller
   });
   append(view);
@@ -182,6 +199,7 @@ test('does not wrap controls when not defined', function() {
 test('passes the inputConfig to the input field', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName as=text inputConfig="class:span5;rows:2"}}'),
+    container: container,
     controller: controller
   });
   append(view);
@@ -195,6 +213,7 @@ test('sets errors in models created without the "errors" object', function(){
 
   view = Ember.View.create({
     template: templateFor('{{input firstName}}'),
+    container: container,
     controller: controller
   });
   append(view);
@@ -210,16 +229,14 @@ test('sets errors in models created without the "errors" object', function(){
 test('sets input attributes property as bindings', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName placeholderBinding="placeholder" labelBinding="label" hintBinding="hint"}}'),
+    container: container,
     controller: controller
   });
   append(view);
 
-  var input = view.$().find('input');
-  var label = view.$().find('label');
-  var hint = view.$().find('.hint');
-  equal(input.prop('placeholder'), controller.get('placeholder'));
-  equal(label.text(), controller.get('label'));
-  equal(hint.text(), controller.get('hint'));
+  equal(view.$().find('input').prop('placeholder'), controller.get('placeholder'));
+  equal(view.$().find('label').text(), controller.get('label'));
+  equal(view.$().find('.hint').text(), controller.get('hint'));
 
   Ember.run(function() {
     controller.setProperties({
@@ -228,26 +245,23 @@ test('sets input attributes property as bindings', function() {
       hint: 'Usually different than your last name'
     });
   });
-  
-  equal(input.prop('placeholder'), controller.get('placeholder'));
-  equal(label.text(), controller.get('label'));
-  equal(hint.text(), controller.get('hint'));
+
+  equal(view.$().find('input').prop('placeholder'), controller.get('placeholder'));
+  equal(view.$().find('label').text(), controller.get('label'));
+  equal(view.$().find('.hint').text(), controller.get('hint'));
 });
 
 test('sets select prompt property as bindings', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName as="select" labelBinding="label" hintBinding="hint" promptBinding="prompt"}}'),
+    container: container,
     controller: controller
   });
   append(view);
 
-  var option = view.$().find('option');
-  var label = view.$().find('label');
-  var hint = view.$().find('.hint');
-
-  equal(option.text(), controller.get('prompt'));
-  equal(label.text(), controller.get('label'));
-  equal(hint.text(), controller.get('hint'));
+  equal(view.$().find('option').text(), controller.get('prompt'));
+  equal(view.$().find('label').text(), controller.get('label'));
+  equal(view.$().find('.hint').text(), controller.get('hint'));
 
   Ember.run(function() {
     controller.setProperties({
@@ -256,8 +270,8 @@ test('sets select prompt property as bindings', function() {
       hint: 'Usually different than your last name'
     });
   });
-  
-  equal(option.text(), controller.get('prompt'));
-  equal(label.text(), controller.get('label'));
-  equal(hint.text(), controller.get('hint'));
+
+  equal(view.$().find('option').text(), controller.get('prompt'));
+  equal(view.$().find('label').text(), controller.get('label'));
+  equal(view.$().find('.hint').text(), controller.get('hint'));
 });

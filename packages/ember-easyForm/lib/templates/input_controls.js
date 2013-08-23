@@ -1,0 +1,1 @@
+Ember.TEMPLATES['easy_form/_input_controls'] = Ember.Handlebars.compile('{{inputField propertyBinding=view.property inputOptionsBinding=view.inputOptionsValues}}{{#if view.error}}{{errorField propertyBinding=view.property textBinding=view.error}}{{/if}}{{hintField propertyBinding=view.property textBinding=view.hint}}');
