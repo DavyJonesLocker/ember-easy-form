@@ -12,14 +12,13 @@ module('submit helpers', {
       var name = fullName.split(':')[1];
       return Ember.TEMPLATES[name];
     };
-    model = {
+    model = Ember.Object.create({
       firstName: 'Brian',
       lastName: 'Cardarella',
       validate: function() {
         return valid;
       },
-      errors: Ember.Object.create()
-    };
+    });
     controller = Ember.Controller.create();
     controller.set('count', 0);
     controller.set('submit', function() { this.set('count', this.get('count') + 1); });
@@ -58,4 +57,22 @@ test('custom value', function() {
   });
   append(view);
   equal(view.$().find('input').prop('value'), 'Create');
+});
+
+test('submit button disabled state is bound to models valid state', function() {
+  Ember.run(function() {
+    model.set('isValid', false);
+    model.reopen({isInvalid: Ember.computed.not('isValid')});
+  });
+  view = Ember.View.create({
+    template: templateFor('{{submit}}'),
+    container: container,
+    context: model
+  });
+  append(view);
+  equal(view.$().find('input').prop('disabled'), true);
+  Ember.run(function() {
+    model.set('isValid', true);
+  });
+  equal(view.$().find('input').prop('disabled'), false);
 });
