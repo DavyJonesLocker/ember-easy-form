@@ -96,6 +96,29 @@ test('submitting with valid model calls submit action on controller', function()
   equal(controller.get('count'), 1);
 });
 
+test('submitting with valid controller calls submit action on controller', function() {
+  controller.reopen({
+    validate: function() {
+      var promise = new Ember.Deferred();
+      promise.resolve();
+      return promise;
+    }
+  });
+  Ember.run(function() {
+    controller.set('isValid', true);
+  });
+  view = Ember.View.create({
+    template: templateFor('{{#formFor controller}}{{/formFor}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  Ember.run(function() {
+    view._childViews[0].trigger('submit');
+  });
+  equal(controller.get('count'), 1);
+});
+
 test('can override the action called by submit on the controller', function() {
   Ember.run(function() {
     model.set('isValid', true);
@@ -113,9 +136,9 @@ test('can override the action called by submit on the controller', function() {
 });
 
 test('submitting with model that does not have validate method', function() {
-  delete model.validate;
+  var model = Ember.Object.create();
   Ember.run(function() {
-    model.set('isValid', true);
+    controller.set('content', model);
   });
   view = Ember.View.create({
     template: templateFor('{{#formFor controller}}{{/formFor}}'),
