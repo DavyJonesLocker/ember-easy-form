@@ -6,6 +6,7 @@ Ember.EasyForm.Form = Ember.EasyForm.BaseView.extend({
   init: function() {
     this._super();
     this.classNames.push(this.getWrapperConfig('formClass'));
+    this.action = this.action || 'submit';
   },
   submit: function(event) {
     var _this = this, promise;
@@ -15,7 +16,7 @@ Ember.EasyForm.Form = Ember.EasyForm.BaseView.extend({
     }
 
     if (Ember.isNone(this.get('context.validate'))) {
-      this.get('controller').send('submit');
+      this.get('controller').send(this.action);
     } else {
       if (!Ember.isNone(this.get('context').validate)) {
         promise = this.get('context').validate();
@@ -24,7 +25,7 @@ Ember.EasyForm.Form = Ember.EasyForm.BaseView.extend({
       }
       promise.then(function() {
         if (_this.get('context.isValid') === true) {
-          _this.get('controller').send('submit');
+          _this.get('controller').send(_this.action);
         }
       });
     }
