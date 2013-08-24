@@ -24,21 +24,21 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
     return this.getWrapperConfig('controlsWrapperClass');
   }.property(),
   inputOptionsValues: function() {
-    var options = {}, i, key, keyBinding, inputOptions = this.inputOptions, bindableInputOptions = this.bindableInputOptions;
+    var options = {}, i, value, key, keyBinding, inputOptions = this.inputOptions, bindableInputOptions = this.bindableInputOptions;
     for (i = 0; i < inputOptions.length; i++) {
       key = inputOptions[i];
-      if (this[key]) {
-        if (typeof(this[key]) === 'boolean') {
-          this[key] = key;
+      value = this.get(key);
+      if (value) {
+        if (typeof(value) === 'boolean') {
+          value = key;
         }
-
-        options[key] = this[key];
+        options[key] = value;
       }
     }
     for (i = 0; i < bindableInputOptions.length; i++) {
       key = bindableInputOptions[i];
       keyBinding = key + 'Binding';
-      if (this[key] || this[keyBinding]) {
+      if (this.get(key) || this.get(keyBinding)) {
         options[keyBinding] = 'view.' + key;
       }
     }
