@@ -1,10 +1,12 @@
-Ember.Handlebars.registerBoundHelper('inputField', function(property, options) {
+Ember.Handlebars.registerHelper('inputField', function(property, options) {
   options = Ember.EasyForm.processOptions(property, options);
 
-  // We are using "registerBoundHelper", so, "property" is the value and not the property name.
-  // Here we set the property name.
-  if (options.data.properties.length > 0) {
-    options.hash.property = options.data.properties[0];
+  if (options.hash.propertyBinding) {
+    options.hash.property = Ember.Handlebars.get(this, options.hash.propertyBinding, options);
+  }
+
+  if (options.hash.inputOptionsBinding) {
+    options.hash.inputOptions = Ember.Handlebars.get(this, options.hash.inputOptionsBinding, options);
   }
 
   property = options.hash.property;
