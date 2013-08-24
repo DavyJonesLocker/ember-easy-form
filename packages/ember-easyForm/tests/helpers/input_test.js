@@ -275,3 +275,49 @@ test('sets select prompt property as bindings', function() {
   equal(view.$().find('label').text(), controller.get('label'));
   equal(view.$().find('.hint').text(), controller.get('hint'));
 });
+
+test('allows to use computed properties defined in the Input view', function() {
+  Ember.EasyForm.Input.reopen({
+    placeholder: function() {
+      return 'MyPlaceholder';
+    }.property(),
+    label: function() {
+      return 'MyLabel';
+    }.property(),
+    hint: function() {
+      return 'MyHint';
+    }.property(),
+    inputConfig: function() {
+      return 'class:MyClass';
+    }.property()
+  });
+
+  view = Ember.View.create({
+    template: templateFor('{{input firstName}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+
+  equal(view.$().find('input').prop('placeholder'), 'MyPlaceholder');
+  equal(view.$().find('label').text(), 'MyLabel');
+  equal(view.$().find('.hint').text(), 'MyHint');
+  ok(view.$().find('input').hasClass('MyClass'));
+});
+
+test('allows to override the computed property defined in the Input view', function() {
+  Ember.EasyForm.Input.reopen({
+    label: function() {
+      return 'MyLabel';
+    }.property()
+  });
+
+  view = Ember.View.create({
+    template: templateFor('{{input firstName label="MyFirstName"}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+
+  equal(view.$().find('label').text(), 'MyFirstName');
+});
