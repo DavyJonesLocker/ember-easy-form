@@ -8,10 +8,5 @@ Ember.EasyForm.Submit = Ember.View.extend({
   init: function() {
     this._super();
     this.set('value', this.value);
-  },
-  onClick: function() {
-    if (this.get('context').validate()) {
-      this.get('controller').send('submit');
-    }
   }
 });
