@@ -1,9 +1,8 @@
 Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   init: function() {
     this._super();
-    this.classNameBindings.push('error:' + this.getWrapperConfig('fieldErrorClass'));
+    this.classNameBindings.push('showError:' + this.getWrapperConfig('fieldErrorClass'));
     this.classNames.push(this.getWrapperConfig('inputClass'));
-    Ember.defineProperty(this, 'error', Ember.EasyForm.errorPropertyFor(this.property));
     if (!this.isBlock) {
       if (this.getWrapperConfig('wrapControls')) {
         this.set('templateName', 'easy_form/wrapped_input');
@@ -44,13 +43,14 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
     }
     return options;
   }.property(),
+  showError: function() {
+    return false;
+  }.property(),
   focusOut: function() {
-    if (!Ember.isNone(this.get('context.validate'))) {
-      if (!Ember.isNone(this.get('context').validate)) {
-        this.get('context').validate(this.property);
-      } else {
-        this.get('context.content').validate(this.property);
-      }
+    if (Ember.isEmpty(this.get('context.errors.' + this.property))) {
+      this.set('showError', false);
+    } else {
+      this.set('showError', true);
     }
   }
 });

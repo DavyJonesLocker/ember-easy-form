@@ -1,11 +1,17 @@
-var model, Model, view, valid, container, controller;
+var model, Model, view, valid, container, controller, ErrorsObject;
 var templateFor = function(template) {
   return Ember.Handlebars.compile(template);
 };
-var original_lookup = Ember.lookup, lookup;
-Model = Ember.Object.extend({
-  validate: function(property) {
-    this.errors.set(property, 'Error!');
+var originalLookup = Ember.lookup, lookup;
+// Model = Ember.Object.extend({
+  // validate: function(property) {
+    // this.errors.set(property, 'Error!');
+  // }
+// });
+ErrorsObject = Ember.Object.extend({
+  unknownProperty: function(property) {
+    this.set(property, Ember.makeArray());
+    return this.get(property);
   }
 });
 
@@ -17,10 +23,9 @@ module('input helpers', {
       var name = fullName.split(':')[1];
       return Ember.TEMPLATES[name];
     };
-    model = Model.create({
+    model = Ember.Object.create({
       firstName: 'Brian',
-      lastName: 'Cardarella',
-      errors: Ember.Object.create()
+      lastName: 'Cardarella'
     });
     controller = Ember.ObjectController.create({
       placeholder: 'A placeholder',
@@ -35,7 +40,7 @@ module('input helpers', {
       view.destroy();
       view = null;
     });
-    Ember.lookup = original_lookup;
+    Ember.lookup = originalLookup;
   }
 });
 
@@ -57,7 +62,7 @@ test('renders semantic form elements', function() {
   equal(view.$().find('input').attr('type'), 'text');
 });
 
-test('renders error for invalid data', function() {
+test('does not render error tag when context does not have errors object', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName}}'),
     container: container,
@@ -69,27 +74,60 @@ test('renders error for invalid data', function() {
   Ember.run(function() {
     view._childViews[0].trigger('focusOut');
   });
-  ok(view.$().find('div.fieldWithErrors').get(0));
-  equal(view.$().find('span.error').text(), 'Error!');
+  ok(!view.$().find('div.fieldWithErrors').get(0));
+  ok(!view.$().find('span.error').get(0));
 });
 
-test('renders semantic form elements when model does not have validation support', function() {
-  var model = Model.create({
-    firstName: 'Brian',
-    lastName: 'Cardarella'
+test('renders error for invalid data', function() {
+  model.reopen({
+    errors: ErrorsObject.create()
   });
 
-  model.validate = undefined;
-  controller.set('content', model);
+  Ember.run(function() {
+    model.get('errors.firstName').pushObject("can't be blank");
+  });
+
   view = Ember.View.create({
     template: templateFor('{{input firstName}}'),
     container: container,
     controller: controller
   });
   append(view);
-  equal(view.$().find('label').text(), 'First name');
-  equal(view.$().find('input').val(), 'Brian');
-  equal(view.$().find('input').attr('type'), 'text');
+
+  ok(!view.$().find('div.fieldWithErrors').get(0));
+  ok(!view.$().find('span.error').get(0));
+
+  Ember.run(function() {
+    view._childViews[0].trigger('input');
+  });
+  ok(!view.$().find('div.fieldWithErrors').get(0));
+  ok(!view.$().find('span.error').get(0));
+
+  Ember.run(function() {
+    view._childViews[0].trigger('focusOut');
+  });
+  ok(view.$().find('div.fieldWithErrors').get(0));
+  equal(view.$().find('span.error').text(), "can't be blank");
+
+  Ember.run(function() {
+    model.get('errors.firstName').clear();
+    view._childViews[0].trigger('focusOut');
+  });
+  ok(!view.$().find('div.fieldWithErrors').get(0));
+  ok(!view.$().find('span.error').get(0));
+
+  Ember.run(function() {
+    model.get('errors.firstName').pushObject("can't be blank");
+    view._childViews[0].trigger('input');
+  });
+  ok(!view.$().find('div.fieldWithErrors').get(0));
+  ok(!view.$().find('span.error').get(0));
+
+  Ember.run(function() {
+    view._childViews[0].trigger('focusOut');
+  });
+  ok(view.$().find('div.fieldWithErrors').get(0));
+  equal(view.$().find('span.error').text(), "can't be blank");
 });
 
 test('allows label text to be set', function() {
@@ -150,6 +188,13 @@ test('binds label to input field', function() {
 
 test('uses the wrapper config', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {inputClass: 'my-input', errorClass: 'my-error', fieldErrorClass: 'my-fieldWithErrors'});
+  model.reopen({
+    errors: ErrorsObject.create()
+  });
+
+  Ember.run(function() {
+    model.get('errors.firstName').pushObject("can't be blank");
+  });
   view = Ember.View.create({
     template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName}}{{/formFor}}'),
     container: container,
@@ -166,6 +211,13 @@ test('uses the wrapper config', function() {
 
 test('wraps controls when defined', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {wrapControls: true, controlsWrapperClass: 'my-wrapper'});
+  model.reopen({
+    errors: ErrorsObject.create()
+  });
+
+  Ember.run(function() {
+    model.get('errors.firstName').pushObject("can't be blank");
+  });
   view = Ember.View.create({
     template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName hint="my hint"}}{{/formFor}}'),
     container: container,
@@ -206,24 +258,6 @@ test('passes the inputConfig to the input field', function() {
   var textarea = view.$().find('textarea');
   equal(textarea.attr('class'), 'ember-view ember-text-area span5');
   equal(textarea.attr('rows'), '2');
-});
-
-test('sets errors in models created without the "errors" object', function(){
-  delete model.errors;
-
-  view = Ember.View.create({
-    template: templateFor('{{input firstName}}'),
-    container: container,
-    controller: controller
-  });
-  append(view);
-  ok(!view.$().find('div.fieldWithErrors').get(0));
-  ok(!view.$().find('span.error').get(0));
-  Ember.run(function() {
-    model.set('errors', {firstName: 'Some error!'});
-  });
-  ok(view.$().find('div.fieldWithErrors').get(0));
-  equal(view.$().find('span.error').text(), 'Some error!');
 });
 
 test('sets input attributes property as bindings', function() {
