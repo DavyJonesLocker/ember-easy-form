@@ -111,6 +111,11 @@ test('renders error for invalid data', function() {
 
   Ember.run(function() {
     model.get('errors.firstName').clear();
+  });
+  ok(!view.$().find('div.fieldWithErrors').get(0));
+  ok(!view.$().find('span.error').get(0));
+
+  Ember.run(function() {
     view._childViews[0].trigger('focusOut');
   });
   ok(!view.$().find('div.fieldWithErrors').get(0));
