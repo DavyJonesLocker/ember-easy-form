@@ -1,1 +1,0 @@
-Ember.TEMPLATES['easy_form/wrapped_input'] = Ember.Handlebars.compile('{{labelField propertyBinding=view.property textBinding=view.label}}<div class="{{unbound view.controlsWrapperClass}}">{{partial "easy_form/input_controls"}}</div>');

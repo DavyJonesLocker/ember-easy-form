@@ -1,1 +1,1 @@
-Ember.TEMPLATES['easy_form/error'] = Ember.Handlebars.compile('{{view.errors.firstObject}}');
+Ember.TEMPLATES['easyForm/error'] = Ember.Handlebars.compile('{{view.errors.firstObject}}');

@@ -6,9 +6,9 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
     Ember.defineProperty(this, 'showError', Ember.computed.and('focusOutShowError', 'context.errors.' + this.property + '.firstObject'));
     if (!this.isBlock) {
       if (this.getWrapperConfig('wrapControls')) {
-        this.set('templateName', 'easy_form/wrapped_input');
+        this.set('templateName', 'easyForm/wrapped_input');
       } else {
-        this.set('templateName', 'easy_form/input');
+        this.set('templateName', 'easyForm/input');
       }
     }
   },
