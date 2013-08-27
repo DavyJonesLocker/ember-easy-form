@@ -12,13 +12,9 @@ Ember.Handlebars.registerHelper('inputField', function(property, options) {
   property = options.hash.property;
 
   var context = this,
-      propertyType = function(property) {
-    try {
-      return (context.get('content') || context).constructor.metaForProperty(property).type;
-    } catch(e) {
-      return null;
-    }
-  };
+    propertyType = function(property) {
+      return Ember.meta((context.get('content') || context).constructor.proto(), false).descs[property];
+    };
 
   options.hash.valueBinding = property;
   options.hash.viewName = 'inputField-'+options.data.view.elementId;
