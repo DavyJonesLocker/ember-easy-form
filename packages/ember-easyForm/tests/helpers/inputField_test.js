@@ -260,6 +260,17 @@ test('auto sets input type to number if property is a number', function() {
   equal(view.$().find('input').attr('type'), 'number');
 });
 
+test('does not fail if a controller content constructor does not respond to proto', function() {
+  controller.set('content', []);
+  view = Ember.View.create({
+    template: templateFor('{{inputField name}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'text');
+});
+
 test('renders semantic form elements with text area', function() {
   view = Ember.View.create({
     template: templateFor('{{inputField firstName as="text"}}'),
