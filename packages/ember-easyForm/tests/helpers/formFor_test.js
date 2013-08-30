@@ -24,11 +24,19 @@ module('the formFor helper', {
       lastName: 'Cardarella',
       errors: Ember.Object.create()
     });
-    controller = Ember.ObjectController.create();
+    var Controller = Ember.ObjectController.extend({
+      actions: {
+        submit: function() {
+          this.incrementProperty('count');
+        },
+        bigSubmit: function() {
+          this.incrementProperty('count', 2);
+        }
+      }
+    });
+    controller = Controller.create();
     controller.set('content', model);
     controller.set('count', 0);
-    controller.submit = function() { return this.incrementProperty('count'); };
-    controller.bigSubmit = function() { return this.incrementProperty('count', 2); };
   },
   teardown: function() {
     Ember.run(function() {

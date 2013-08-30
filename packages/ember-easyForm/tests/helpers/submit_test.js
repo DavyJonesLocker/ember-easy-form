@@ -19,9 +19,15 @@ module('submit helpers', {
         return valid;
       },
     });
-    controller = Ember.Controller.create();
+    var Controller = Ember.Controller.extend({
+      actions: {
+        submit: function() {
+          this.incrementProperty('count');
+        }
+      }
+    });
+    controller = Controller.create();
     controller.set('count', 0);
-    controller.set('submit', function() { this.set('count', this.get('count') + 1); });
   },
   teardown: function() {
     Ember.run(function() {
