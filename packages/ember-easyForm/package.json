@@ -4,7 +4,7 @@
   "description": "Ember EasyForm provides a DSL for quickly building forms similar to ActionPack's EasyForm and SimpleForm",
   "homepage": "https://github.com/dockyard/ember-easyForm",
   "author": "Brian Cardarella",
-  "version": "0.3.2",
+  "version": "1.0.0.beta.1",
 
   "directories": {
     "lib": "lib"
