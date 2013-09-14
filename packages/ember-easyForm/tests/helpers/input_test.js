@@ -210,7 +210,7 @@ test('allows hint text to be set', function() {
 
 test('block form for input', function() {
   view = Ember.View.create({
-    template: templateFor('{{#input firstName}}{{labelField firstName}}{{inputField firstName}}{{errorField firstName}}{{/input}}'),
+    template: templateFor('{{#input firstName}}{{label-field firstName}}{{input-field firstName}}{{error-field firstName}}{{/input}}'),
     container: container,
     controller: controller
   });
@@ -254,7 +254,7 @@ test('uses the wrapper config', function() {
     model.get('errors.firstName').pushObject("can't be blank");
   });
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName}}{{/formFor}}'),
+    template: templateFor('{{#form-for controller wrapper=my_wrapper}}{{input firstName}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -277,7 +277,7 @@ test('wraps controls when defined', function() {
     model.get('errors.firstName').pushObject("can't be blank");
   });
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName hint="my hint"}}{{/formFor}}'),
+    template: templateFor('{{#form-for controller wrapper=my_wrapper}}{{input firstName hint="my hint"}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -295,7 +295,7 @@ test('wraps controls when defined', function() {
 test('does not wrap controls when not defined', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {wrapControls: false, controlsWrapperClass: 'my-wrapper'});
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{input firstName hint="my hint"}}{{/formFor}}'),
+    template: templateFor('{{#form-for controller wrapper=my_wrapper}}{{input firstName hint="my hint"}}{{/form-for}}'),
     container: container,
     controller: controller
   });

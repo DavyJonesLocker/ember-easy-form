@@ -11,7 +11,7 @@ Model = Ember.Object.extend({
   }
 });
 
-module('the formFor helper', {
+module('the form-for helper', {
   setup: function() {
     container = new Ember.Container();
     container.optionsForType('template', { instantiate: false });
@@ -55,7 +55,7 @@ var append = function(view) {
 
 test('renders a form element', function() {
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller}}{{/formFor}}'),
+    template: templateFor('{{#form-for controller}}{{/form-for}}'),
     controller: controller
   });
   append(view);
@@ -65,7 +65,7 @@ test('renders a form element', function() {
 test('uses the defined wrapper', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {formClass: 'my-form-class'});
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{/formFor}}'),
+    template: templateFor('{{#form-for controller wrapper=my_wrapper}}{{/form-for}}'),
     controller: controller
   });
   append(view);
@@ -77,7 +77,7 @@ test('submitting with invalid model does not call submit action on controller', 
     model.set('isValid', false);
   });
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller}}{{/formFor}}'),
+    template: templateFor('{{#form-for controller}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -93,7 +93,7 @@ test('submitting with valid model calls submit action on controller', function()
     model.set('isValid', true);
   });
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller}}{{/formFor}}'),
+    template: templateFor('{{#form-for controller}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -116,7 +116,7 @@ test('submitting with valid controller calls submit action on controller', funct
     controller.set('isValid', true);
   });
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller}}{{/formFor}}'),
+    template: templateFor('{{#form-for controller}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -132,7 +132,7 @@ test('can override the action called by submit on the controller', function() {
     model.set('isValid', true);
   });
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller action="bigSubmit"}}{{/formFor}}'),
+    template: templateFor('{{#form-for controller action="bigSubmit"}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -149,7 +149,7 @@ test('submitting with model that does not have validate method', function() {
     controller.set('content', model);
   });
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller}}{{/formFor}}'),
+    template: templateFor('{{#form-for controller}}{{/form-for}}'),
     container: container,
     controller: controller
   });

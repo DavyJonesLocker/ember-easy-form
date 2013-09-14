@@ -36,10 +36,10 @@ GitHub](https://github.com/dockyard/ember-easyForm/issues).
 
 ## Usage ##
 
-The `formFor` helper is used like so:
+The `form-for` helper is used like so:
 
 ```handlebars
-{{#formFor model}}
+{{#form-for model}}
   {{input firstName}}
   {{input lastName}}
   {{input bio as="text"}}
@@ -50,7 +50,7 @@ The `formFor` helper is used like so:
        optionLabelPath="content.name"
        prompt="Select Country"
   }}
-{{/formFor}}
+{{/form-for}}
 ```
 
 This will result in the following semantic structure:
@@ -158,9 +158,9 @@ be used as blocks such as:
 
 ```handlebars
 {{#input firstName}}
-  {{inputField firstName}}{{labelField firstName}}
+  {{input-field firstName}}{{label-field firstName}}
   <br/>
-  {{errorField firstName}}
+  {{error-field firstName}}
 {{/input}}
 ```
 
@@ -168,7 +168,7 @@ Inside the block you can add any markup you'd like and everything will
 be wrapped inside the container `div` that is created by the original
 `input`. You can should use the following helpers:
 
-#### labelField
+#### label-field
 
 Renders the label field used by `input`. The first paramater is the
 property, the remainder paramaters are options.
@@ -178,10 +178,10 @@ property, the remainder paramaters are options.
 * `text` - the text for the label
 
 ```handlebars
-{{labelField firstName text="Your first name"}}
+{{label-field firstName text="Your first name"}}
 ```
 
-#### inputField
+#### input-field
 
 Renders the input field used by `input`. The first parameter is the
 property, the remaining properties are options. The input itself will
@@ -202,21 +202,21 @@ likewise for "email".
   * `hidden`
 
 ```handlebars
-{{inputField bio as="text"}}
-{{inputField email}}
+{{input-field bio as="text"}}
+{{input-field email}}
 ```
 
-#### errorField
+#### error-field
 
 Renders the error span used by `input` where the first available
 validation error message will be rendered. The first parameter will be
 the property.
 
 ```handlebars
-{{errorField firstName}}
+{{error-field firstName}}
 ```
 
-#### hintField
+#### hint-field
 
 Renders a text containing instructions to the user. The first parameter is the property, the remaining properties are options.
 
@@ -225,7 +225,7 @@ Renders a text containing instructions to the user. The first parameter is the p
 * `text` - the text for the hint
 
 ```handlebars
-{{hintField firstName text="Your first name"}}
+{{hint-field firstName text="Your first name"}}
 ```
 
 ### Custom Input Types
@@ -281,9 +281,9 @@ When you register a wrapper, you don't have to inform all options. If some optio
 To use a wrapper, define the `wrapper` option in the form. All elements inside the form will use the values defined in this wrapper.
 
 ```handlebars
-{{#formFor controller wrapper="twitter-bootstrap"}}
-{{input firstName}}
-{{/formFor}}
+{{#form-for controller wrapper="twitter-bootstrap"}}
+  {{input firstName}}
+{{/form-for}}
 ```
 
 ### Default wrapper

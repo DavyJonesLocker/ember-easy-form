@@ -1,4 +1,4 @@
-Ember.Handlebars.registerHelper('hintField', function(property, options) {
+Ember.Handlebars.registerHelper('hint-field', function(property, options) {
   options = Ember.EasyForm.processOptions(property, options);
 
   if (options.hash.text || options.hash.textBinding) {

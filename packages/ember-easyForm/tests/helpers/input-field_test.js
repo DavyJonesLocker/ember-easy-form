@@ -5,7 +5,7 @@ var templateFor = function(template) {
 var original_lookup = Ember.lookup, lookup;
 Model = Ember.Object.extend();
 
-module('inputField helpers', {
+module('input-field helpers', {
   setup: function() {
     container = new Ember.Container();
     container.optionsForType('template', { instantiate: false });
@@ -42,7 +42,7 @@ var append = function(view) {
 
 test('render text input and sets value propertly', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField firstName}}'),
+    template: templateFor('{{input-field firstName}}'),
     container: container,
     controller: controller
   });
@@ -53,7 +53,7 @@ test('render text input and sets value propertly', function() {
 
 test('allows setting of input attributes', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField secret type="hidden"}}'),
+    template: templateFor('{{input-field secret type="hidden"}}'),
     container: container,
     controller: controller
   });
@@ -63,7 +63,7 @@ test('allows setting of input attributes', function() {
 
 test('auto sets input type to password if name includes password', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField passwordConfirmation}}'),
+    template: templateFor('{{input-field passwordConfirmation}}'),
     container: container,
     controller: controller
   });
@@ -73,7 +73,7 @@ test('auto sets input type to password if name includes password', function() {
 
 test('auto sets input type to password if forced to passwordr', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField token as="password"}}'),
+    template: templateFor('{{input-field token as="password"}}'),
     container: container,
     controller: controller
   });
@@ -83,7 +83,7 @@ test('auto sets input type to password if forced to passwordr', function() {
 
 test('auto sets input type to url if name includes url', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField url}}'),
+    template: templateFor('{{input-field url}}'),
     container: container,
     controller: controller
   });
@@ -93,7 +93,7 @@ test('auto sets input type to url if name includes url', function() {
 
 test('auto sets input type to url if forced to url', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField website as="url"}}'),
+    template: templateFor('{{input-field website as="url"}}'),
     container: container,
     controller: controller
   });
@@ -103,7 +103,7 @@ test('auto sets input type to url if forced to url', function() {
 
 test('auto sets input type to color if name includes color', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField color}}'),
+    template: templateFor('{{input-field color}}'),
     container: container,
     controller: controller
   });
@@ -113,7 +113,7 @@ test('auto sets input type to color if name includes color', function() {
 
 test('auto sets input type to color if forced to color', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField hue as="color"}}'),
+    template: templateFor('{{input-field hue as="color"}}'),
     container: container,
     controller: controller
   });
@@ -123,7 +123,7 @@ test('auto sets input type to color if forced to color', function() {
 
 test('auto sets input type to tel if name includes tel', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField telephone}}'),
+    template: templateFor('{{input-field telephone}}'),
     container: container,
     controller: controller
   });
@@ -133,7 +133,7 @@ test('auto sets input type to tel if name includes tel', function() {
 
 test('auto sets input type to tel if forced to tel', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField phoneNumber as="tel"}}'),
+    template: templateFor('{{input-field phoneNumber as="tel"}}'),
     container: container,
     controller: controller
   });
@@ -143,7 +143,7 @@ test('auto sets input type to tel if forced to tel', function() {
 
 test('auto sets input type to search if name includes search', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField search}}'),
+    template: templateFor('{{input-field search}}'),
     container: container,
     controller: controller
   });
@@ -153,7 +153,7 @@ test('auto sets input type to search if name includes search', function() {
 
 test('auto sets input type to search if forced to search', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField query as="search"}}'),
+    template: templateFor('{{input-field query as="search"}}'),
     container: container,
     controller: controller
   });
@@ -163,7 +163,7 @@ test('auto sets input type to search if forced to search', function() {
 
 test('auto sets input type to email if name includes email', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField email}}'),
+    template: templateFor('{{input-field email}}'),
     container: container,
     controller: controller
   });
@@ -173,7 +173,7 @@ test('auto sets input type to email if name includes email', function() {
 
 test('auto sets input type to email if forced to email', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField receivedAt as="email"}}'),
+    template: templateFor('{{input-field receivedAt as="email"}}'),
     container: container,
     controller: controller
   });
@@ -192,7 +192,7 @@ test('auto sets input type to number if property meta attribute is a number', fu
   });
   model.set('age', 30);
   view = Ember.View.create({
-    template: templateFor('{{inputField age}}'),
+    template: templateFor('{{input-field age}}'),
     container: container,
     controller: controller
   });
@@ -203,7 +203,7 @@ test('auto sets input type to number if property meta attribute is a number', fu
 test('auto sets input type to number if property is a number', function() {
   model.set('age', 30);
   view = Ember.View.create({
-    template: templateFor('{{inputField age}}'),
+    template: templateFor('{{input-field age}}'),
     container: container,
     controller: controller
   });
@@ -222,7 +222,7 @@ test('auto sets input type to date if property meta attribute is a date', functi
   });
   model.set('birthday', new Date());
   view = Ember.View.create({
-    template: templateFor('{{inputField birthday}}'),
+    template: templateFor('{{input-field birthday}}'),
     container: container,
     controller: controller
   });
@@ -241,7 +241,7 @@ test('auto sets input type to checkbox if property meta attribute is a boolean',
   });
   model.set('old', false);
   view = Ember.View.create({
-    template: templateFor('{{inputField old}}'),
+    template: templateFor('{{input-field old}}'),
     container: container,
     controller: controller
   });
@@ -252,7 +252,7 @@ test('auto sets input type to checkbox if property meta attribute is a boolean',
 test('auto sets input type to number if property is a number', function() {
   model.set('age', 30);
   view = Ember.View.create({
-    template: templateFor('{{inputField age}}'),
+    template: templateFor('{{input-field age}}'),
     container: container,
     controller: controller
   });
@@ -263,7 +263,7 @@ test('auto sets input type to number if property is a number', function() {
 test('does not fail if a controller content constructor does not respond to proto', function() {
   controller.set('content', []);
   view = Ember.View.create({
-    template: templateFor('{{inputField name}}'),
+    template: templateFor('{{input-field name}}'),
     container: container,
     controller: controller
   });
@@ -273,7 +273,7 @@ test('does not fail if a controller content constructor does not respond to prot
 
 test('renders semantic form elements with text area', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField firstName as="text"}}'),
+    template: templateFor('{{input-field firstName as="text"}}'),
     container: container,
     controller: controller
   });
@@ -285,7 +285,7 @@ test('uses the custom input type when defined', function() {
   Ember.EasyForm.Config.registerInputType('my_input', Ember.EasyForm.TextArea);
   Ember.EasyForm.Config.registerInputType('another_input', Ember.EasyForm.TextField);
   view = Ember.View.create({
-    template: templateFor('{{inputField firstName as="my_input"}}{{inputField lastName as="another_input"}}'),
+    template: templateFor('{{input-field firstName as="my_input"}}{{input-field lastName as="another_input"}}'),
     container: container,
     controller: controller
   });
@@ -296,7 +296,7 @@ test('uses the custom input type when defined', function() {
 
 test('generates a select input and options', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField country as="select" collection="optionsForCountry"}}'),
+    template: templateFor('{{input-field country as="select" collection="optionsForCountry"}}'),
     container: container,
     controller: controller
   });
@@ -308,7 +308,7 @@ test('generates a select input and options', function() {
 
 test('generates a select input and options with prompt', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField country as="select" collection="optionsForCountry" prompt="Select Country"}}'),
+    template: templateFor('{{input-field country as="select" collection="optionsForCountry" prompt="Select Country"}}'),
     container: container,
     controller: controller
   });
@@ -320,7 +320,7 @@ test('generates a select input and options with prompt', function() {
 
 test('generates a select input with correct selection', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField country as="select" collection="optionsForCountry" selection="country" optionValuePath="content.id" optionLabelPath="content.name"}}'),
+    template: templateFor('{{input-field country as="select" collection="optionsForCountry" selection="country" optionValuePath="content.id" optionLabelPath="content.name"}}'),
     container: container,
     controller: controller
   });
@@ -331,7 +331,7 @@ test('generates a select input with correct selection', function() {
 
 test('generates a select input correct value', function() {
   view = Ember.View.create({
-    template: templateFor('{{inputField country as="select" collection="optionsForCountry" value="country.id" optionValuePath="content.id" optionLabelPath="content.name"}}'),
+    template: templateFor('{{input-field country as="select" collection="optionsForCountry" value="country.id" optionValuePath="content.id" optionLabelPath="content.name"}}'),
     container: container,
     controller: controller
   });

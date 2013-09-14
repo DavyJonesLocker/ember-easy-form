@@ -5,7 +5,7 @@ var templateFor = function(template) {
 var original_lookup = Ember.lookup, lookup;
 Model = Ember.Object.extend();
 
-module('hintField helpers', {
+module('hint-field helpers', {
   setup: function() {
     container = new Ember.Container();
     container.optionsForType('template', { instantiate: false });
@@ -36,7 +36,7 @@ var append = function(view) {
 
 test('renders a hint field with custom text', function() {
   view = Ember.View.create({
-    template: templateFor('{{hintField firstName text="Some text"}}'),
+    template: templateFor('{{hint-field firstName text="Some text"}}'),
     container: container,
     controller: controller
   });
@@ -46,7 +46,7 @@ test('renders a hint field with custom text', function() {
 
 test('does not render a hint field without custom text', function() {
   view = Ember.View.create({
-    template: templateFor('{{hintField firstName}}'),
+    template: templateFor('{{hint-field firstName}}'),
     container: container,
     controller: controller
   });
@@ -58,7 +58,7 @@ test('does not render a hint field without custom text', function() {
 test('uses the wrapper config', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {hintClass: 'my-hint'});
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{hintField firstName text="Some text"}}{{/formFor}}'),
+    template: templateFor('{{#form-for controller wrapper=my_wrapper}}{{hint-field firstName text="Some text"}}{{/form-for}}'),
     container: container,
     controller: controller
   });

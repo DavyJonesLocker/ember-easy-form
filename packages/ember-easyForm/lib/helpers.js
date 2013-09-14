@@ -1,7 +1,7 @@
-require('ember-easyForm/helpers/errorField');
-require('ember-easyForm/helpers/formFor');
-require('ember-easyForm/helpers/hintField');
+require('ember-easyForm/helpers/error-field');
+require('ember-easyForm/helpers/form-for');
+require('ember-easyForm/helpers/hint-field');
 require('ember-easyForm/helpers/input');
-require('ember-easyForm/helpers/inputField');
-require('ember-easyForm/helpers/labelField');
+require('ember-easyForm/helpers/input-field');
+require('ember-easyForm/helpers/label-field');
 require('ember-easyForm/helpers/submit');

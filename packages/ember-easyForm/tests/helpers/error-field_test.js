@@ -11,7 +11,7 @@ ErrorsObject = Ember.Object.extend({
   }
 });
 
-module('errorField helpers', {
+module('error-field helpers', {
   setup: function() {
     container = new Ember.Container();
     container.optionsForType('template', { instantiate: false });
@@ -44,7 +44,7 @@ var append = function(view) {
 
 test('error helper should bind to first error message in array', function() {
   view = Ember.View.create({
-    template: templateFor('{{errorField firstName}}'),
+    template: templateFor('{{error-field firstName}}'),
     container: container,
     controller: controller
   });
@@ -67,7 +67,7 @@ test('error helper should bind to first error message in array', function() {
 test('uses the wrapper config', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {errorClass: 'my-error'});
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{errorField firstName}}{{/formFor}}'),
+    template: templateFor('{{#form-for controller wrapper=my_wrapper}}{{error-field firstName}}{{/form-for}}'),
     container: container,
     controller: controller
   });

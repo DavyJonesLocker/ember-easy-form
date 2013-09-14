@@ -5,7 +5,7 @@ var templateFor = function(template) {
 var original_lookup = Ember.lookup, lookup;
 Model = Ember.Object.extend();
 
-module('labelField helpers', {
+module('label-field helpers', {
   setup: function() {
     container = new Ember.Container();
     container.optionsForType('template', { instantiate: false });
@@ -36,7 +36,7 @@ var append = function(view) {
 
 test('renders a label field', function() {
   view = Ember.View.create({
-    template: templateFor('{{labelField firstName}}'),
+    template: templateFor('{{label-field firstName}}'),
     container: container,
     controller: controller
   });
@@ -46,7 +46,7 @@ test('renders a label field', function() {
 
 test('renders a label field with custom text', function() {
   view = Ember.View.create({
-    template: templateFor('{{labelField firstName text="Your first name"}}'),
+    template: templateFor('{{label-field firstName text="Your first name"}}'),
     container: container,
     controller: controller
   });
@@ -57,7 +57,7 @@ test('renders a label field with custom text', function() {
 test('uses the wrapper config', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {labelClass: 'my-label'});
   view = Ember.View.create({
-    template: templateFor('{{#formFor controller wrapper=my_wrapper}}{{labelField firstName}}{{/formFor}}'),
+    template: templateFor('{{#form-for controller wrapper=my_wrapper}}{{label-field firstName}}{{/form-for}}'),
     container: container,
     controller: controller
   });

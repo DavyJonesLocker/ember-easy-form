@@ -1,4 +1,4 @@
-Ember.Handlebars.registerHelper('errorField', function(property, options) {
+Ember.Handlebars.registerHelper('error-field', function(property, options) {
   options = Ember.EasyForm.processOptions(property, options);
 
   if (options.hash.propertyBinding) {
