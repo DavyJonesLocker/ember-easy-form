@@ -130,6 +130,64 @@ test('renders error for invalid data', function() {
   equal(view.$().find('span.error').text(), "can't be blank");
 });
 
+test('renders errors properly with dependent keys', function() {
+  var passwordView, confirmationView;
+  model.reopen({
+    errors: ErrorsObject.create(),
+    _dependentValidationKeys: {
+      passwordConfirmation: ['password']
+    }
+  });
+
+  Ember.run(function() {
+    model.get('errors.passwordConfirmation').pushObject("does not match password");
+  });
+
+  view = Ember.View.create({
+    template: templateFor('{{input password}}{{input passwordConfirmation}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  passwordView = view._childViews[0];
+  confirmationView = view._childViews[1];
+
+  ok(!confirmationView.$().hasClass('fieldWithErrors'));
+  ok(!confirmationView.$().find('span.error').get(0));
+
+  Ember.run(function() {
+    passwordView.trigger('input');
+  });
+  ok(!confirmationView.$().hasClass('fieldWithErrors'));
+  ok(!confirmationView.$().find('span.error').get(0));
+
+  Ember.run(function() {
+    passwordView.trigger('focusOut');
+  });
+  ok(!confirmationView.$().hasClass('fieldWithErrors'));
+  ok(!confirmationView.$().find('span.error').get(0));
+
+  Ember.run(function() {
+    confirmationView.trigger('focusOut');
+  });
+  ok(confirmationView.$().hasClass('fieldWithErrors'));
+  ok(confirmationView.$().find('span.error').get(0));
+
+  Ember.run(function() {
+    model.get('errors.passwordConfirmation').clear();
+    confirmationView.trigger('focusOut');
+  });
+  ok(!confirmationView.$().hasClass('fieldWithErrors'));
+  ok(!confirmationView.$().find('span.error').get(0));
+
+  Ember.run(function() {
+    model.get('errors.passwordConfirmation').pushObject("does not match password");
+    passwordView.trigger('input');
+  });
+  ok(confirmationView.$().hasClass('fieldWithErrors'));
+  ok(confirmationView.$().find('span.error').get(0));
+});
+
 test('allows label text to be set', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName label="Your First Name"}}'),
