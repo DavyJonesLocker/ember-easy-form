@@ -3,11 +3,6 @@ var templateFor = function(template) {
   return Ember.Handlebars.compile(template);
 };
 var originalLookup = Ember.lookup, lookup;
-// Model = Ember.Object.extend({
-  // validate: function(property) {
-    // this.errors.set(property, 'Error!');
-  // }
-// });
 ErrorsObject = Ember.Object.extend({
   unknownProperty: function(property) {
     this.set(property, Ember.makeArray());
