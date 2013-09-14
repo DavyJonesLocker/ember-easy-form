@@ -1,3 +1,3 @@
 Ember.EasyForm = Ember.Namespace.create({
-  VERSION: '0.3.2'
+  VERSION: '1.0.0.beta.1'
 });
