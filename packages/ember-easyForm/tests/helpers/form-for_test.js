@@ -159,3 +159,20 @@ test('submitting with model that does not have validate method', function() {
   });
   equal(controller.get('count'), 1);
 });
+
+test('submitting with ember-data model without validations can call submit action on controller', function() {
+  Ember.run(function() {
+    model.set('isValid', false);
+    model.validate = undefined;
+  });
+  view = Ember.View.create({
+    template: templateFor('{{#form-for controller}}{{/form-for}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  Ember.run(function() {
+    view._childViews[0].trigger('submit');
+  });
+  equal(controller.get('count'), 1);
+});

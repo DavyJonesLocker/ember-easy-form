@@ -15,7 +15,7 @@ Ember.EasyForm.Form = Ember.EasyForm.BaseView.extend({
       event.preventDefault();
     }
 
-    if (Ember.isNone(this.get('context.isValid'))) {
+    if (Ember.isNone(this.get('context.validate'))) {
       this.get('controller').send(this.action);
     } else {
       if (!Ember.isNone(this.get('context').validate)) {
