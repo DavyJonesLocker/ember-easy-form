@@ -1,0 +1,11 @@
+{
+    "name": "ember-easyform",
+    "version": "1.0.0.beta.1",
+    "main": [
+        "./dist/ember-easyForm.js",
+        "./dist/ember-easyForm.min.js"
+    ],
+    "dependencies": {
+        "ember": "~1.0.0"
+    }
+}
