@@ -5,3 +5,4 @@ require('ember-easyForm/helpers/input');
 require('ember-easyForm/helpers/input-field');
 require('ember-easyForm/helpers/label-field');
 require('ember-easyForm/helpers/submit');
+require('ember-easyForm/helpers/button');

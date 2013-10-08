@@ -7,5 +7,6 @@ require('ember-easyForm/views/input');
 require('ember-easyForm/views/label');
 require('ember-easyForm/views/select');
 require('ember-easyForm/views/submit');
+require('ember-easyForm/views/button');
 require('ember-easyForm/views/textArea');
 require('ember-easyForm/views/textField');
