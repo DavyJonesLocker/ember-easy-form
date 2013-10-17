@@ -208,6 +208,16 @@ test('allows hint text to be set', function() {
   equal(view.$().find('span.hint').text(), 'My hint text');
 });
 
+test('does not show hint span when there is no hint', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input firstName}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('span.hint').length, 0);
+});
+
 test('block form for input', function() {
   view = Ember.View.create({
     template: templateFor('{{#input firstName}}{{label-field firstName}}{{input-field firstName}}{{error-field firstName}}{{/input}}'),
