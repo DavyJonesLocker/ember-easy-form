@@ -58,6 +58,12 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
     }
 
     return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.Select, options);
+  } else if (options.hash.as === 'checkbox') {
+    if (Ember.isNone(options.hash.checkedBinding)) {
+      options.hash.checkedBinding = property;
+    }
+
+    return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.Checkbox, options);
   } else {
     if (!options.hash.as) {
       if (property.match(/password/)) {

@@ -230,6 +230,18 @@ test('auto sets input type to date if property meta attribute is a date', functi
   equal(view.$().find('input').attr('type'), 'date');
 });
 
+test('auto sets input type to checkbox if forced to checkbox', function() {
+  model.set('alive', true);
+  view = Ember.View.create({
+    template: templateFor('{{input-field alive as="checkbox"}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'checkbox');
+  equal(view.$().find('input').is(':checked'), true);
+});
+
 test('auto sets input type to checkbox if property meta attribute is a boolean', function() {
   model.reopen({
     metaForProperty: function(property) {
