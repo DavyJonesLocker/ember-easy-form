@@ -329,6 +329,17 @@ test('generates a select input with correct selection', function() {
   ok(view.$().find('select option:selected').html().match(/United States/));
 });
 
+test('generates a select input with correct selection when no selection is specified', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input-field country as="select" collection="optionsForCountry" optionValuePath="content.id" optionLabelPath="content.name"}}'),
+    container: container,
+    controller: controller
+  });
+
+  append(view);
+  ok(view.$().find('select option:selected').html().match(/United States/));
+});
+
 test('generates a select input correct value', function() {
   view = Ember.View.create({
     template: templateFor('{{input-field country as="select" collection="optionsForCountry" value="country.id" optionValuePath="content.id" optionLabelPath="content.name"}}'),

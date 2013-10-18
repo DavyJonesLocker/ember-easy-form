@@ -53,6 +53,10 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
     options.hash.selectionBinding = options.hash.selection;
     options.hash.valueBinding     = options.hash.value;
 
+    if (Ember.isNone(options.hash.selectionBinding) && Ember.isNone(options.hash.valueBinding)) {
+      options.hash.selectionBinding = property;
+    }
+
     return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.Select, options);
   } else {
     if (!options.hash.as) {
