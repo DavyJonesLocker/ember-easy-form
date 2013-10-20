@@ -55,6 +55,45 @@ test('renders submit button', function() {
   equal(view.$().find('input').prop('type'), 'submit');
 });
 
+test('renders as button', function() {
+  view = Ember.View.create({
+    template: templateFor('{{submit as="button"}}'),
+    container: container,
+    context: model
+  });
+  append(view);
+  equal(view.$().find('button').text(), 'Submit');
+  equal(view.$().find('button').prop('type'), 'submit');
+});
+
+test('has custom value as button', function() {
+  view = Ember.View.create({
+    template: templateFor('{{submit "Create" as="button"}}'),
+    container: container,
+    context: model
+  });
+  append(view);
+  equal(view.$().find('button').text(), 'Create');
+});
+
+test('submit as button disabled state is bound to models valid state', function() {
+  Ember.run(function() {
+    model.set('isValid', false);
+    model.reopen({isInvalid: Ember.computed.not('isValid')});
+  });
+  view = Ember.View.create({
+    template: templateFor('{{submit as="button"}}'),
+    container: container,
+    context: model
+  });
+  append(view);
+  equal(view.$().find('button').prop('disabled'), true);
+  Ember.run(function() {
+    model.set('isValid', true);
+  });
+  equal(view.$().find('button').prop('disabled'), false);
+});
+
 test('custom value', function() {
   view = Ember.View.create({
     template: templateFor('{{submit "Create"}}'),
