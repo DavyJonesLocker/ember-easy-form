@@ -127,7 +127,7 @@ Pass the `placeholder` option to set a placeholder:
 {{input firstName placeholderBinding="placeholder"}}
 ```
 
-where `placeholder` could be a computed property defined in your controller. `prompt` for select can be pass as a binding as well. 
+where `placeholder` could be a computed property defined in your controller. `prompt` for select can be pass as a binding as well.
 
 Pass the `hint` option to set a hint:
 
@@ -244,6 +244,7 @@ To customize how the form will be rendered you can use **wrappers**. A wrapper d
 * `formClass` - class used by the `form`
 * `fieldErrorClass` - class used by the field containing errors
 * `inputClass` - class used by the `div` containing all elements of the input (label, input, error and hint)
+* `inputElementClass` - class used by the input element (input, checkbox, textarea, select)
 * `errorClass` - class used by the error message
 * `hintClass` - class used by the hint message
 * `labelClass` - class used by the label
@@ -253,6 +254,7 @@ To customize how the form will be rendered you can use **wrappers**. A wrapper d
 ### Registering a wrapper
 To register a wrapper, use the method `Ember.EasyForm.Config.registerWrapper` passing the wrapper name and its options. You can define many wrappers, using each one when appropriate.
 
+#### Twitter Bootstrap
 ```javascript
 Ember.EasyForm.Config.registerWrapper('twitter-bootstrap', {
   formClass: 'form-horizontal',
@@ -263,6 +265,21 @@ Ember.EasyForm.Config.registerWrapper('twitter-bootstrap', {
   inputClass: 'control-group',
   wrapControls: true,
   controlsWrapperClass: 'controls'
+});
+```
+
+#### Twitter Bootstrap 3
+```javascript
+Ember.EasyForm.Config.registerWrapper('twitter-bootstrap-3', {
+  formClass: 'form-horizontal',
+  fieldErrorClass: 'error',
+  errorClass: 'help-inline',
+  hintClass: 'help-block',
+  labelClass: 'control-label col-lg-2',
+  inputClass: 'form-group',
+  inputElementClass: 'form-control',
+  wrapControls: true,
+  controlsWrapperClass: 'col-lg-10',
 });
 ```
 
@@ -285,6 +302,7 @@ The default wrapper contains the following values:
 * `formClass` - "" (empty)
 * `fieldErrorClass` - "fieldWithErrors"
 * `inputClass` - "input"
+* `inputElementClass` - "" (empty)
 * `errorClass` - "error"
 * `hintClass` - "hint"
 * `labelClass` - "" (empty)

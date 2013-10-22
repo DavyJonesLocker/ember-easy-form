@@ -4,6 +4,7 @@ Ember.EasyForm.Config = Ember.Namespace.create({
       formClass: '',
       fieldErrorClass: 'fieldWithErrors',
       inputClass: 'input',
+      inputElementClass: '',
       errorClass: 'error',
       hintClass: 'hint',
       labelClass: '',
