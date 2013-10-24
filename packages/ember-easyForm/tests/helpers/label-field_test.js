@@ -57,7 +57,7 @@ test('renders a label field with custom text', function() {
 test('uses the wrapper config', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {labelClass: 'my-label'});
   view = Ember.View.create({
-    template: templateFor('{{#form-for controller wrapper=my_wrapper}}{{label-field firstName}}{{/form-for}}'),
+    template: templateFor('{{#form-for controller wrapper="my_wrapper"}}{{label-field firstName}}{{/form-for}}'),
     container: container,
     controller: controller
   });

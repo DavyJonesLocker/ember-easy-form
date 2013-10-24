@@ -65,7 +65,7 @@ test('renders a form element', function() {
 test('uses the defined wrapper', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {formClass: 'my-form-class'});
   view = Ember.View.create({
-    template: templateFor('{{#form-for controller wrapper=my_wrapper}}{{/form-for}}'),
+    template: templateFor('{{#form-for controller wrapper="my_wrapper"}}{{/form-for}}'),
     controller: controller
   });
   append(view);
