@@ -28,6 +28,7 @@
     ENV['STUB_OBJECT_CREATE'] = !Object.create;
   }
 
+  EmberDev.afterEach = function(){};
   EmberDev.distros = {
     spade:   'ember-easyForm-spade.js',
     build:   'ember-easyForm.js',
