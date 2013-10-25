@@ -23,7 +23,8 @@
         "expect",
         "minispade",
         "async",
-        "invokeAsync"
+        "invokeAsync",
+        "requirejs"
     ],
 
     "node" : false,

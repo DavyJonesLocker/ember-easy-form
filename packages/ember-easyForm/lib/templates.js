@@ -1,4 +1,3 @@
-Ember.EasyForm.TEMPLATES = {};
 require('ember-easyForm/templates/error');
 require('ember-easyForm/templates/hint');
 require('ember-easyForm/templates/input');

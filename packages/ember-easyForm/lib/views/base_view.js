@@ -10,6 +10,9 @@ Ember.EasyForm.BaseView = Ember.View.extend({
   wrapperConfig: function() {
     return Ember.EasyForm.Config.getWrapper(this.get('wrapper'));
   }.property('wrapper'),
+  templateForName: function(name) {
+    return Ember.EasyForm.Config.getTemplate(name);
+  },
   formForModel: function(){
     var formForModelPath = this.get('templateData.keywords.formForModelPath');
 
@@ -18,5 +21,5 @@ Ember.EasyForm.BaseView = Ember.View.extend({
     } else {
       return this.get('context');
     }
-  }.property(),
+  }.property()
 });

@@ -1,1 +1,1 @@
-Ember.TEMPLATES['easyForm/label'] = Ember.Handlebars.compile('{{view.labelText}}');
+Ember.EasyForm.Config.registerTemplate('easyForm/label', Ember.Handlebars.compile('{{view.labelText}}'));
