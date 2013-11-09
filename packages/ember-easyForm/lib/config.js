@@ -8,7 +8,8 @@ Ember.EasyForm.Config = Ember.Namespace.create({
       hintClass: 'hint',
       labelClass: '',
       wrapControls: false,
-      controlsWrapperClass: ''
+      controlsWrapperClass: '',
+      buttonClass: ''
     }
   },
   _inputTypes: {},
