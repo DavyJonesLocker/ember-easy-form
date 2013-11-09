@@ -11,6 +11,9 @@ Ember.EasyForm.Config = Ember.Namespace.create({
       errorTemplate: 'easyForm/error',
       labelTemplate: 'easyForm/label',
       hintTemplate: 'easyForm/hint'
+      wrapControls: false,
+      controlsWrapperClass: '',
+      buttonClass: ''
     }
   },
   modulePrefix: 'appkit',
