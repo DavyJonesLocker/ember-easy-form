@@ -143,14 +143,6 @@ Pass the `hint` option to set a hint:
 
 where `hint` could be a computed property defined in your controller.
 
-Pass the `inputConfig` option to set the options used by the input field:
-
-```handlebars
-{{input description as=text inputConfig="class:span5;rows:4"}}
-```
-
-The `inputConfig` uses the following format: `option1:value1;option2:value2`. Each value inside the `inputConfig` must be separated by a semicolon (`;`) and the option name and its value must be separated by a colon (`:`).
-
 ### Input Blocks
 
 Inputs can be used in the default inline form as already seen or they can
