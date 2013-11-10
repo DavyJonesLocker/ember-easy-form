@@ -64,8 +64,10 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
     if (this.get('hasFocusedOut')) {
       if (Ember.isEmpty(this.get('context.errors.' + this.property))) {
         this.set('canShowValidationError', false);
+        this.set('showValid', true);
       } else {
         this.set('canShowValidationError', true);
+        this.set('showValid', false);
       }
     }
   },

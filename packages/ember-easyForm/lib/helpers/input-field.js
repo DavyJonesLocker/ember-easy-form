@@ -25,6 +25,9 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
   options.hash.valueBinding = property;
   options.hash.viewName = 'input-field-'+options.data.view.elementId;
 
+  options.hash.showErrorBinding = "view.showError";
+  options.hash.showValidBinding = "view.showValid";
+
   if (options.hash.inputOptions) {
     var inputOptions = options.hash.inputOptions, optionName;
     for (optionName in inputOptions) {
