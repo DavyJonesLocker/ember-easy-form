@@ -192,6 +192,7 @@ likewise for "email".
   * `tel`
   * `search`
   * `hidden`
+  * `checkbox`
 
 ```handlebars
 {{input-field bio as="text"}}
