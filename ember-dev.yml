@@ -1,5 +1,6 @@
 ---
 name: Ember EasyForm
+dasherized_name: ember-easyForm
 assetfile: 'Assetfile'
 testing_suites:
   default:
