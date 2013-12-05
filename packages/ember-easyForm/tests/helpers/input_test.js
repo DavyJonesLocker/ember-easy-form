@@ -365,3 +365,14 @@ test('sets select prompt property as bindings', function() {
   equal(view.$().find('label').text(), controller.get('label'));
   equal(view.$().find('.hint').text(), controller.get('hint'));
 });
+
+test('allows specifying the name property', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input firstName name="first-name"}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+
+  equal(view.$().find('input').prop('name'), "first-name");
+});
