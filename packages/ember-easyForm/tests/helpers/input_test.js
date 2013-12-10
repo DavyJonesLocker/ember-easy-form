@@ -1,4 +1,4 @@
-var model, Model, view, valid, container, controller, ErrorsObject;
+var model, Model, view, valid, container, controller, ErrorsObject, originalEmberWarn;
 var templateFor = function(template) {
   return Ember.Handlebars.compile(template);
 };
@@ -10,33 +10,37 @@ ErrorsObject = Ember.Object.extend({
   }
 });
 
+function prepare(){
+  container = new Ember.Container();
+  container.optionsForType('template', { instantiate: false });
+  container.resolver = function(fullName) {
+    var name = fullName.split(':')[1];
+    return Ember.TEMPLATES[name];
+  };
+  model = Ember.Object.create({
+    firstName: 'Brian',
+    lastName: 'Cardarella'
+  });
+  controller = Ember.ObjectController.create({
+    placeholder: 'A placeholder',
+    label: 'A label',
+    hint: 'A hint',
+    prompt: 'A prompt'
+  });
+  controller.set('content', model);
+}
+
+function cleanup(){
+  Ember.run(function() {
+    view.destroy();
+    view = null;
+  });
+  Ember.lookup = originalLookup;
+}
+
 module('input helpers', {
-  setup: function() {
-    container = new Ember.Container();
-    container.optionsForType('template', { instantiate: false });
-    container.resolver = function(fullName) {
-      var name = fullName.split(':')[1];
-      return Ember.TEMPLATES[name];
-    };
-    model = Ember.Object.create({
-      firstName: 'Brian',
-      lastName: 'Cardarella'
-    });
-    controller = Ember.ObjectController.create({
-      placeholder: 'A placeholder',
-      label: 'A label',
-      hint: 'A hint',
-      prompt: 'A prompt'
-    });
-    controller.set('content', model);
-  },
-  teardown: function() {
-    Ember.run(function() {
-      view.destroy();
-      view = null;
-    });
-    Ember.lookup = originalLookup;
-  }
+  setup: prepare,
+  teardown: cleanup
 });
 
 var append = function(view) {
@@ -369,6 +373,33 @@ test('sets select prompt property as bindings', function() {
 test('allows specifying the name property', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName name="first-name"}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+
+  equal(view.$().find('input').prop('name'), "first-name");
+});
+
+module('{{input}} without property argument', {
+  setup: prepare,
+  teardown: cleanup
+});
+
+test('allows using the {{input}} helper', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input name="first-name"}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+
+  equal(view.$().find('input').prop('name'), "first-name");
+});
+
+test('{{ember-input}} uses the original Ember {{input}} helper', function(){
+  view = Ember.View.create({
+    template: templateFor('{{ember-input name="first-name"}}'),
     container: container,
     controller: controller
   });
