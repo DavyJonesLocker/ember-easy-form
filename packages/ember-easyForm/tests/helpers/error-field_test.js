@@ -1,9 +1,10 @@
-var model, Model, view, container, controller, valid, ErrorsObject;
+var model, view, container, controller, valid, ErrorsObject,
+  get = Ember.get,
+  set = Ember.set;
 var templateFor = function(template) {
   return Ember.Handlebars.compile(template);
 };
 var original_lookup = Ember.lookup, lookup;
-Model = Ember.Object.extend();
 ErrorsObject = Ember.Object.extend({
   unknownProperty: function(property) {
     this.set(property, Ember.makeArray());
@@ -19,11 +20,11 @@ module('error-field helpers', {
       var name = fullName.split(':')[1];
       return Ember.TEMPLATES[name];
     };
-    model = Model.create({
+    model = {
       firstName: 'Brian',
       lastName: 'Cardarella',
       errors: ErrorsObject.create()
-    });
+    };
     controller = Ember.ObjectController.create();
     controller.set('content', model);
   },
@@ -51,15 +52,15 @@ test('error helper should bind to first error message in array', function() {
   append(view);
   equal(view.$().find('span.error').text(), '');
   Ember.run(function() {
-    model.get('errors.firstName').pushObject("can't be blank");
+    get(model, 'errors.firstName').pushObject("can't be blank");
   });
   equal(view.$().find('span.error').text(), "can't be blank");
   Ember.run(function() {
-    model.get('errors.firstName').unshiftObject('is invalid');
+    get(model, 'errors.firstName').unshiftObject('is invalid');
   });
   equal(view.$().find('span.error').text(), 'is invalid');
   Ember.run(function() {
-    model.get('errors.firstName').clear();
+    get(model, 'errors.firstName').clear();
   });
   equal(view.$().find('span.error').text(), '');
 });

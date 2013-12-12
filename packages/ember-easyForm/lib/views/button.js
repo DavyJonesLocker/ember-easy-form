@@ -4,8 +4,8 @@ Ember.EasyForm.Button = Ember.View.extend({
   attributeBindings: ['type', 'disabled'],
   type: 'submit',
   disabled: function() {
-    return this.get('context.isInvalid');
-  }.property('context.isInvalid'),
+    return !this.get('context.isValid');
+  }.property('context.isValid'),
   init: function() {
     this._super();
     this.set('context.text', this.value);

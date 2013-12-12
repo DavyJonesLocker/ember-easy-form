@@ -3,8 +3,8 @@ Ember.EasyForm.Submit = Ember.View.extend({
   attributeBindings: ['type', 'value', 'disabled'],
   type: 'submit',
   disabled: function() {
-    return this.get('context.isInvalid');
-  }.property('context.isInvalid'),
+    return !this.get('context.isValid');
+  }.property('context.isValid'),
   init: function() {
     this._super();
     this.set('value', this.value);

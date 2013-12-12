@@ -1,15 +1,16 @@
-var model, Model, view, container, controller, valid;
+var model, view, container, controller, valid,
+  get = Ember.get,
+  set = Ember.set;
+
 var templateFor = function(template) {
   return Ember.Handlebars.compile(template);
 };
 var original_lookup = Ember.lookup, lookup;
-Model = Ember.Object.extend({
-  validate: function() {
-    var promise = new Ember.Deferred();
-    promise.resolve();
-    return promise;
-  }
-});
+var validateFunction = function() {
+  var promise = new Ember.Deferred();
+  promise.resolve();
+  return promise;
+};
 
 module('the form-for helper', {
   setup: function() {
@@ -19,11 +20,12 @@ module('the form-for helper', {
       var name = fullName.split(':')[1];
       return Ember.TEMPLATES[name];
     };
-    model = Model.create({
+    model = {
       firstName: 'Brian',
       lastName: 'Cardarella',
-      errors: Ember.Object.create()
-    });
+      errors: Ember.Object.create(),
+      validate: validateFunction
+    };
     var Controller = Ember.ObjectController.extend({
       actions: {
         submit: function() {
@@ -74,7 +76,7 @@ test('uses the defined wrapper', function() {
 
 test('submitting with invalid model does not call submit action on controller', function() {
   Ember.run(function() {
-    model.set('isValid', false);
+    set(model, 'isValid', false);
   });
   view = Ember.View.create({
     template: templateFor('{{#form-for controller}}{{/form-for}}'),
@@ -90,7 +92,7 @@ test('submitting with invalid model does not call submit action on controller', 
 
 test('submitting with valid model calls submit action on controller', function() {
   Ember.run(function() {
-    model.set('isValid', true);
+    set(model, 'isValid', true);
   });
   view = Ember.View.create({
     template: templateFor('{{#form-for controller}}{{/form-for}}'),
@@ -129,7 +131,7 @@ test('submitting with valid controller calls submit action on controller', funct
 
 test('can override the action called by submit on the controller', function() {
   Ember.run(function() {
-    model.set('isValid', true);
+    set(model, 'isValid', true);
   });
   view = Ember.View.create({
     template: templateFor('{{#form-for controller action="bigSubmit"}}{{/form-for}}'),
@@ -162,7 +164,7 @@ test('submitting with model that does not have validate method', function() {
 
 test('submitting with ember-data model without validations can call submit action on controller', function() {
   Ember.run(function() {
-    model.set('isValid', false);
+    set(model, 'isValid', false);
     model.validate = undefined;
   });
   view = Ember.View.create({
