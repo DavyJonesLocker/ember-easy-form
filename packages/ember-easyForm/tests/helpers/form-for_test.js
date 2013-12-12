@@ -178,3 +178,21 @@ test('submitting with ember-data model without validations can call submit actio
   });
   equal(controller.get('count'), 1);
 });
+
+test('integration w input: ', function() {
+  view = Ember.View.create({
+    template: templateFor('{{#form-for theModel}}{{input foo id="easy-input"}} <div id="asl">{{foo}}</div> {{input id="ember-input" value=foo}}{{/form-for}}'),
+    container: container,
+    controller: Ember.Controller.create({
+      theModel: Ember.Object.create({
+        foo: "LOL"
+      }),
+      foo: "BORING"
+    })
+  });
+  append(view);
+
+  equal(view.$('#easy-input').val(), "LOL", "easy-input uses form-for's model as its context for looking up its property");
+  equal(view.$('#ember-input').val(), "BORING", "vanilla ember inputs are unaffected by form-for");
+  equal(view.$('#asl').text(), "BORING", "form-for doesn't change context for plain ol bindings");
+});
