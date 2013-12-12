@@ -6,3 +6,7 @@
   * Allow the model specified to `{{form-for}}` to be a regulare Javascript object (`{}`).
   * Change `EasyForm.Button` and `EasyForm.Submit` to use the models `isValid` flag to
     enable/disable the button.
+  * Change `EasyForm.Button` and `EasyForm.Submit` to inherit from `EasyForm.BaseView`.
+  * Use the model passed to the `{{form-for}}` helper as the scope for the properties
+    provided to the `{{input}}` helper. This allows using something other than the
+    controllers `model`/`content` as a forms model.

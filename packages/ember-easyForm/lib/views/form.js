@@ -9,22 +9,23 @@ Ember.EasyForm.Form = Ember.EasyForm.BaseView.extend({
     this.action = this.action || 'submit';
   },
   submit: function(event) {
-    var _this = this, promise;
+    var _this = this,
+        promise;
 
     if (event) {
       event.preventDefault();
     }
 
-    if (Ember.isNone(this.get('context.validate'))) {
+    if (Ember.isNone(this.get('formForModel.validate'))) {
       this.get('controller').send(this.action);
     } else {
-      if (!Ember.isNone(this.get('context').validate)) {
-        promise = this.get('context').validate();
+      if (!Ember.isNone(this.get('formForModel').validate)) {
+        promise = this.get('formForModel').validate();
       } else {
-        promise = this.get('context.content').validate();
+        promise = this.get('formForModel.content').validate();
       }
       promise.then(function() {
-        if (_this.get('context.isValid')) {
+        if (_this.get('formForModel.isValid')) {
           _this.get('controller').send(_this.action);
         }
       });

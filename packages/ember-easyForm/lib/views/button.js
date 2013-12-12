@@ -1,13 +1,13 @@
-Ember.EasyForm.Button = Ember.View.extend({
+Ember.EasyForm.Button = Ember.EasyForm.BaseView.extend({
   tagName: 'button',
   template: Ember.Handlebars.compile('{{text}}'),
   attributeBindings: ['type', 'disabled'],
   type: 'submit',
   disabled: function() {
-    return !this.get('context.isValid');
-  }.property('context.isValid'),
+    return !this.get('formForModel.isValid');
+  }.property('formForModel.isValid'),
   init: function() {
     this._super();
-    this.set('context.text', this.value);
+    this.set('formForModel.text', this.value);
   }
 });

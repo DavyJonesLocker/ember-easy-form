@@ -12,7 +12,28 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
     options.hash.inputOptions = Ember.Handlebars.get(this, options.hash.inputOptionsBinding, options);
   }
 
+  var modelPath = Ember.Handlebars.get(this, 'formForModelPath', options);
+  options.hash.modelPath = modelPath;
+
   property = options.hash.property;
+
+  var modelPropertyPath = function(property) {
+    if(!property) { return null; }
+
+    var startsWithKeyword = !!options.data.keywords[property.split('.')[0]];
+
+    if (startsWithKeyword) {
+      return property;
+    }
+
+    if (modelPath) {
+      return modelPath + '.' + property;
+    } else {
+      return property;
+    }
+  };
+
+  options.hash.valueBinding = modelPropertyPath(property);
 
   var context = this,
     propertyType = function(property) {
@@ -25,7 +46,6 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
       }
     };
 
-  options.hash.valueBinding = property;
   options.hash.viewName = 'input-field-'+options.data.view.elementId;
 
   if (options.hash.inputOptions) {
@@ -43,18 +63,18 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
   } else if (options.hash.as === 'select') {
     delete(options.hash.valueBinding);
 
-    options.hash.contentBinding   = options.hash.collection;
-    options.hash.selectionBinding = options.hash.selection;
-    options.hash.valueBinding     = options.hash.value;
+    options.hash.contentBinding   = modelPropertyPath(options.hash.collection);
+    options.hash.selectionBinding = modelPropertyPath(options.hash.selection);
+    options.hash.valueBinding     = modelPropertyPath(options.hash.value);
 
     if (Ember.isNone(options.hash.selectionBinding) && Ember.isNone(options.hash.valueBinding)) {
-      options.hash.selectionBinding = property;
+      options.hash.selectionBinding = modelPropertyPath(property);
     }
 
     return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.Select, options);
   } else if (options.hash.as === 'checkbox') {
     if (Ember.isNone(options.hash.checkedBinding)) {
-      options.hash.checkedBinding = property;
+      options.hash.checkedBinding = modelPropertyPath(property);
     }
 
     return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.Checkbox, options);

@@ -3,7 +3,7 @@ Ember.EasyForm.Error = Ember.EasyForm.BaseView.extend({
   init: function() {
     this._super();
     this.classNames.push(this.getWrapperConfig('errorClass'));
-    Ember.Binding.from('context.errors.' + this.property).to('errors').connect(this);
+    Ember.Binding.from('formForModel.errors.' + this.property).to('errors').connect(this);
   },
   templateName: 'easyForm/error'
 });
