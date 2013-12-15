@@ -1,4 +1,7 @@
-var model, view, container, controller, valid;
+var model, view, container, controller, valid,
+  set = Ember.set,
+  get = Ember.get;
+
 var templateFor = function(template) {
   return Ember.Handlebars.compile(template);
 };
@@ -12,13 +15,13 @@ module('submit helpers', {
       var name = fullName.split(':')[1];
       return Ember.TEMPLATES[name];
     };
-    model = Ember.Object.create({
+    model = {
       firstName: 'Brian',
       lastName: 'Cardarella',
       validate: function() {
         return valid;
       },
-    });
+    };
     var Controller = Ember.Controller.extend({
       actions: {
         submit: function() {
@@ -78,8 +81,7 @@ test('has custom value as button', function() {
 
 test('submit as button disabled state is bound to models valid state', function() {
   Ember.run(function() {
-    model.set('isValid', false);
-    model.reopen({isInvalid: Ember.computed.not('isValid')});
+    set(model,'isValid', false);
   });
   view = Ember.View.create({
     template: templateFor('{{submit as="button"}}'),
@@ -89,7 +91,7 @@ test('submit as button disabled state is bound to models valid state', function(
   append(view);
   equal(view.$().find('button').prop('disabled'), true);
   Ember.run(function() {
-    model.set('isValid', true);
+    set(model,'isValid', true);
   });
   equal(view.$().find('button').prop('disabled'), false);
 });
@@ -106,8 +108,8 @@ test('custom value', function() {
 
 test('submit button disabled state is bound to models valid state', function() {
   Ember.run(function() {
-    model.set('isValid', false);
-    model.reopen({isInvalid: Ember.computed.not('isValid')});
+    set(model,'isValid', false);
+    model = Ember.Object.create(model);
   });
   view = Ember.View.create({
     template: templateFor('{{submit}}'),
@@ -117,7 +119,7 @@ test('submit button disabled state is bound to models valid state', function() {
   append(view);
   equal(view.$().find('input').prop('disabled'), true);
   Ember.run(function() {
-    model.set('isValid', true);
+    set(model,'isValid', true);
   });
   equal(view.$().find('input').prop('disabled'), false);
 });

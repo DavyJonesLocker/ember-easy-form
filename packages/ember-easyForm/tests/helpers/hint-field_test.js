@@ -1,9 +1,11 @@
-var model, Model, view, container, controller, valid;
+var model, view, container, controller, valid,
+  get = Ember.get,
+  set = Ember.set;
+
 var templateFor = function(template) {
   return Ember.Handlebars.compile(template);
 };
 var original_lookup = Ember.lookup, lookup;
-Model = Ember.Object.extend();
 
 module('hint-field helpers', {
   setup: function() {
@@ -13,9 +15,7 @@ module('hint-field helpers', {
       var name = fullName.split(':')[1];
       return Ember.TEMPLATES[name];
     };
-    model = Model.create({
-      firstName: 'Brian',
-    });
+    model =  { firstName: 'Brian' };
     controller = Ember.ObjectController.create();
     controller.set('content', model);
   },

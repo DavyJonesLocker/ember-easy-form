@@ -1,4 +1,7 @@
-var model, Model, view, valid, container, controller, ErrorsObject, originalEmberWarn;
+var model, Model, view, valid, container, controller, ErrorsObject, originalEmberWarn,
+  set = Ember.set,
+  get = Ember.get;
+
 var templateFor = function(template) {
   return Ember.Handlebars.compile(template);
 };
@@ -17,10 +20,10 @@ function prepare(){
     var name = fullName.split(':')[1];
     return Ember.TEMPLATES[name];
   };
-  model = Ember.Object.create({
+  model = {
     firstName: 'Brian',
     lastName: 'Cardarella'
-  });
+  };
   controller = Ember.ObjectController.create({
     placeholder: 'A placeholder',
     label: 'A label',
@@ -78,12 +81,10 @@ test('does not render error tag when context does not have errors object', funct
 });
 
 test('renders error for invalid data', function() {
-  model.reopen({
-    errors: ErrorsObject.create()
-  });
+  model['errors'] = ErrorsObject.create();
 
   Ember.run(function() {
-    model.get('errors.firstName').pushObject("can't be blank");
+    get(model, 'errors.firstName').pushObject("can't be blank");
   });
 
   view = Ember.View.create({
@@ -109,7 +110,7 @@ test('renders error for invalid data', function() {
   equal(view.$().find('span.error').text(), "can't be blank");
 
   Ember.run(function() {
-    model.get('errors.firstName').clear();
+    get(model, 'errors.firstName').clear();
   });
   ok(!view.$().find('div.fieldWithErrors').get(0));
   ok(!view.$().find('span.error').get(0));
@@ -121,7 +122,7 @@ test('renders error for invalid data', function() {
   ok(!view.$().find('span.error').get(0));
 
   Ember.run(function() {
-    model.get('errors.firstName').pushObject("can't be blank");
+    get(model, 'errors.firstName').pushObject("can't be blank");
     view._childViews[0].trigger('input');
   });
   ok(!view.$().find('div.fieldWithErrors').get(0));
@@ -136,15 +137,13 @@ test('renders error for invalid data', function() {
 
 test('renders errors properly with dependent keys', function() {
   var passwordView, confirmationView;
-  model.reopen({
-    errors: ErrorsObject.create(),
-    _dependentValidationKeys: {
-      passwordConfirmation: ['password']
-    }
-  });
+  model['errors'] = ErrorsObject.create();
+  model['_dependentValidationKeys'] = {
+    passwordConfirmation: ['password']
+  };
 
   Ember.run(function() {
-    model.get('errors.passwordConfirmation').pushObject("does not match password");
+    get(model,'errors.passwordConfirmation').pushObject("does not match password");
   });
 
   view = Ember.View.create({
@@ -178,14 +177,14 @@ test('renders errors properly with dependent keys', function() {
   ok(confirmationView.$().find('span.error').get(0));
 
   Ember.run(function() {
-    model.get('errors.passwordConfirmation').clear();
+    get(model, 'errors.passwordConfirmation').clear();
     confirmationView.trigger('focusOut');
   });
   ok(!confirmationView.$().hasClass('fieldWithErrors'));
   ok(!confirmationView.$().find('span.error').get(0));
 
   Ember.run(function() {
-    model.get('errors.passwordConfirmation').pushObject("does not match password");
+    get(model, 'errors.passwordConfirmation').pushObject("does not match password");
     passwordView.trigger('input');
   });
   ok(confirmationView.$().hasClass('fieldWithErrors'));
@@ -260,12 +259,10 @@ test('binds label to input field', function() {
 
 test('uses the wrapper config', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {inputClass: 'my-input', errorClass: 'my-error', fieldErrorClass: 'my-fieldWithErrors'});
-  model.reopen({
-    errors: ErrorsObject.create()
-  });
+  model['errors'] = ErrorsObject.create();
 
   Ember.run(function() {
-    model.get('errors.firstName').pushObject("can't be blank");
+    get(model,'errors.firstName').pushObject("can't be blank");
   });
   view = Ember.View.create({
     template: templateFor('{{#form-for controller wrapper="my_wrapper"}}{{input firstName}}{{/form-for}}'),
@@ -283,12 +280,10 @@ test('uses the wrapper config', function() {
 
 test('wraps controls when defined', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {wrapControls: true, controlsWrapperClass: 'my-wrapper'});
-  model.reopen({
-    errors: ErrorsObject.create()
-  });
+  model['errors'] = ErrorsObject.create();
 
   Ember.run(function() {
-    model.get('errors.firstName').pushObject("can't be blank");
+    get(model, 'errors.firstName').pushObject("can't be blank");
   });
   view = Ember.View.create({
     template: templateFor('{{#form-for controller wrapper="my_wrapper"}}{{input firstName hint="my hint"}}{{/form-for}}'),
