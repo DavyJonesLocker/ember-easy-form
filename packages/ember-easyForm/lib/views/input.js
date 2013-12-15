@@ -32,11 +32,18 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   concatenatedProperties: ['inputOptions', 'bindableInputOptions'],
   inputOptions: ['as', 'collection', 'optionValuePath', 'optionLabelPath', 'selection', 'value', 'multiple', 'name'],
   bindableInputOptions: ['placeholder', 'prompt'],
+  defaultOptions: {
+    name: function(){
+      if (this.property) {
+        return this.property;
+      }
+    }
+  },
   controlsWrapperClass: function() {
     return this.getWrapperConfig('controlsWrapperClass');
   }.property(),
   inputOptionsValues: function() {
-    var options = {}, i, key, keyBinding, inputOptions = this.inputOptions, bindableInputOptions = this.bindableInputOptions;
+    var options = {}, i, key, keyBinding, value, inputOptions = this.inputOptions, bindableInputOptions = this.bindableInputOptions, defaultOptions = this.defaultOptions;
     for (i = 0; i < inputOptions.length; i++) {
       key = inputOptions[i];
       if (this[key]) {
@@ -54,6 +61,16 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
         options[keyBinding] = 'view.' + key;
       }
     }
+
+    for (key in defaultOptions) {
+      if (!defaultOptions.hasOwnProperty(key)) { continue; }
+      if (options[key]) { continue; }
+
+      if (value = defaultOptions[key].apply(this)) {
+        options[key] = value;
+      }
+    }
+
     return options;
   }.property(),
   focusOut: function() {
