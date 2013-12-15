@@ -265,7 +265,7 @@ test('uses the wrapper config', function() {
     get(model,'errors.firstName').pushObject("can't be blank");
   });
   view = Ember.View.create({
-    template: templateFor('{{#form-for controller wrapper="my_wrapper"}}{{input firstName}}{{/form-for}}'),
+    template: templateFor('{{#form-for model wrapper="my_wrapper"}}{{input firstName}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -286,7 +286,7 @@ test('wraps controls when defined', function() {
     get(model, 'errors.firstName').pushObject("can't be blank");
   });
   view = Ember.View.create({
-    template: templateFor('{{#form-for controller wrapper="my_wrapper"}}{{input firstName hint="my hint"}}{{/form-for}}'),
+    template: templateFor('{{#form-for model wrapper="my_wrapper"}}{{input firstName hint="my hint"}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -304,7 +304,7 @@ test('wraps controls when defined', function() {
 test('does not wrap controls when not defined', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {wrapControls: false, controlsWrapperClass: 'my-wrapper'});
   view = Ember.View.create({
-    template: templateFor('{{#form-for controller wrapper="my_wrapper"}}{{input firstName hint="my hint"}}{{/form-for}}'),
+    template: templateFor('{{#form-for model wrapper="my_wrapper"}}{{input firstName hint="my hint"}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -385,6 +385,48 @@ test('allows specifying the name property', function() {
   append(view);
 
   equal(view.$().find('input').prop('name'), "some-other-name");
+});
+
+test('scopes property lookup to model declared in form-for', function(){
+  controller.set('someOtherModel', Ember.Object.create({firstName: 'Robert'}));
+
+  view = Ember.View.create({
+    template: templateFor('{{#form-for someOtherModel}}{{input firstName}}{{/form-for}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+
+  equal(view.$().find('input').val(), "Robert");
+});
+
+test('can specify a property outside of the model if a keyword is used as a prefix', function(){
+  controller.set('someOtherModel', Ember.Object.create({firstName: 'Robert'}));
+
+  view = Ember.View.create({
+    template: templateFor('{{#form-for someOtherModel}}{{input controller.firstName}}{{/form-for}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+
+  equal(view.$().find('input').val(), "Brian");
+});
+
+test('select collection can use controller scope if prefix', function() {
+  controller.set('someOtherModel', Ember.Object.create({ city: 'Ocala' }));
+
+  controller.set('cities', Ember.A("Boston Ocala Portland".w()));
+
+  view = Ember.View.create({
+    template: templateFor('{{#form-for someOtherModel}}{{input city as="select" collection="controller.cities"}}{{/form-for}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+
+  equal(view.$('option').text(), "BostonOcalaPortland");
+  equal(view.$('option:selected').text(), "Ocala");
 });
 
 module('{{input}} without property argument', {

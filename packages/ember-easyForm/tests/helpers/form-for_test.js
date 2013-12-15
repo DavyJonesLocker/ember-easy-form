@@ -57,7 +57,7 @@ var append = function(view) {
 
 test('renders a form element', function() {
   view = Ember.View.create({
-    template: templateFor('{{#form-for controller}}{{/form-for}}'),
+    template: templateFor('{{#form-for model}}{{/form-for}}'),
     controller: controller
   });
   append(view);
@@ -67,7 +67,7 @@ test('renders a form element', function() {
 test('uses the defined wrapper', function() {
   Ember.EasyForm.Config.registerWrapper('my_wrapper', {formClass: 'my-form-class'});
   view = Ember.View.create({
-    template: templateFor('{{#form-for controller wrapper="my_wrapper"}}{{/form-for}}'),
+    template: templateFor('{{#form-for model wrapper="my_wrapper"}}{{/form-for}}'),
     controller: controller
   });
   append(view);
@@ -79,7 +79,7 @@ test('submitting with invalid model does not call submit action on controller', 
     set(model, 'isValid', false);
   });
   view = Ember.View.create({
-    template: templateFor('{{#form-for controller}}{{/form-for}}'),
+    template: templateFor('{{#form-for model}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -95,7 +95,7 @@ test('submitting with valid model calls submit action on controller', function()
     set(model, 'isValid', true);
   });
   view = Ember.View.create({
-    template: templateFor('{{#form-for controller}}{{/form-for}}'),
+    template: templateFor('{{#form-for model}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -118,7 +118,7 @@ test('submitting with valid controller calls submit action on controller', funct
     controller.set('isValid', true);
   });
   view = Ember.View.create({
-    template: templateFor('{{#form-for controller}}{{/form-for}}'),
+    template: templateFor('{{#form-for model}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -134,7 +134,7 @@ test('can override the action called by submit on the controller', function() {
     set(model, 'isValid', true);
   });
   view = Ember.View.create({
-    template: templateFor('{{#form-for controller action="bigSubmit"}}{{/form-for}}'),
+    template: templateFor('{{#form-for model action="bigSubmit"}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -151,7 +151,7 @@ test('submitting with model that does not have validate method', function() {
     controller.set('content', model);
   });
   view = Ember.View.create({
-    template: templateFor('{{#form-for controller}}{{/form-for}}'),
+    template: templateFor('{{#form-for model}}{{/form-for}}'),
     container: container,
     controller: controller
   });
@@ -168,11 +168,54 @@ test('submitting with ember-data model without validations can call submit actio
     model.validate = undefined;
   });
   view = Ember.View.create({
-    template: templateFor('{{#form-for controller}}{{/form-for}}'),
+    template: templateFor('{{#form-for model}}{{/form-for}}'),
     container: container,
     controller: controller
   });
   append(view);
+  Ember.run(function() {
+    view._childViews[0].trigger('submit');
+  });
+  equal(controller.get('count'), 1);
+});
+
+test('uses the specified model as the basis for {{input}} property lookup', function() {
+  view = Ember.View.create({
+    template: templateFor('{{#form-for theModel}}{{input foo name="easy-input"}} <div id="asl">{{foo}}</div> {{input id="ember-input" value=foo}}{{/form-for}}'),
+    container: container,
+    controller: Ember.Controller.create({
+      theModel: { foo: "LOL" },
+      foo: "BORING"
+    })
+  });
+  append(view);
+
+  equal(view.$('input[name="easy-input"]').val(), "LOL", "easy-input uses form-for's model as its context for looking up its property");
+  equal(view.$('#ember-input').val(), "BORING", "vanilla ember inputs are unaffected by form-for");
+  equal(view.$('#asl').text(), "BORING", "form-for doesn't change context for plain ol bindings");
+});
+
+test('uses the specified models validation object', function() {
+  model = {
+    theModel: {
+      validate: validateFunction
+    },
+    count: 0
+  };
+  controller.set('content', model);
+  view = Ember.View.create({
+    template: templateFor('{{#form-for theModel}}{{input foo}}{{/form-for}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+
+  Ember.run(function() {
+    view._childViews[0].trigger('submit');
+  });
+  equal(controller.get('count'), 0);
+
+  set(model, 'theModel.isValid', true);
   Ember.run(function() {
     view._childViews[0].trigger('submit');
   });
