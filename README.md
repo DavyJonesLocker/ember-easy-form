@@ -247,8 +247,6 @@ To customize how the form will be rendered you can use **wrappers**. A wrapper d
 * `errorClass` - class used by the error message
 * `hintClass` - class used by the hint message
 * `labelClass` - class used by the label
-* `wrapControls` - boolean defining if the controls should be wrapped in a div. It wraps the input, error and hint (as used by the Twitter Bootstrap)
-* `controlsWrapperClass` - class used by the div that wraps the input controls (see above)
 
 ### Registering a wrapper
 To register a wrapper, use the method `Ember.EasyForm.Config.registerWrapper` passing the wrapper name and its options. You can define many wrappers, using each one when appropriate.
@@ -260,9 +258,7 @@ Ember.EasyForm.Config.registerWrapper('twitter-bootstrap', {
   errorClass: 'help-inline',
   hintClass: 'help-block',
   labelClass: 'control-label',
-  inputClass: 'control-group',
-  wrapControls: true,
-  controlsWrapperClass: 'controls'
+  inputClass: 'control-group'
 });
 ```
 
@@ -288,8 +284,6 @@ The default wrapper contains the following values:
 * `errorClass` - "error"
 * `hintClass` - "hint"
 * `labelClass` - "" (empty)
-* `wrapControls` - false
-* `controlsWrapperClass` - "" (empty)
 
 ## Validations
 

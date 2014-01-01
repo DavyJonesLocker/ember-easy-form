@@ -5,11 +5,7 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
     this.classNames.push(this.getWrapperConfig('inputClass'));
     Ember.defineProperty(this, 'showError', Ember.computed.and('canShowValidationError', 'formForModel.errors.' + this.property + '.firstObject'));
     if (!this.isBlock) {
-      if (this.getWrapperConfig('wrapControls')) {
-        this.set('templateName', 'easyForm/wrapped_input');
-      } else {
-        this.set('templateName', this.getWrapperConfig('inputTemplate'));
-      }
+      this.set('templateName', this.getWrapperConfig('inputTemplate'));
     }
   },
   setupValidationDependencies: function() {
@@ -39,9 +35,6 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
       }
     }
   },
-  controlsWrapperClass: function() {
-    return this.getWrapperConfig('controlsWrapperClass');
-  }.property(),
   inputOptionsValues: function() {
     var options = {}, i, key, keyBinding, value, inputOptions = this.inputOptions, bindableInputOptions = this.bindableInputOptions, defaultOptions = this.defaultOptions;
     for (i = 0; i < inputOptions.length; i++) {
