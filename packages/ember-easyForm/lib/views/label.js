@@ -7,11 +7,6 @@ Ember.EasyForm.Label = Ember.EasyForm.BaseView.extend({
   init: function() {
     this._super();
     this.classNames.push(this.getWrapperConfig('labelClass'));
-  },
-  render: function(buffer) {
-    buffer.push(Handlebars.Utils.escapeExpression(this.get('labelText')));
-  },
-  labelTextChanged: function() {
-    this.rerender();
-  }.observes('labelText')
+    this.set('templateName', this.getWrapperConfig('labelTemplate'));
+  }
 });

@@ -315,6 +315,19 @@ test('does not wrap controls when not defined', function() {
   equal(view.$().find('div.my-wrapper').length, 0, 'should not create the controls wrapper');
 });
 
+test('uses the defined template name', function() {
+  Ember.TEMPLATES['custom-input-template'] = templateFor('My custom template | {{label-field propertyBinding="view.property"}}');
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {inputTemplate: 'custom-input-template'});
+
+  view = Ember.View.create({
+    template: templateFor('{{#form-for model wrapper="my_wrapper"}}{{input firstName}}{{/form-for}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  equal(view.$().text(), 'My custom template | First name');
+});
+
 test('sets input attributes property as bindings', function() {
   view = Ember.View.create({
     template: templateFor('{{input firstName placeholderBinding="placeholder" labelBinding="label" hintBinding="hint"}}'),

@@ -78,3 +78,20 @@ test('uses the wrapper config', function() {
   });
   ok(view.$().find('span.my-error').get(0), 'errorClass not defined');
 });
+
+test('uses the defined template name', function() {
+  Ember.TEMPLATES['custom-error-template'] = templateFor('My custom error | {{view.errorText}}');
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {errorTemplate: 'custom-error-template'});
+
+  view = Ember.View.create({
+    template: templateFor('{{#form-for model wrapper="my_wrapper"}}{{error-field firstName}}{{/form-for}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  Ember.run(function() {
+    model.errors.set('firstName', ["can't be blank"]);
+  });
+  equal(view.$().text(), "My custom error | can't be blank");
+});
+

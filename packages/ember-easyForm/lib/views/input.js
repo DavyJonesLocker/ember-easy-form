@@ -8,7 +8,7 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
       if (this.getWrapperConfig('wrapControls')) {
         this.set('templateName', 'easyForm/wrapped_input');
       } else {
-        this.set('templateName', 'easyForm/input');
+        this.set('templateName', this.getWrapperConfig('inputTemplate'));
       }
     }
   },

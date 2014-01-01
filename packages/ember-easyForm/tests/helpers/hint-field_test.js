@@ -65,3 +65,16 @@ test('uses the wrapper config', function() {
   append(view);
   ok(view.$().find('span.my-hint').get(0), 'hintClass not defined');
 });
+
+test('uses the defined template name', function() {
+  Ember.TEMPLATES['custom-hint-template'] = templateFor('My custom hint | {{view.hintText}}');
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {hintTemplate: 'custom-hint-template'});
+
+  view = Ember.View.create({
+    template: templateFor('{{#form-for controller wrapper="my_wrapper"}}{{hint-field firstName text="My text"}}{{/form-for}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  equal(view.$().text(), "My custom hint | My text");
+});
