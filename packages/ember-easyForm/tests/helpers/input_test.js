@@ -233,6 +233,17 @@ test('block form for input', function() {
   equal(view.$().find('input').attr('type'), 'text');
 });
 
+test('block form for input without label', function() {
+  view = Ember.View.create({
+    template: templateFor('{{#input firstName}}{{input-field firstName}}{{/input}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').val(), 'Brian');
+  equal(view.$().find('input').attr('type'), 'text');
+});
+
 test('sets input attributes property', function() {
   view = Ember.View.create({
     template: templateFor('{{input receiveAt as="email" placeholder="Your email"}}'),
