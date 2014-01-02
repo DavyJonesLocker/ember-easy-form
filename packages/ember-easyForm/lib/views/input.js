@@ -27,10 +27,10 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   tagName: 'div',
   classNames: ['string'],
   didInsertElement: function() {
-    var name = 'label-field-'+this.elementId+'.for',
-        label = Ember.$('#' + name);
-    if (this.isBlock && !label[0]) { return; }
-    this.set(name, this.get('input-field-'+this.elementId+'.elementId'));
+    var name = 'label-field-'+this.elementId,
+        label = this.get(name);
+    if (!label) { return; }
+    this.set(name+'.for', this.get('input-field-'+this.elementId+'.elementId'));
   },
   concatenatedProperties: ['inputOptions', 'bindableInputOptions'],
   inputOptions: ['as', 'collection', 'optionValuePath', 'optionLabelPath', 'selection', 'value', 'multiple', 'name'],
