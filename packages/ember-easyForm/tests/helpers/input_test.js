@@ -228,9 +228,14 @@ test('block form for input', function() {
     controller: controller
   });
   append(view);
-  equal(view.$().find('label').text(), 'First name');
-  equal(view.$().find('input').val(), 'Brian');
-  equal(view.$().find('input').attr('type'), 'text');
+
+  var input = view.$().find('input');
+  var label = view.$().find('label');
+
+  equal(label.text(), 'First name');
+  equal(input.val(), 'Brian');
+  equal(input.attr('type'), 'text');
+  equal(label.prop('for'), input.prop('id'));
 });
 
 test('block form for input without label', function() {
