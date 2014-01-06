@@ -27,8 +27,31 @@ Ember.EasyForm.Form = Ember.EasyForm.BaseView.extend({
       promise.then(function() {
         if (_this.get('formForModel.isValid')) {
           _this.get('controller').send(_this.action);
+        } else {
+          showAllErrors(_this);
         }
+      }, function() {
+        showAllErrors(_this);
       });
     }
   }
 });
+
+
+function showAllErrors(view) {
+  if (view.isDestroyed) {
+    return;
+  }
+
+  if (view.showValidationError && view.focusOut) {
+    view.focusOut();
+  }
+
+  var views = Ember.get(view, '_childViews');
+  if (views) {
+    views.forEach(function(view) {
+      showAllErrors(view);
+    });
+  }
+}
+

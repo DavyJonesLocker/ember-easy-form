@@ -90,6 +90,23 @@ test('submitting with invalid model does not call submit action on controller', 
   equal(controller.get('count'), 0);
 });
 
+test('submitting with invalid model displays all errors', function() {
+  Ember.run(function() {
+    set(model, 'isValid', false);
+    set(model, 'errors.firstName', ['is invalid']);
+  });
+  view = Ember.View.create({
+    template: templateFor('{{#form-for model}}{{input firstName}}{{/form-for}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  Ember.run(function() {
+    view._childViews[0].trigger('submit');
+  });
+  equal(view.$().find('span.error').text(), 'is invalid');
+});
+
 test('submitting with valid model calls submit action on controller', function() {
   Ember.run(function() {
     set(model, 'isValid', true);
