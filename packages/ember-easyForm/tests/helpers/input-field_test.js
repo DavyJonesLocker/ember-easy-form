@@ -73,7 +73,7 @@ test('auto sets input type to password if name includes password', function() {
   equal(view.$().find('input').attr('type'), 'password');
 });
 
-test('auto sets input type to password if forced to passwordr', function() {
+test('auto sets input type to password if forced to password', function() {
   view = Ember.View.create({
     template: templateFor('{{input-field token as="password"}}'),
     container: container,
