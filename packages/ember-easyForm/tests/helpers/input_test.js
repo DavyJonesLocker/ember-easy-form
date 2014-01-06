@@ -445,6 +445,17 @@ test('select collection can use controller scope if prefix', function() {
   equal(view.$('option:selected').text(), "Ocala");
 });
 
+test('sets input as="date" attributes properly', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input receiveAt as="date"}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  var input = view.$().find('input');
+  equal(input.prop('type'), 'date');
+});
+
 module('{{input}} without property argument', {
   setup: prepare,
   teardown: cleanup

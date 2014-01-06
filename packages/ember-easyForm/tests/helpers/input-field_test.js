@@ -358,3 +358,23 @@ test('generates a select input correct value', function() {
   append(view);
   ok(view.$().find('select option:selected').html().match(/United States/));
 });
+
+test('auto sets input type to date', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input-field receivedAt as="date"}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'date');
+});
+
+test('auto sets input type to time', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input-field receivedAt as="time"}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'time');
+});
