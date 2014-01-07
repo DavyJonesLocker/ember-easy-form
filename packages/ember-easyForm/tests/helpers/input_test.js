@@ -274,7 +274,7 @@ test('binds label to input field', function() {
 });
 
 test('uses the wrapper config', function() {
-  Ember.EasyForm.Config.registerWrapper('my_wrapper', {inputClass: 'my-input', errorClass: 'my-error', fieldErrorClass: 'my-fieldWithErrors'});
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {inputClass: 'my-input', inputElementClass: 'my-input-element', errorClass: 'my-error', fieldErrorClass: 'my-fieldWithErrors'});
   model['errors'] = ErrorsObject.create();
 
   Ember.run(function() {
@@ -290,8 +290,26 @@ test('uses the wrapper config', function() {
     view._childViews[0]._childViews[0].trigger('focusOut');
   });
   ok(view.$().find('div.my-input').get(0), 'inputClass not defined');
+  ok(view.$().find('input.my-input-element').get(0), 'inputElementClass not defined');
   ok(view.$().find('div.my-fieldWithErrors').get(0), 'fieldErrorClass not defined');
   ok(view.$().find('span.my-error').get(0), 'errorClass not defined');
+});
+
+test('uses the wrapper config on all input types', function() {
+  var template = '{{#form-for controller wrapper="my_wrapper"}}' +
+    '{{input firstName}}{{input lastName as="text"}}{{input title as="select"}}{{input alive as="checkbox"}}' +
+    '{{/form-for}}';
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {inputElementClass: 'my-input-element'});
+  view = Ember.View.create({
+    template: templateFor(template),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  ok(view.$().find('input[type=text].my-input-element').get(0), 'inputElementClass not defined on text');
+  ok(view.$().find('input[type=checkbox].my-input-element').get(0), 'inputElementClass not defined on checkbox');
+  ok(view.$().find('select.my-input-element').get(0), 'inputElementClass not defined on select');
+  ok(view.$().find('textarea.my-input-element').get(0), 'inputElementClass not defined on textarea');
 });
 
 test('wraps controls when defined', function() {
