@@ -13,7 +13,9 @@ Ember.EasyForm.Config = Ember.Namespace.create({
       hintTemplate: 'easyForm/hint'
     }
   },
+  modulePrefix: 'appkit',
   _inputTypes: {},
+  _templates: {},
   registerWrapper: function(name, wrapper) {
     this._wrappers[name] = Ember.$.extend({}, this._wrappers['default'], wrapper);
   },
@@ -27,5 +29,15 @@ Ember.EasyForm.Config = Ember.Namespace.create({
   },
   getInputType: function(name) {
     return this._inputTypes[name];
+  },
+  registerTemplate: function(name, template) {
+    this._templates[name] = template;
+  },
+  getTemplate: function(name) {
+    if (typeof requirejs !== 'undefined' && typeof requirejs._eak_seen !== 'undefined' && requirejs._eak_seen[name]) {
+      return require(this.modulePrefix + '/templates/' + name, null, null, true);
+    } else {
+      return Ember.TEMPLATES[name] || this._templates[name];
+    }
   }
 });
