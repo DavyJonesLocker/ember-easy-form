@@ -1,11 +1,11 @@
 Ember.EasyForm.Form = Ember.EasyForm.BaseView.extend({
   tagName: 'form',
   attributeBindings: ['novalidate'],
+  classNameBindings: ['wrapperConfig.formClass'],
   novalidate: 'novalidate',
   wrapper: 'default',
   init: function() {
     this._super();
-    this.classNames.push(this.getWrapperConfig('formClass'));
     this.action = this.action || 'submit';
   },
   submit: function(event) {

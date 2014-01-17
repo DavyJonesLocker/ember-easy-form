@@ -294,41 +294,17 @@ test('uses the wrapper config', function() {
   ok(view.$().find('span.my-error').get(0), 'errorClass not defined');
 });
 
-test('wraps controls when defined', function() {
-  Ember.EasyForm.Config.registerWrapper('my_wrapper', {wrapControls: true, controlsWrapperClass: 'my-wrapper'});
-  model['errors'] = ErrorsObject.create();
+test('uses the defined template name', function() {
+  Ember.TEMPLATES['custom-input-template'] = templateFor('My custom template | {{label-field propertyBinding="view.property"}}');
+  Ember.EasyForm.Config.registerWrapper('my_wrapper', {inputTemplate: 'custom-input-template'});
 
-  Ember.run(function() {
-    get(model, 'errors.firstName').pushObject("can't be blank");
-  });
   view = Ember.View.create({
-    template: templateFor('{{#form-for model wrapper="my_wrapper"}}{{input firstName hint="my hint"}}{{/form-for}}'),
+    template: templateFor('{{#form-for model wrapper="my_wrapper"}}{{input firstName}}{{/form-for}}'),
     container: container,
     controller: controller
   });
   append(view);
-  Ember.run(function() {
-    view._childViews[0]._childViews[0].trigger('focusOut');
-  });
-  var controlsWrapper = view.$().find('div.my-wrapper');
-  ok(controlsWrapper.get(0), 'controls were not wrapped');
-  ok(controlsWrapper.find('input').get(0), 'the input field should be inside the wrapper');
-  ok(controlsWrapper.find('span.error').get(0), 'the error should be inside the wrapper');
-  ok(controlsWrapper.find('span.hint').get(0), 'the hint should be inside the wrapper');
-});
-
-test('does not wrap controls when not defined', function() {
-  Ember.EasyForm.Config.registerWrapper('my_wrapper', {wrapControls: false, controlsWrapperClass: 'my-wrapper'});
-  view = Ember.View.create({
-    template: templateFor('{{#form-for model wrapper="my_wrapper"}}{{input firstName hint="my hint"}}{{/form-for}}'),
-    container: container,
-    controller: controller
-  });
-  append(view);
-  Ember.run(function() {
-    view._childViews[0]._childViews[0].trigger('focusOut');
-  });
-  equal(view.$().find('div.my-wrapper').length, 0, 'should not create the controls wrapper');
+  equal(view.$().text(), 'My custom template | First name');
 });
 
 test('sets input attributes property as bindings', function() {

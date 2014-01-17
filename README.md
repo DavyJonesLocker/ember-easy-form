@@ -127,7 +127,7 @@ Pass the `placeholder` option to set a placeholder:
 {{input firstName placeholderBinding="placeholder"}}
 ```
 
-where `placeholder` could be a computed property defined in your controller. `prompt` for select can be pass as a binding as well. 
+where `placeholder` could be a computed property defined in your controller. `prompt` for select can be pass as a binding as well.
 
 Pass the `hint` option to set a hint:
 
@@ -247,39 +247,39 @@ To customize how the form will be rendered you can use **wrappers**. A wrapper d
 * `errorClass` - class used by the error message
 * `hintClass` - class used by the hint message
 * `labelClass` - class used by the label
-* `wrapControls` - boolean defining if the controls should be wrapped in a div. It wraps the input, error and hint (as used by the Twitter Bootstrap)
-* `controlsWrapperClass` - class used by the div that wraps the input controls (see above)
+* `inputTemplate` - template usado pelo {{input}}
+* `labelTemplate` - template usado pelo {{label-field}}
+* `errorTemplate` - template usado pelo {{error-field}}
+* `hintTemplate` - template usado pelo {{hint-field}}
 
 ### Registering a wrapper
 To register a wrapper, use the method `Ember.EasyForm.Config.registerWrapper` passing the wrapper name and its options. You can define many wrappers, using each one when appropriate.
 
 ```javascript
-Ember.EasyForm.Config.registerWrapper('twitter-bootstrap', {
-  formClass: 'form-horizontal',
-  fieldErrorClass: 'error',
-  errorClass: 'help-inline',
-  hintClass: 'help-block',
-  labelClass: 'control-label',
-  inputClass: 'control-group',
-  wrapControls: true,
-  controlsWrapperClass: 'controls'
+Ember.EasyForm.Config.registerWrapper('my-wrapper', {
+  formClass: 'my-form',
+  errorClass: 'my-error',
+  hintClass: 'my-hint',
+  labelClass: 'my-label'
 });
 ```
 
-You can replace the default wrapper simple by registering a wrapper named ``default``.
+You can replace the default wrapper simple by registering a wrapper named `default`.
 
 When you register a wrapper, you don't have to inform all options. If some option is not defined, the default value will be used.
 
 ### Using a wrapper
+
 To use a wrapper, define the `wrapper` option in the form. All elements inside the form will use the values defined in this wrapper.
 
 ```handlebars
-{{#form-for controller wrapper="twitter-bootstrap"}}
+{{#form-for controller wrapper="my-wrapper"}}
   {{input firstName}}
 {{/form-for}}
 ```
 
 ### Default wrapper
+
 The default wrapper contains the following values:
 
 * `formClass` - "" (empty)
@@ -288,8 +288,45 @@ The default wrapper contains the following values:
 * `errorClass` - "error"
 * `hintClass` - "hint"
 * `labelClass` - "" (empty)
-* `wrapControls` - false
-* `controlsWrapperClass` - "" (empty)
+* `inputTemplate` - "easyForm/input"
+* `labelTemplate` - "easyForm/label"
+* `errorTemplate` - "easyForm/error"
+* `hintTemplate` - "easyForm/hint"
+
+### Custom templates
+
+It's possible to define the templates used by inputs, labels, errors and hints. Here is an example of `inputTemplate` for the Bootstrap Framework v2.
+
+First, you must register a custom wrapper or register it with the name `default` to replace the default wrapper:
+
+```javascript
+Ember.EasyForm.Config.registerWrapper('twitter-bootstrap', {
+  // Define the custom template
+  inputTemplate: 'bootstrap-input',
+
+  // Define a custom config used by the template
+  controlsWrapperClass: 'controls',
+
+  // Define the classes for the form, label, error...
+  formClass: 'form-horizontal',
+  fieldErrorClass: 'error',
+  errorClass: 'help-inline',
+  hintClass: 'help-block',
+  labelClass: 'control-label',
+  inputClass: 'control-group'
+});
+```
+
+And then, you have to define the template used by this wrapper. In this example, the template name is `bootstrap-input`.
+
+```handlebars
+{{label-field propertyBinding="view.property" textBinding="view.label"}}
+<div class="{{unbound view.wrapperConfig.controlsWrapperClass}}">
+  {{partial "easyForm/inputControls"}}
+</div>
+```
+
+Your custom templates probably are going to be based on the templates defined by the `ember-easyForm` library, [here](https://github.com/dockyard/ember-easyForm/tree/master/packages/ember-easyForm/lib/templates) you can see them.
 
 ## Validations
 
