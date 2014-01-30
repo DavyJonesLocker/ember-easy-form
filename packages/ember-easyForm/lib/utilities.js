@@ -17,7 +17,8 @@ Ember.EasyForm.eachTranslatedAttribute = function(object, fn) {
 Ember.EasyForm.processOptions = function(property, options) {
   if (options) {
     if (Ember.I18n) {
-      Ember.EasyForm.eachTranslatedAttribute(options.hash, function (attribute, translation) {
+      var eachTranslatedAttribute = Ember.I18n.eachTranslatedAttribute || Ember.EasyForm.eachTranslatedAttribute;
+      eachTranslatedAttribute(options.hash, function (attribute, translation) {
         options.hash[attribute] = translation;
         delete options.hash[attribute + 'Translation'];
       });
