@@ -115,6 +115,8 @@ Pass the `label` option to set the label text:
 
 where `label` could be a computed property defined in your controller.
 
+`label` could be pass as i18n key. see [i18n section](#i18n).
+
 Pass the `placeholder` option to set a placeholder:
 
 ```handlebars
@@ -129,6 +131,8 @@ Pass the `placeholder` option to set a placeholder:
 
 where `placeholder` could be a computed property defined in your controller. `prompt` for select can be pass as a binding as well.
 
+`placeholder` could be pass as i18n key. see [i18n section](#i18n).
+
 Pass the `hint` option to set a hint:
 
 ```handlebars
@@ -142,6 +146,8 @@ Pass the `hint` option to set a hint:
 ```
 
 where `hint` could be a computed property defined in your controller.
+
+`hint` could be pass as i18n key. see [i18n section](#i18n).
 
 ### Input Blocks
 
@@ -341,6 +347,29 @@ directly defined on the controller itself or on the `content` object)
 and each key should correspond to the property in question. The value of
 each key can be a string or an array. If an array the first value in the
 array will be used for display.
+
+## i18n
+
+When you use [ember-i18n](https://github.com/jamesarosen/ember-i18n) you can pass your options with a Translation suffix and ember-i18n will handle your translation.
+
+The following options are translatable:
+* `placeholder`
+* `label`
+* `hint`
+* `text`
+
+### Examples
+
+```handlebars
+{{input firstName placeholderTranslation="users.attributes.firstname"}}
+{{input firstName labelTranslation="users.attributes.firstname"}}
+{{input firstName hintTranslation="users.hints.firstname"}}
+{{input-field firstName placeholderTranslation="users.attributes.firstname"}}
+{{label-field firstName textTranslation="users.attributes.firstname"}}
+{{hint-field firstName textTranslation="users.hints.firstname"}}
+```
+
+where `users.attributes.firstname` is the path to the translated string.
 
 ## Authors ##
 
