@@ -1,4 +1,7 @@
 language: ruby
+rvm:
+  - 2.0.0
+  - 2.1.0
 before_script: sudo apt-get update && sudo apt-get install git
 script: bundle exec rake test[all]
 after_success: bundle exec rake publish_build BUILD_TYPE=release
