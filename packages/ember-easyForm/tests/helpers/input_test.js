@@ -458,3 +458,13 @@ test('{{ember-input}} uses the original Ember {{input}} helper', function(){
 
   equal(view.$().find('input').prop('name'), "first-name");
 });
+
+test('adds a class to the parent div for the property name', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input firstName labelClass="blammo"}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('div.input.firstName input').val(), 'Brian');
+});

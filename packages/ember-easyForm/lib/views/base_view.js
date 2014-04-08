@@ -1,4 +1,5 @@
 Ember.EasyForm.BaseView = Ember.View.extend({
+  classNameBindings: ['property'],
   wrapper: function() {
     var wrapperView = this.nearestWithProperty('wrapper');
     if (wrapperView) {
