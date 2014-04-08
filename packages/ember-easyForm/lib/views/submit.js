@@ -1,6 +1,7 @@
 Ember.EasyForm.Submit = Ember.EasyForm.BaseView.extend({
   tagName: 'input',
   attributeBindings: ['type', 'value', 'disabled'],
+  classNameBindings: ['wrapperConfig.buttonClass'],
   type: 'submit',
   disabled: function() {
     return !this.get('formForModel.isValid');
@@ -8,6 +9,5 @@ Ember.EasyForm.Submit = Ember.EasyForm.BaseView.extend({
   init: function() {
     this._super();
     this.set('value', this.value);
-    this.classNames.push(this.getWrapperConfig('buttonClass'));
   }
 });
