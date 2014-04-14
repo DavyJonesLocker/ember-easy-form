@@ -12,7 +12,13 @@ Ember.EasyForm.BaseView = Ember.View.extend({
     return Ember.EasyForm.Config.getWrapper(this.get('wrapper'));
   }.property('wrapper'),
   templateForName: function(name) {
-    return Ember.EasyForm.Config.getTemplate(name);
+    var template;
+
+    if (this.container) {
+      template = this.container.lookup('template:' + name);
+    }
+
+    return template || Ember.EasyForm.Config.getTemplate(name);
   },
   formForModel: function(){
     var formForModelPath = this.get('templateData.keywords.formForModelPath');
