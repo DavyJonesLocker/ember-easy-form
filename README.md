@@ -253,10 +253,10 @@ To customize how the form will be rendered you can use **wrappers**. A wrapper d
 * `errorClass` - class used by the error message
 * `hintClass` - class used by the hint message
 * `labelClass` - class used by the label
-* `inputTemplate` - template usado pelo {{input}}
-* `labelTemplate` - template usado pelo {{label-field}}
-* `errorTemplate` - template usado pelo {{error-field}}
-* `hintTemplate` - template usado pelo {{hint-field}}
+* `inputTemplate` - template used by {{input}}
+* `labelTemplate` - template used by {{label-field}}
+* `errorTemplate` - template used by {{error-field}}
+* `hintTemplate` - template used by {{hint-field}}
 
 ### Registering a wrapper
 To register a wrapper, use the method `Ember.EasyForm.Config.registerWrapper` passing the wrapper name and its options. You can define many wrappers, using each one when appropriate.
