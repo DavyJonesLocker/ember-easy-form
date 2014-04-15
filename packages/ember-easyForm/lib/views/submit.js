@@ -9,5 +9,6 @@ Ember.EasyForm.Submit = Ember.EasyForm.BaseView.extend({
   init: function() {
     this._super();
     this.set('value', this.value);
+    this.classNames.push(this.getWrapperConfig('buttonClass'));
   }
 });
