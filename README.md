@@ -357,12 +357,10 @@ The following options are translatable:
 * `label`
 * `hint`
 * `text`
-* 
 
 ## EAK/Ember CLI Initializers
 
 To use with EAK or Ember CLI, simply create an initializer and configure there.
-
 
 ```
    // app/initializers/configure-emberEasyForm.js
@@ -374,7 +372,6 @@ To use with EAK or Ember CLI, simply create an initializer and configure there.
        Ember.EasyForm.Config.registerWrapper('default', options);
      }
    }
-   
    
 ```
 
