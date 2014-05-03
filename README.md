@@ -364,7 +364,6 @@ To use with EAK or Ember CLI, simply create an initializer and configure there.
 
 ```
    // app/initializers/configure-emberEasyForm.js
-   
    export default {
      name: 'configureEmberEasyForm',
      initialize: function(container, application){
@@ -372,7 +371,6 @@ To use with EAK or Ember CLI, simply create an initializer and configure there.
        Ember.EasyForm.Config.registerWrapper('default', options);
      }
    }
-   
 ```
 
 ### Examples
