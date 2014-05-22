@@ -251,7 +251,7 @@ test('block form for input without label', function() {
 
 test('sets input attributes property', function() {
   view = Ember.View.create({
-    template: templateFor('{{input receiveAt as="email" placeholder="Your email"}}'),
+    template: templateFor('{{input receiveAt as="email" placeholder="Your email" disabled=true}}'),
     container: container,
     controller: controller
   });
@@ -259,6 +259,7 @@ test('sets input attributes property', function() {
   var input = view.$().find('input');
   equal(input.prop('type'), 'email');
   equal(input.prop('placeholder'), 'Your email');
+  equal(input.prop('disabled'), true);
 });
 
 test('binds label to input field', function() {
