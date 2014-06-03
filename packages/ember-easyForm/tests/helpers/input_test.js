@@ -469,3 +469,15 @@ test('adds a class to the parent div for the property name', function() {
   append(view);
   equal(view.$().find('div.input.firstName input').val(), 'Brian');
 });
+
+test('allows developers to override the baseViewClassNameBinding with a custom wrapper', function() {
+  Ember.EasyForm.Config.registerWrapper('base_view_wrapper', {baseViewClassNameBinding: false});
+  view = Ember.View.create({
+    template: templateFor('{{#form-for model wrapper="base_view_wrapper"}}{{input firstName labelClass="blammo"}}{{/form-for}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('div.input.firstName').length, 0);
+  equal(view.$().find('div.input').length, 1);
+});

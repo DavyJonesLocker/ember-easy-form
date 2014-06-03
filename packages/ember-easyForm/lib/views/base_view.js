@@ -1,5 +1,5 @@
 Ember.EasyForm.BaseView = Ember.View.extend({
-  classNameBindings: ['property'],
+  classNameBindings: ['baseViewClassName'],
   wrapper: function() {
     var wrapperView = this.nearestWithProperty('wrapper');
     if (wrapperView) {
@@ -29,6 +29,12 @@ Ember.EasyForm.BaseView = Ember.View.extend({
       return this.get('context.' + formForModelPath);
     } else {
       return this.get('context');
+    }
+  }.property(),
+  baseViewClassName: function() {
+    var baseViewClassNameBinding = this.get('wrapperConfig.baseViewClassNameBinding');
+    if(baseViewClassNameBinding) {
+      return this.get(baseViewClassNameBinding);
     }
   }.property()
 });
