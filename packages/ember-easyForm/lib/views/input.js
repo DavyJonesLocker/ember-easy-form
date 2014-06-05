@@ -4,8 +4,14 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
     this.classNameBindings.push('showError:' + this.get('wrapperConfig.fieldErrorClass'));
     Ember.defineProperty(this, 'showError', Ember.computed.and('canShowValidationError', 'formForModel.errors.' + this.property + '.firstObject'));
 	this.addObserver('formForModel.showValidationErrors', this, function() {
-		this.set('canShowValidationError', this.get('formForModel.showValidationErrors'));
-	});
+	  if (this.get('formForModel.showValidationErrors')===false) {
+        this.set('canShowValidationError',false);
+      } else if (this.get('formForModel.showValidationErrors')===true) {
+        this.set('canShowValidationError',true);
+      } else {
+        this.showValidationError();
+      }
+    });
     if (!this.isBlock) {
       this.set('templateName', this.get('wrapperConfig.inputTemplate'));
     }
@@ -78,7 +84,7 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   },
   showValidationError: function() {
 	if (this.get('formForModel.showValidationErrors')!==false) {
-      if (this.get('hasFocusedOut')) {
+      if (this.get('hasFocusedOut') || (this.get('formForModel.showValidationErrors') === true)) {
         if (Ember.isEmpty(this.get('formForModel.errors.' + this.property))) {
           this.set('canShowValidationError', false);
         } else {
