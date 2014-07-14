@@ -160,7 +160,7 @@ test('auto sets input type to range if forced to range', function() {
     controller: controller
   });
   append(view);
-  equal(view.$().find('input').attr('type'), 'tel');
+  equal(view.$().find('input').attr('type'), 'range');
 });
 
 test('auto sets input type to search if name includes search', function() {
