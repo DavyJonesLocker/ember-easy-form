@@ -143,6 +143,26 @@ test('auto sets input type to tel if forced to tel', function() {
   equal(view.$().find('input').attr('type'), 'tel');
 });
 
+test('auto sets input type to range if name includes range', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input-field range}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'range');
+});
+
+test('auto sets input type to range if forced to range', function() {
+  view = Ember.View.create({
+    template: templateFor('{{input-field distance as="range"}}'),
+    container: container,
+    controller: controller
+  });
+  append(view);
+  equal(view.$().find('input').attr('type'), 'tel');
+});
+
 test('auto sets input type to search if name includes search', function() {
   view = Ember.View.create({
     template: templateFor('{{input-field search}}'),
