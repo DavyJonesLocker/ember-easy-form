@@ -88,6 +88,8 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
         options.hash.type = 'url';
       } else if (property.match(/color/)) {
         options.hash.type = 'color';
+      } else if (property.match(/range/)) {
+        options.hash.type = 'range';
       } else if (property.match(/^tel/)) {
         options.hash.type = 'tel';
       } else if (property.match(/search/)) {
