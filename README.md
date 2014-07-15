@@ -158,7 +158,7 @@ be used as blocks such as:
 {{#input firstName}}
   {{input-field firstName}}{{label-field firstName}}
   <br/>
-  {{error-field firstName}}
+  {{#if view.showError}}{{error-field firstName}}{{/if}}
 {{/input}}
 ```
 
