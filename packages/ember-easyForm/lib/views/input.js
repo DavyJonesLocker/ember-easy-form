@@ -21,7 +21,7 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   dependentValidationKeyCanTrigger: false,
   tagName: 'div',
   classNames: ['string'],
-  classNameBindings: ['wrapperConfig.inputClass', 'focused'],
+  classNameBindings: ['wrapperConfig.inputClass', 'focused', 'valid'],
   didInsertElement: function() {
     var name = 'label-field-'+this.elementId,
         label = this.get(name);
@@ -77,13 +77,16 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   focusIn: function() {
     this.set('focused', true)
   },
+  keyDown: function() {
+    this.showValidationError();
+  },
   showValidationError: function() {
-    if (this.get('hasFocusedOut')) {
-      if (Ember.isEmpty(this.get('formForModel.errors.' + this.property))) {
-        this.set('canShowValidationError', false);
-      } else {
-        this.set('canShowValidationError', true);
-      }
+    if (Ember.isEmpty(this.get('formForModel.errors.' + this.property))) {
+      this.set('canShowValidationError', false);
+      this.set('valid', true)
+    } else {
+      this.set('valid', false)
+      this.set('canShowValidationError', true);
     }
   },
   input: function() {
