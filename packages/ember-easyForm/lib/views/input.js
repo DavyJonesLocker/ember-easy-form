@@ -21,7 +21,7 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   dependentValidationKeyCanTrigger: false,
   tagName: 'div',
   classNames: ['string'],
-  classNameBindings: ['wrapperConfig.inputClass'],
+  classNameBindings: ['wrapperConfig.inputClass', 'focused'],
   didInsertElement: function() {
     var name = 'label-field-'+this.elementId,
         label = this.get(name);
@@ -71,7 +71,11 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
   }.property(),
   focusOut: function() {
     this.set('hasFocusedOut', true);
+    this.set('focused', false)
     this.showValidationError();
+  },
+  focusIn: function() {
+    this.set('focused', true)
   },
   showValidationError: function() {
     if (this.get('hasFocusedOut')) {
