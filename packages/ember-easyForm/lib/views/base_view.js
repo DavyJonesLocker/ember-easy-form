@@ -26,7 +26,7 @@ Ember.EasyForm.BaseView = Ember.View.extend({
     if (formForModelPath === 'context' || formForModelPath === 'controller' || formForModelPath === 'this') {
       return this.get('context');
     } else if (formForModelPath) {
-      return this.get('context.' + formForModelPath);
+      return this.get('templateData.keywords.' + formForModelPath);
     } else {
       return this.get('context');
     }
