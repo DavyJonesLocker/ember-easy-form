@@ -1,0 +1,21 @@
+{
+  "name": "ember-cli-easyForm",
+  "version": "1.0.0-beta-1",
+  "description": "Ember EasyForm provides a DSL for quickly building forms similar to ActionPack's EasyForm and SimpleForm",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dockyard/ember-easyForm.git"
+  },
+  "keywords": [
+    "ember-addon"
+  ],
+  "author": "Brian Cardarella",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dockyard/ember-easyForm/issues"
+  },
+  "homepage": "https://github.com/dockyard/ember-easyForm"
+}
