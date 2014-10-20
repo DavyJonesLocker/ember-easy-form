@@ -21,7 +21,7 @@ Ember.EasyForm.BaseView = Ember.View.extend({
     return template || Ember.EasyForm.Config.getTemplate(name);
   },
   formForModel: function(){
-    var formForModelPath = this.get('templateData.keywords.formForModelPath');
+    var formForModelPath = this._keywords.formForModelPath;
 
     if (formForModelPath === 'context' || formForModelPath === 'controller' || formForModelPath === 'this') {
       return this.get('context');

@@ -2,17 +2,22 @@ var get = Ember.get,
     set = Ember.set;
 
 Ember.Handlebars.registerHelper('input-field', function(property, options) {
+  function handlebarsGet(root, path, options) {
+    return options.data.view.getStream(path).value();
+  }
+
+
   options = Ember.EasyForm.processOptions(property, options);
 
   if (options.hash.propertyBinding) {
-    options.hash.property = Ember.Handlebars.get(this, options.hash.propertyBinding, options);
+    options.hash.property = handlebarsGet(this, options.hash.propertyBinding, options);
   }
 
   if (options.hash.inputOptionsBinding) {
-    options.hash.inputOptions = Ember.Handlebars.get(this, options.hash.inputOptionsBinding, options);
+    options.hash.inputOptions = handlebarsGet(this, options.hash.inputOptionsBinding, options);
   }
 
-  var modelPath = Ember.Handlebars.get(this, 'formForModelPath', options);
+  var modelPath = handlebarsGet(this, 'formForModelPath', options);
   options.hash.modelPath = modelPath;
 
   property = options.hash.property;
@@ -20,7 +25,7 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
   var modelPropertyPath = function(property) {
     if(!property) { return null; }
 
-    var startsWithKeyword = !!options.data.keywords[property.split('.')[0]];
+    var startsWithKeyword = !!options.data.view._keywords[property.split('.')[0]];
 
     if (startsWithKeyword) {
       return property;
