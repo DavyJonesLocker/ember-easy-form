@@ -108,7 +108,12 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
         return Ember.Handlebars.helpers.view.call(context, inputType, options);
       }
 
-      options.hash.type = options.hash.as;
+	  if (options.hash.as == 'textfield') {
+		options.hash.type = 'text';
+	  } else {
+		options.hash.type = options.hash.as;
+	  }
+      
     }
     return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.TextField, options);
   }
