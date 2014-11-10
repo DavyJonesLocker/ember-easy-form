@@ -106,6 +106,24 @@ test('custom value', function() {
   equal(view.$().find('input').prop('value'), 'Create');
 });
 
+test('has custom value from translations', function() {
+  view = Ember.View.create({
+    template: templateFor('{{submit valueTranslation="pirate.submit"}}'),
+    container: container,
+    context: model
+  });
+  Ember.I18n = {
+    t: function(key) {
+      if(key === "pirate.submit") {
+        return "Ahoy!";
+      }
+    }
+  };
+  append(view);
+  equal(view.$().find('input').prop('value'), 'Ahoy!');
+  delete Ember.I18n;
+});
+
 test('submit button disabled state is bound to models valid state', function() {
   Ember.run(function() {
     set(model,'isValid', false);
