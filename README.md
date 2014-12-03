@@ -149,6 +149,16 @@ where `hint` could be a computed property defined in your controller.
 
 `hint` could be pass as i18n key. see [i18n section](#i18n).
 
+### Customizing Submit
+
+The `submit` helper renders an `input` element by default.
+
+If you'd like to use a `button` element instead you can do so by passing the `as` option
+
+```handlebars
+{{submit "Apply" as="button"}}
+```
+
 ### Input Blocks
 
 Inputs can be used in the default inline form as already seen or they can
