@@ -6,6 +6,18 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
     if (!this.isBlock) {
       this.set('templateName', this.get('wrapperConfig.inputTemplate'));
     }
+    this.setupTrigger();
+  },
+  setupTrigger: function(){
+    if(!this.get('triggerOn')){
+      this.set('triggerOn', 'focusOut');
+    }
+    var self = this;
+    var validateTrigger = function(){
+      self.set('hasFocusedOut', true);
+      self.showValidationError();
+    };
+    this.set(this.get('triggerOn'), validateTrigger);
   },
   setupValidationDependencies: function() {
     var keys = this.get('formForModel._dependentValidationKeys'), key;
@@ -69,10 +81,6 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
 
     return options;
   }.property(),
-  focusOut: function() {
-    this.set('hasFocusedOut', true);
-    this.showValidationError();
-  },
   showValidationError: function() {
     if (this.get('hasFocusedOut')) {
       if (Ember.isEmpty(this.get('formForModel.errors.' + this.property))) {
