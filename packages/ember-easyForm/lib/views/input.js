@@ -13,9 +13,13 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
       this.set('triggerOn', 'focusOut');
     }
     var self = this;
-    var validateTrigger = function(){
+    var existingTrigger = this.get(this.get('triggerOn'));
+    var validateTrigger = function(event){
       self.set('hasFocusedOut', true);
       self.showValidationError();
+      if(existingTrigger){
+        return existingTrigger(event);
+      }
     };
     this.set(this.get('triggerOn'), validateTrigger);
   },
