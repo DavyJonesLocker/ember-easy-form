@@ -102,7 +102,7 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
           options.hash.type = 'number';
         } else if (propertyType(property) === 'date' || (!Ember.isNone(get(context,property)) && get(context,property).constructor === Date)) {
           options.hash.type = 'date';
-        } else if (propertyType(property) === 'boolean' || (!Ember.isNone(context.get(property)) && get(context,property).constructor === Boolean)) {
+        } else if (propertyType(property) === 'boolean' || (!Ember.isNone(get(context,property)) && get(context,property).constructor === Boolean)) {
           options.hash.checkedBinding = property;
           return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.Checkbox, options);
         }
