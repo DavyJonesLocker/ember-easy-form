@@ -358,6 +358,21 @@ The following options are translatable:
 * `hint`
 * `text`
 
+## EAK/Ember CLI Initializers
+
+To use with EAK or Ember CLI, simply create an initializer and configure there.
+
+```
+   // app/initializers/configure-emberEasyForm.js
+   export default {
+     name: 'configureEmberEasyForm',
+     initialize: function(container, application){
+       var options = {}
+       Ember.EasyForm.Config.registerWrapper('default', options);
+     }
+   }
+```
+
 ### Examples
 
 ```handlebars
