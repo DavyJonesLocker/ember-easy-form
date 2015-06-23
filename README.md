@@ -43,7 +43,7 @@ The `form-for` helper is used like so:
   {{input firstName}}
   {{input lastName}}
   {{input bio as="text"}}
-  {{input country as='select'
+  {{input country as="select"
        collection="App.countries"
        selection="country"
        optionValuePath="content.id"
