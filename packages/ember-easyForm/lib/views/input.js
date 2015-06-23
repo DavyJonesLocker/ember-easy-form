@@ -29,7 +29,7 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
     this.set(name+'.for', this.get('input-field-'+this.elementId+'.elementId'));
   },
   concatenatedProperties: ['inputOptions', 'bindableInputOptions'],
-  inputOptions: ['as', 'collection', 'optionValuePath', 'optionLabelPath', 'selection', 'value', 'multiple', 'name'],
+  inputOptions: ['as', 'collection', 'content', 'optionValuePath', 'optionLabelPath', 'selection', 'value', 'multiple', 'name'],
   bindableInputOptions: ['placeholder', 'prompt', 'disabled'],
   defaultOptions: {
     name: function(){
