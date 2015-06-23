@@ -11,6 +11,7 @@ Ember.EasyForm.Config = Ember.Namespace.create({
       errorTemplate: 'easyForm/error',
       labelTemplate: 'easyForm/label',
       hintTemplate: 'easyForm/hint',
+      baseViewClassNameBinding: 'property',
       wrapControls: false,
       controlsWrapperClass: '',
       buttonClass: ''
