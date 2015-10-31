@@ -1,4 +1,6 @@
-Ember.EasyForm.Config = Ember.Namespace.create({
+import Ember from 'ember';
+
+export default {
   _wrappers: {
     'default': {
       formClass: '',
@@ -39,4 +41,4 @@ Ember.EasyForm.Config = Ember.Namespace.create({
   getTemplate: function(name) {
     return this._templates[name];
   }
-});
+};
