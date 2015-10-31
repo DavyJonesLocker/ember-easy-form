@@ -1,8 +1,12 @@
-Ember.EasyForm.humanize = function(string) {
-  return string.underscore().split('_').join(' ').capitalize();
-};
+import Ember from 'ember';
 
-Ember.EasyForm.eachTranslatedAttribute = function(object, fn) {
+const {underscore, capitalize} = Ember.String;
+
+export function humanize(string) {
+  return capitalize(underscore(string).split('_').join(' '));
+}
+
+export function eachTranslatedAttribute(object, fn) {
   var isTranslatedAttribute = /(.+)Translation$/,
       isTranslatedAttributeMatch;
 
@@ -12,13 +16,13 @@ Ember.EasyForm.eachTranslatedAttribute = function(object, fn) {
       fn.call(object, isTranslatedAttributeMatch[1], Ember.I18n.t(object[key]));
     }
   }
-};
+}
 
-Ember.EasyForm.processOptions = function(property, options) {
+export function processOptions(property, options) {
   if (options) {
     if (Ember.I18n) {
-      var eachTranslatedAttribute = Ember.I18n.eachTranslatedAttribute || Ember.EasyForm.eachTranslatedAttribute;
-      eachTranslatedAttribute(options.hash, function (attribute, translation) {
+      var eachTranslatedAttributeFunction = Ember.I18n.eachTranslatedAttribute || eachTranslatedAttribute;
+      eachTranslatedAttributeFunction(options.hash, function (attribute, translation) {
         options.hash[attribute] = translation;
         delete options.hash[attribute + 'Translation'];
       });
@@ -29,4 +33,4 @@ Ember.EasyForm.processOptions = function(property, options) {
   }
 
   return options;
-};
+}
