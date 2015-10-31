@@ -21,3 +21,16 @@ Failure to do so will result in an immediate closing of the pull
 request. If you update and rebase the pull request to follow the
 guidelines your pull request will be re-opened and considered for
 inclusion.
+
+## Building ##
+
+* `git clone git@github.com:dockyard/ember-easy-form.git`
+* change into the new directory
+* `npm install`
+* `bower install`
+
+## Testing ##
+
+* `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
+* `ember test`
+* `ember test --server`
