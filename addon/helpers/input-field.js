@@ -1,13 +1,20 @@
-var get = Ember.get,
-    set = Ember.set;
+import Ember from 'ember';
+import TextFieldView from 'ember-easy-form/views/text-field';
+import CheckboxView from 'ember-easy-form/views/checkbox';
+import TextAreaView from 'ember-easy-form/views/text-area';
+import SelectView from 'ember-easy-form/views/select';
+import config from 'ember-easy-form/config';
+import {processOptions} from 'ember-easy-form/utilities';
+import {viewHelper} from 'ember-easy-form/shims';
 
-Ember.Handlebars.registerHelper('input-field', function(property, options) {
+const {get} = Ember;
+
+export default function(property, options) {
   function handlebarsGet(root, path, options) {
     return options.data.view.getStream(path).value();
   }
 
-
-  options = Ember.EasyForm.processOptions(property, options);
+  options = processOptions(property, options);
 
   if (options.hash.propertyBinding) {
     options.hash.property = handlebarsGet(this, options.hash.propertyBinding, options);
@@ -40,15 +47,20 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
 
   options.hash.valueBinding = modelPropertyPath(property);
 
-  var context = this,
-    propertyType = function(property) {
-      var constructor = (get(context, 'content') || context).constructor;
 
-      if (constructor.proto) {
-        return Ember.meta(constructor.proto(), false).descs[property];
-      } else {
-        return null;
-      }
+  var context = options.data.view,
+    propertyContext = get(context, 'context'),
+    propertyType = function(/*property*/) {
+      // TODO: The property `descs` was removed.
+      // https://github.com/emberjs/ember.js/pull/10323
+      return null;
+      // var constructor = (get(context, 'content') || context).constructor;
+      //
+      // if (constructor.proto) {
+      //   return Ember.meta(constructor.proto(), false).descs[property];
+      // } else {
+      //   return null;
+      // }
     };
 
   options.hash.viewName = 'input-field-'+options.data.view.elementId;
@@ -64,7 +76,7 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
   }
 
   if (options.hash.as === 'text') {
-    return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.TextArea, options);
+    return viewHelper(context, TextAreaView, options);
   } else if (options.hash.as === 'select') {
     delete(options.hash.valueBinding);
 
@@ -76,13 +88,13 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
       options.hash.selectionBinding = modelPropertyPath(property);
     }
 
-    return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.Select, options);
+    return viewHelper(context, SelectView, options);
   } else if (options.hash.as === 'checkbox') {
     if (Ember.isNone(options.hash.checkedBinding)) {
       options.hash.checkedBinding = modelPropertyPath(property);
     }
 
-    return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.Checkbox, options);
+    return viewHelper(context, CheckboxView, options);
   } else {
     if (!options.hash.as) {
       if (property.match(/password/)) {
@@ -98,23 +110,23 @@ Ember.Handlebars.registerHelper('input-field', function(property, options) {
       } else if (property.match(/search/)) {
         options.hash.type = 'search';
       } else {
-        if (propertyType(property) === 'number' || typeof(get(context,property)) === 'number') {
+        if (propertyType(property) === 'number' || typeof(get(propertyContext,property)) === 'number') {
           options.hash.type = 'number';
-        } else if (propertyType(property) === 'date' || (!Ember.isNone(get(context,property)) && get(context,property).constructor === Date)) {
+        } else if (propertyType(property) === 'date' || (!Ember.isNone(get(propertyContext,property)) && get(propertyContext,property).constructor === Date)) {
           options.hash.type = 'date';
-        } else if (propertyType(property) === 'boolean' || (!Ember.isNone(context.get(property)) && get(context,property).constructor === Boolean)) {
+        } else if (propertyType(property) === 'boolean' || (!Ember.isNone(propertyContext.get(property)) && get(propertyContext,property).constructor === Boolean)) {
           options.hash.checkedBinding = property;
-          return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.Checkbox, options);
+          return viewHelper(context, Ember.EasyForm.Checkbox, options);
         }
       }
     } else {
-      var inputType = Ember.EasyForm.Config.getInputType(options.hash.as);
+      var inputType = config.getInputType(options.hash.as);
       if (inputType) {
-        return Ember.Handlebars.helpers.view.call(context, inputType, options);
+        return viewHelper(context, inputType, options);
       }
 
       options.hash.type = options.hash.as;
     }
-    return Ember.Handlebars.helpers.view.call(context, Ember.EasyForm.TextField, options);
+    return viewHelper(context, TextFieldView, options);
   }
-});
+}
