@@ -1,4 +1,7 @@
-Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
+import Ember from 'ember';
+import BaseView from 'ember-easy-form/views/base';
+
+export default BaseView.extend({
   init: function() {
     this._super();
     this.classNameBindings.push('showError:' + this.get('wrapperConfig.fieldErrorClass'));
@@ -7,16 +10,16 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
       this.set('templateName', this.get('wrapperConfig.inputTemplate'));
     }
   },
-  setupValidationDependencies: function() {
+  setupValidationDependencies: Ember.on('init', function() {
     var keys = this.get('formForModel._dependentValidationKeys'), key;
     if (keys) {
       for(key in keys) {
-        if (keys[key].contains(this.property)) {
+        if (keys[key].indexOf(this.property) > -1) {
           this._keysForValidationDependencies.pushObject(key);
         }
       }
     }
-  }.on('init'),
+  }),
   _keysForValidationDependencies: Ember.A(),
   dependentValidationKeyCanTrigger: false,
   tagName: 'div',
@@ -38,7 +41,7 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
       }
     }
   },
-  inputOptionsValues: function() {
+  inputOptionsValues: Ember.computed(function() {
     var options = {}, i, key, keyBinding, value, inputOptions = this.inputOptions, bindableInputOptions = this.bindableInputOptions, defaultOptions = this.defaultOptions;
     for (i = 0; i < inputOptions.length; i++) {
       key = inputOptions[i];
@@ -68,7 +71,7 @@ Ember.EasyForm.Input = Ember.EasyForm.BaseView.extend({
     }
 
     return options;
-  }.property(),
+  }),
   focusOut: function() {
     this.set('hasFocusedOut', true);
     this.showValidationError();

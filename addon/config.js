@@ -9,7 +9,7 @@ export default {
       errorClass: 'error',
       hintClass: 'hint',
       labelClass: '',
-      inputTemplate: 'components/easy-form/form-input',
+      inputTemplate: 'components/easy-form/input',
       errorTemplate: 'components/easy-form/error-field',
       labelTemplate: 'components/easy-form/label-field',
       hintTemplate: 'components/easy-form/hint-field',

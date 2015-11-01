@@ -11,3 +11,11 @@ export function callHelper(helperName, context, params, options, env) {
 export function viewHelper(context, View, options) {
   return callHelper('view', context, [View], options);
 }
+
+export function emberInputHelper(context, options) {
+  var env = options;
+
+  env.helpers = Ember.Handlebars.helpers;
+
+  return callHelper('ember-input', context, [], options, env);
+}
