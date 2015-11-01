@@ -8,6 +8,7 @@ export default function() {
   if (!registered) {
     Ember.Handlebars.helpers['ember-input'] = Ember.Handlebars.helpers['input'];
     Ember.Handlebars.registerHelper('input', InputHelper);
+    Ember.Handlebars.registerHelper('submit', SubmitHelper);
     registered = true;
   }
 }
