@@ -1,4 +1,7 @@
-Ember.EasyForm.Form = Ember.EasyForm.BaseView.extend({
+import Ember from 'ember';
+import BaseView from 'ember-easy-form/views/base';
+
+export default BaseView.extend({
   tagName: 'form',
   attributeBindings: ['novalidate'],
   classNameBindings: ['wrapperConfig.formClass'],
