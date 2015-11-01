@@ -1,10 +1,34 @@
-language: ruby
-before_script: sudo apt-get update && sudo apt-get install git
-script: bundle exec rake test[all]
-after_success: bundle exec rake publish_build BUILD_TYPE=release
+---
+language: node_js
+node_js:
+  - "0.12"
+
+sudo: false
+
+cache:
+  directories:
+    - node_modules
+
 env:
-  global:
-  - S3_BUCKET_NAME=builds.dockyard.com
-  - S3_FILE_PREFIX=ember-easyForm
-  - secure: eiR9ujb8OeuU1GM0M5owT79OjrDuASuoZwdjgfXw7Uihhcr56PZt8BNaW286rg8t7S/BJKdJ01cRImWTezlrklpE1jWb8comcSYQUlVpP9F5ziPM/kjhg1/5uOh1UelVIEeawntkIcJhIc8Qh/uL1EQ857hTNB5TOnO1D7STG3o=
-  - secure: MrLcuhH0IItaW01607Df1iIktJKIpMrucv9qnpKaMvf3/5ZvPsIh3viP4m/qdPcNN4v1s4eElBBT0Z7FUCQ8vtyTH4DmTp7Ek8PVRUMnJA+GupxsQqQmt9fIbQXYhUm460E1zNk2Bk5J17vetTX9ArgbgQkE4uV6Yn1BCzyo8SU=
+  - EMBER_TRY_SCENARIO=default
+  - EMBER_TRY_SCENARIO=ember-release
+  - EMBER_TRY_SCENARIO=ember-beta
+  - EMBER_TRY_SCENARIO=ember-canary
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: EMBER_TRY_SCENARIO=ember-canary
+
+before_install:
+  - export PATH=/usr/local/phantomjs-2.0.0/bin:$PATH
+  - "npm config set spin false"
+  - "npm install -g npm@^2"
+
+install:
+  - npm install -g bower
+  - npm install
+  - bower install
+
+script:
+  - ember try $EMBER_TRY_SCENARIO test

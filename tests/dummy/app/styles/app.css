@@ -1,0 +1,15 @@
+.error {
+  color: red;
+}
+
+.input {
+  margin: 10px;
+}
+
+.input > label {
+  margin-right: 4px;
+}
+
+.input > .error {
+  margin-left: 4px;
+}
