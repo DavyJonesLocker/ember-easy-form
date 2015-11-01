@@ -25,7 +25,6 @@ export default Ember.View.extend({
   },
   formForModel: Ember.computed(function(){
     var formForModelPath = this._keywords.formForModelPath;
-
     if (formForModelPath === 'context' || formForModelPath === 'controller' || formForModelPath === 'this') {
       return this.get('context');
     } else if (formForModelPath) {
