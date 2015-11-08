@@ -1,3 +1,9 @@
+## 1.0.0.beta.3
+
+  * The project was converted to Ember-cli. Now you have to install it as an addon (`ember install ember-easy-form`).
+  * To configure the addon you can't use the global variable `Ember.EasyForm.Config` anymore. Use the module `ember-easy-form/config` instead.
+  * The template names changed, please check the new names in the README.
+
 ## 1.0.0.beta.2
 
   * Allow specifyin a name to the `{{input}}` helper. The provided name will be used

@@ -10,29 +10,20 @@ minor version bumps. Patch version bumps will not introduce backwards
 incompatible changes but older minor version will not be actively
 supported.
 
-## Getting a build ##
+## Compatibility ##
 
-[Please choose from our list of builds for Ember-EasyForm](http://builds.dockyard.com)
+The current release is compatible with **Ember 1.12**. We're working on a release compatible with Ember 1.13 and 2.0.
 
-## Building yourself ##
-
-You will require Ruby to be installed on your system. If it is please
-run the following:
+## Installation ##
 
 ```bash
-gem install bundler
-git clone git://github.com/dockyard/ember-easy-form.git
-cd ember-easyForm
-bundle install
-bundle exec rake dist
+ember install ember-easy-form
 ```
-
-The builds will be in the `dist/` directory.
 
 ## Looking for help? ##
 
 If it is a bug [please open an issue on
-GitHub](https://github.com/dockyard/ember-easyForm/issues).
+GitHub](https://github.com/dockyard/ember-easy-form/issues).
 
 ## Usage ##
 
@@ -90,7 +81,7 @@ You can customize your input by passing certain options.
 {{input secret as="hidden"}}
 ```
 
-`ember-easyForm` will also try to determine the type automatically
+`ember-easy-form` will also try to determine the type automatically
 based upon the property name:
 
 ```handlebars
@@ -168,8 +159,8 @@ be wrapped inside the container `div` that is created by the original
 
 #### label-field
 
-Renders the label field used by `input`. The first paramater is the
-property, the remainder paramaters are options.
+Renders the label field used by `input`. The first parameter is the
+property, the remainder parameters are options.
 
 ##### options
 
@@ -229,16 +220,25 @@ Renders a text containing instructions to the user. The first parameter is the p
 
 ### Custom Input Types
 
-You can register custom input types used in the `as` option of `input`. To register the custom input, use the method `Ember.EasyForm.Config.registerInputType` passing the name of the custom input, and its view.
+You can register custom input types used in the `as` option of `input`. To register the custom input, use the method `registerInputType` in the module `ember-easy-form/config` passing the name of the custom input, and its view. This is usually done in an initializer.
 
 ```javascript
-Ember.EasyForm.Config.registerInputType('my_input', Ember.EasyForm.TextField);
+// app/initializers/easy-form-config.js
+import Ember from 'ember';
+import config from 'ember-easy-form/config';
+
+export default {
+  name: 'easy-form-config',
+  initialize: function () {
+    config.registerInputType('my_input', Ember.Select);
+  }
+};
 ```
 
 To use the custom input, define the `as` option:
 
 ```handlebars
-{{input name as=my_input}}
+{{input name as="my_input"}}
 ```
 
 
@@ -259,18 +259,26 @@ To customize how the form will be rendered you can use **wrappers**. A wrapper d
 * `hintTemplate` - template used by {{hint-field}}
 
 ### Registering a wrapper
-To register a wrapper, use the method `Ember.EasyForm.Config.registerWrapper` passing the wrapper name and its options. You can define many wrappers, using each one when appropriate.
+To register a wrapper, use the method `registerWrapper` in the module `ember-easy-form/config` passing the wrapper name and its options. You can define many wrappers, using each one when appropriate.
 
 ```javascript
-Ember.EasyForm.Config.registerWrapper('my-wrapper', {
-  formClass: 'my-form',
-  errorClass: 'my-error',
-  hintClass: 'my-hint',
-  labelClass: 'my-label'
-});
+// app/initializers/easy-form-config.js
+import config from 'ember-easy-form/config';
+
+export default {
+  name: 'easy-form-config',
+  initialize: function () {
+    config.registerWrapper('my-wrapper', {
+      formClass: 'my-form',
+      errorClass: 'my-error',
+      hintClass: 'my-hint',
+      labelClass: 'my-label'
+    });
+  }
+};
 ```
 
-You can replace the default wrapper simple by registering a wrapper named `default`.
+You can replace the default wrapper simply by registering a wrapper named `default`.
 
 When you register a wrapper, you don't have to inform all options. If some option is not defined, the default value will be used.
 
@@ -294,10 +302,10 @@ The default wrapper contains the following values:
 * `errorClass` - "error"
 * `hintClass` - "hint"
 * `labelClass` - "" (empty)
-* `inputTemplate` - "easyForm/input"
-* `labelTemplate` - "easyForm/label"
-* `errorTemplate` - "easyForm/error"
-* `hintTemplate` - "easyForm/hint"
+* `inputTemplate` - "components/easy-form/input"
+* `labelTemplate` - "components/easy-form/label-field"
+* `errorTemplate` - "components/easy-form/error-field"
+* `hintTemplate` - "components/easy-form/hint-field"
 
 ### Custom templates
 
@@ -306,21 +314,29 @@ It's possible to define the templates used by inputs, labels, errors and hints. 
 First, you must register a custom wrapper or register it with the name `default` to replace the default wrapper:
 
 ```javascript
-Ember.EasyForm.Config.registerWrapper('twitter-bootstrap', {
-  // Define the custom template
-  inputTemplate: 'bootstrap-input',
+// app/initializers/easy-form-config.js
+import config from 'ember-easy-form/config';
 
-  // Define a custom config used by the template
-  controlsWrapperClass: 'controls',
+export default {
+  name: 'easy-form-config',
+  initialize: function () {
+    config.registerWrapper('twitter-bootstrap', {
+      // Define the custom template
+      inputTemplate: 'bootstrap-input',
 
-  // Define the classes for the form, label, error...
-  formClass: 'form-horizontal',
-  fieldErrorClass: 'error',
-  errorClass: 'help-inline',
-  hintClass: 'help-block',
-  labelClass: 'control-label',
-  inputClass: 'control-group'
-});
+      // Define a custom config used by the template
+      controlsWrapperClass: 'controls',
+
+      // Define the classes for the form, label, error...
+      formClass: 'form-horizontal',
+      fieldErrorClass: 'error',
+      errorClass: 'help-inline',
+      hintClass: 'help-block',
+      labelClass: 'control-label',
+      inputClass: 'control-group'
+    });
+  }
+};
 ```
 
 And then, you have to define the template used by this wrapper. In this example, the template name is `bootstrap-input`.
@@ -328,11 +344,11 @@ And then, you have to define the template used by this wrapper. In this example,
 ```handlebars
 {{label-field propertyBinding="view.property" textBinding="view.label"}}
 <div class="{{unbound view.wrapperConfig.controlsWrapperClass}}">
-  {{partial "easyForm/inputControls"}}
+  {{partial "components/easy-form/input-controls"}}
 </div>
 ```
 
-Your custom templates probably are going to be based on the templates defined by the `ember-easyForm` library, [here](https://github.com/dockyard/ember-easyForm/tree/master/packages/ember-easyForm/lib/templates) you can see them.
+Your custom templates probably are going to be based on the templates defined by the `ember-easy-form` library, [here](https://github.com/dockyard/ember-easy-form/tree/master/app/templates/components/easy-form) you can see them.
 
 ## Validations
 
@@ -377,7 +393,7 @@ where `users.attributes.firstname` is the path to the translated string.
 
 This is partially influenced by [Ember FormBuilder](https://github.com/luan/ember-formbuilder) by [Luan Haddad Ricardo dos Santos](https://twitter.com/cfcluan)
 
-[We are very thankful for the many contributors](https://github.com/dockyard/ember-easyForm/graphs/contributors)
+[We are very thankful for the many contributors](https://github.com/dockyard/ember-easy-form/graphs/contributors)
 
 ## Versioning ##
 
@@ -385,13 +401,13 @@ This library follows [Semantic Versioning](http://semver.org)
 
 ## Want to help? ##
 
-Please do! We are always looking to improve this gem. Please see our
-[Contribution Guidelines](https://github.com/dockyard/ember-easyForm/blob/master/CONTRIBUTING.md)
+Please do! We are always looking to improve this addon. Please see our
+[Contribution Guidelines](https://github.com/dockyard/ember-easy-form/blob/master/CONTRIBUTING.md)
 on how to properly submit issues and pull requests.
 
 ## Legal ##
 
-[DockYard](http://dockyard.com/ember-consulting) Inc. &copy; 2014
+[DockYard](http://dockyard.com/ember-consulting) Inc. &copy; 2015
 
 [@dockyard](http://twitter.com/dockyard)
 

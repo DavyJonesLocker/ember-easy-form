@@ -1,0 +1,24 @@
+<h2>Person form</h2>
+<div id="teste">
+{{#form-for model}}
+  {{input firstName}}
+  {{input lastName}}
+  {{input city as="select" collection="controller.cities"}}
+  {{input controller.welcomeMessage
+          class="welcomeMessage"
+          label="Message"
+          hint="Property defined in the controller."}}
+  <input type="submit">
+{{/form-for}}
+
+<p class="bound-values">
+  First name: <span class="first-name">{{model.firstName}}</span><br>
+  Last name: <span class="last-name">{{model.lastName}}</span><br>
+  City: <span class="city">{{model.city}}</span><br>
+  Welcome message: <span class="welcome-message">{{controller.welcomeMessage}}</span>
+</p>
+
+{{#if submitted}}
+  <p class="form-submitted">Submitted!!</p>
+{{/if}}
+</div>
