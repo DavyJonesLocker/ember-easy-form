@@ -1,13 +1,10 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
-import setup from 'ember-easy-form/setup';
+import config from 'ember-easy-form/config';
 
-moduleForComponent('submit-button', 'Integration | Component | submit button', {
-  integration: true,
-  beforeEach: function() {
-    setup();
-  }
+moduleForComponent('submit', 'Integration | Component | submit button', {
+  integration: true
 });
 
 test('renders submit button', function(assert) {
@@ -27,14 +24,32 @@ test('has custom value as button', function(assert) {
   assert.equal(this.$().find('button').text(), 'Create');
 });
 
+test('uses the wrapper config', function(assert) {
+  config.registerWrapper('my_wrapper', {submitClass: 'my-button'});
+  this.render(hbs`{{#form-for this wrapper="my_wrapper"}}{{submit}}{{/form-for}}`);
+  assert.ok(this.$().find('input.my-button').get(0), 'submitClass not defined');
+});
+
+test('uses the wrapper config in buttons', function(assert) {
+  config.registerWrapper('my_wrapper', {submitClass: 'my-button'});
+  this.render(hbs`{{#form-for this wrapper="my_wrapper"}}{{submit as='button'}}{{/form-for}}`);
+  assert.ok(this.$().find('button.my-button').get(0), 'submitClass not defined');
+});
+
 test('submit as button disabled state is bound to models valid state', function(assert) {
-  Ember.run(() => {
-    this.set('isValid', false);
+  var model = Ember.Object.create({
+    firstName: 'Brian',
+    lastName: 'Cardarella'
   });
-  this.render(hbs`{{submit as="button"}}`);
-  assert.equal(this.$().find('button').prop('disabled'), true);
   Ember.run(() => {
-    this.set('isValid', true);
+    Ember.set(model,'isValid', false);
+    this.set('model', model);
+  });
+
+  this.render(hbs`{{#form-for model}}{{submit as="button"}}{{/form-for}}`);
+  assert.equal(this.$().find('button').prop('disabled'), true);
+  Ember.run(function() {
+    Ember.set(model,'isValid', true);
   });
   assert.equal(this.$().find('button').prop('disabled'), false);
 });
@@ -45,13 +60,20 @@ test('custom value', function(assert) {
 });
 
 test('submit button disabled state is bound to models valid state', function(assert) {
-  Ember.run(() => {
-    this.set('isValid', false);
+  var model = Ember.Object.create({
+    firstName: 'Brian',
+    lastName: 'Cardarella'
   });
-  this.render(hbs`{{submit}}`);
+  Ember.run(() => {
+    Ember.set(model,'isValid', false);
+    this.set('model', model);
+  });
+
+  this.render(hbs`{{#form-for model}}{{submit}}{{/form-for}}`);
   assert.equal(this.$().find('input').prop('disabled'), true);
-  Ember.run(() => {
-    this.set('isValid', true);
+  Ember.run(function() {
+    Ember.set(model,'isValid', true);
   });
+
   assert.equal(this.$().find('input').prop('disabled'), false);
 });

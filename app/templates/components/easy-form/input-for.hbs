@@ -1,0 +1,8 @@
+{{~#if hasBlock ~}}
+  {{yield}}
+{{~else~}}
+  {{~label-field property=propertyName text=labelText ~}}
+  {{~input-field property=propertyName inputOptions=inputOptions ~}}
+  {{~#if showError}}{{error-field property=propertyName}}{{/if~}}
+  {{~#if hintText}}{{hint-field property=propertyName text=hintText}}{{/if~}}
+{{~/if~}}

@@ -1,4 +1,5 @@
 import setup from  'ember-easy-form/setup';
+
 setup();
 
 export default {
