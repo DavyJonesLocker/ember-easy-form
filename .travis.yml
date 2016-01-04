@@ -11,9 +11,9 @@ cache:
 
 env:
   - EMBER_TRY_SCENARIO=default
-  # - EMBER_TRY_SCENARIO=ember-release
-  # - EMBER_TRY_SCENARIO=ember-beta
-  # - EMBER_TRY_SCENARIO=ember-canary
+  - EMBER_TRY_SCENARIO=ember-release
+  - EMBER_TRY_SCENARIO=ember-beta
+  - EMBER_TRY_SCENARIO=ember-canary
 
 matrix:
   fast_finish: true

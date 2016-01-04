@@ -12,7 +12,9 @@ supported.
 
 ## Compatibility ##
 
-The current release is compatible with **Ember 1.12**. We're working on a release compatible with Ember 1.13 and 2.0.
+The current release is compatible with **Ember 1.13** and **Ember 2.***.
+
+If you are upgrading from a previous version, please, see the [CHANGELOG](CHANGELOG.md).
 
 ## Installation ##
 
@@ -31,16 +33,9 @@ The `form-for` helper is used like so:
 
 ```handlebars
 {{#form-for model}}
-  {{input firstName}}
-  {{input lastName}}
-  {{input bio as="text"}}
-  {{input country as="select"
-       collection="App.countries"
-       selection="country"
-       optionValuePath="content.id"
-       optionLabelPath="content.name"
-       prompt="Select Country"
-  }}
+  {{input-for "firstName"}}
+  {{input-for "lastName"}}
+  {{input-for "bio" as="text"}}
 {{/form-for}}
 ```
 
@@ -63,13 +58,6 @@ This will result in the following semantic structure:
     <textarea id="ember3"></textarea>
     <span class="error"></span>
   </div>
-  <div class="input string">
-    <label for="ember4">Country</label>
-    <select id="ember4">
-      xxx
-    </select>
-    <span class="error"></span>
-  </div>
 </form>
 ```
 
@@ -78,15 +66,15 @@ This will result in the following semantic structure:
 You can customize your input by passing certain options.
 
 ```handlebars
-{{input secret as="hidden"}}
+{{input-for "secret" as="hidden"}}
 ```
 
 `ember-easy-form` will also try to determine the type automatically
 based upon the property name:
 
 ```handlebars
-{{input email}}
-{{input password}}
+{{input-for "email"}}
+{{input-for "password"}}
 ```
 
 This will set the first input with `type="email"` and the second with
@@ -95,50 +83,45 @@ This will set the first input with `type="email"` and the second with
 Pass the `label` option to set the label text:
 
 ```handlebars
-{{input firstName label="Your Name"}}
+{{input-for "firstName" label="Your Name"}}
 ```
 
 `label` could be pass as binding as well:
 
 ```handlebars
-{{input firstName labelBinding="label"}}
+{{input-for "firstName" label=myLabelText}}
 ```
 
-where `label` could be a computed property defined in your controller.
-
-`label` could be pass as i18n key. see [i18n section](#i18n).
+where `myLabelText` could be a computed property defined in your controller.
 
 Pass the `placeholder` option to set a placeholder:
 
 ```handlebars
-{{input firstName placeholder="Enter your first name"}}
+{{input-for "firstName" placeholder="Enter your first name"}}
 ```
 
 `placeholder` could be pass as binding as well:
 
 ```handlebars
-{{input firstName placeholderBinding="placeholder"}}
+{{input-for "firstName" placeholder=myPlaceholder}}
 ```
 
-where `placeholder` could be a computed property defined in your controller. `prompt` for select can be pass as a binding as well.
-
-`placeholder` could be pass as i18n key. see [i18n section](#i18n).
+where `myPlaceholder` could be a computed property defined in your controller.
 
 Pass the `hint` option to set a hint:
 
 ```handlebars
-{{input firstName hint="Enter your first name"}}
+{{input-for "firstName" hint="Enter your first name"}}
 ```
 
 `hint` could be pass as binding as well:
 
 ```handlebars
-{{input firstName hintBinding="hint"}}
+{{input-for "firstName" hint=someHint}}
 ```
 
-where `hint` could be a computed property defined in your controller.
+where `someHint` could be a computed property defined in your controller.
 
-`hint` could be pass as i18n key. see [i18n section](#i18n).
 
 ### Input Blocks
 
@@ -146,20 +129,20 @@ Inputs can be used in the default inline form as already seen or they can
 be used as blocks such as:
 
 ```handlebars
-{{#input firstName}}
-  {{input-field firstName}}{{label-field firstName}}
+{{#input-for "firstName"}}
+  {{input-field "firstName"}}{{label-field "firstName"}}
   <br/>
-  {{error-field firstName}}
-{{/input}}
+  {{error-field "firstName"}}
+{{/input-for}}
 ```
 
 Inside the block you can add any markup you'd like and everything will
 be wrapped inside the container `div` that is created by the original
-`input`. You can should use the following helpers:
+`input-for`. You can should use the following helpers:
 
 #### label-field
 
-Renders the label field used by `input`. The first parameter is the
+Renders the label field used by `input-for`. The first parameter is the
 property, the remainder parameters are options.
 
 ##### options
@@ -167,12 +150,12 @@ property, the remainder parameters are options.
 * `text` - the text for the label
 
 ```handlebars
-{{label-field firstName text="Your first name"}}
+{{label-field "firstName" text="Your first name"}}
 ```
 
 #### input-field
 
-Renders the input field used by `input`. The first parameter is the
+Renders the input field used by `input-for`. The first parameter is the
 property, the remaining properties are options. The input itself will
 default a `type` of `password` if the property contains "password",
 likewise for "email".
@@ -192,18 +175,18 @@ likewise for "email".
   * `checkbox`
 
 ```handlebars
-{{input-field bio as="text"}}
-{{input-field email}}
+{{input-field "bio" as="text"}}
+{{input-field "email"}}
 ```
 
 #### error-field
 
-Renders the error span used by `input` where the first available
+Renders the error span used by `input-for` where the first available
 validation error message will be rendered. The first parameter will be
 the property.
 
 ```handlebars
-{{error-field firstName}}
+{{error-field "firstName"}}
 ```
 
 #### hint-field
@@ -215,12 +198,12 @@ Renders a text containing instructions to the user. The first parameter is the p
 * `text` - the text for the hint
 
 ```handlebars
-{{hint-field firstName text="Your first name"}}
+{{hint-field "firstName" text="Your first name"}}
 ```
 
 ### Custom Input Types
 
-You can register custom input types used in the `as` option of `input`. To register the custom input, use the method `registerInputType` in the module `ember-easy-form/config` passing the name of the custom input, and its view. This is usually done in an initializer.
+You can register custom input types used in the `as` option of `input-for`. To register the custom input, use the method `registerInputType` in the module `ember-easy-form/config` passing the name of the custom input, and its view. This is usually done in an initializer.
 
 ```javascript
 // app/initializers/easy-form-config.js
@@ -230,7 +213,7 @@ import config from 'ember-easy-form/config';
 export default {
   name: 'easy-form-config',
   initialize: function () {
-    config.registerInputType('my_input', Ember.Select);
+    config.registerInputType('my_input', 'some-component');
   }
 };
 ```
@@ -238,7 +221,7 @@ export default {
 To use the custom input, define the `as` option:
 
 ```handlebars
-{{input name as="my_input"}}
+{{input-for "name" as="my_input"}}
 ```
 
 
@@ -253,10 +236,12 @@ To customize how the form will be rendered you can use **wrappers**. A wrapper d
 * `errorClass` - class used by the error message
 * `hintClass` - class used by the hint message
 * `labelClass` - class used by the label
-* `inputTemplate` - template used by {{input}}
+* `submitClass` - class used by the submit button
+* `inputTemplate` - template used by {{input-for}}
 * `labelTemplate` - template used by {{label-field}}
 * `errorTemplate` - template used by {{error-field}}
 * `hintTemplate` - template used by {{hint-field}}
+* `submitButtonTemplate` - template used by {{submit as='button'}}
 
 ### Registering a wrapper
 To register a wrapper, use the method `registerWrapper` in the module `ember-easy-form/config` passing the wrapper name and its options. You can define many wrappers, using each one when appropriate.
@@ -288,7 +273,7 @@ To use a wrapper, define the `wrapper` option in the form. All elements inside t
 
 ```handlebars
 {{#form-for controller wrapper="my-wrapper"}}
-  {{input firstName}}
+  {{input-for "firstName"}}
 {{/form-for}}
 ```
 
@@ -302,10 +287,12 @@ The default wrapper contains the following values:
 * `errorClass` - "error"
 * `hintClass` - "hint"
 * `labelClass` - "" (empty)
-* `inputTemplate` - "components/easy-form/input"
-* `labelTemplate` - "components/easy-form/label-field"
+* `submitClass` - "" (empty)
+* `inputTemplate` - "components/easy-form/input-for"
 * `errorTemplate` - "components/easy-form/error-field"
+* `labelTemplate` - "components/easy-form/label-field"
 * `hintTemplate` - "components/easy-form/hint-field"
+* `submitButtonTemplate` - "components/easy-form/submit-button"
 
 ### Custom templates
 
@@ -342,13 +329,15 @@ export default {
 And then, you have to define the template used by this wrapper. In this example, the template name is `bootstrap-input`.
 
 ```handlebars
-{{label-field propertyBinding="view.property" textBinding="view.label"}}
-<div class="{{unbound view.wrapperConfig.controlsWrapperClass}}">
-  {{partial "components/easy-form/input-controls"}}
+{{label-field property=propertyName text=labelText}}
+<div class="{{unbound wrapperConfig.controlsWrapperClass}}">
+  {{input-field property=propertyName inputOptions=inputOptions}}
+  {{#if showError}}{{error-field property=propertyName}}{{/if}}
+  {{#if hintText}}{{hint-field property=propertyName text=hintText}}{{/if}}
 </div>
 ```
 
-Your custom templates probably are going to be based on the templates defined by the `ember-easy-form` library, [here](https://github.com/dockyard/ember-easy-form/tree/master/app/templates/components/easy-form) you can see them.
+Your custom templates probably are going to be based on the templates defined by the `ember-easy-form` library, [here](./app/templates/components/easy-form) you can see them.
 
 ## Validations
 
@@ -363,29 +352,6 @@ directly defined on the controller itself or on the `content` object)
 and each key should correspond to the property in question. The value of
 each key can be a string or an array. If an array the first value in the
 array will be used for display.
-
-## i18n
-
-When you use [ember-i18n](https://github.com/jamesarosen/ember-i18n) you can pass your options with a Translation suffix and ember-i18n will handle your translation.
-
-The following options are translatable:
-* `placeholder`
-* `label`
-* `hint`
-* `text`
-
-### Examples
-
-```handlebars
-{{input firstName placeholderTranslation="users.attributes.firstname"}}
-{{input firstName labelTranslation="users.attributes.firstname"}}
-{{input firstName hintTranslation="users.hints.firstname"}}
-{{input-field firstName placeholderTranslation="users.attributes.firstname"}}
-{{label-field firstName textTranslation="users.attributes.firstname"}}
-{{hint-field firstName textTranslation="users.hints.firstname"}}
-```
-
-where `users.attributes.firstname` is the path to the translated string.
 
 ## Authors ##
 

@@ -9,16 +9,14 @@ export default {
       errorClass: 'error',
       hintClass: 'hint',
       labelClass: '',
-      inputTemplate: 'components/easy-form/input',
+      submitClass: '',
+      inputTemplate: 'components/easy-form/input-for',
       errorTemplate: 'components/easy-form/error-field',
       labelTemplate: 'components/easy-form/label-field',
       hintTemplate: 'components/easy-form/hint-field',
-      wrapControls: false,
-      controlsWrapperClass: '',
-      buttonClass: ''
+      submitButtonTemplate: 'components/easy-form/submit-button'
     }
   },
-  modulePrefix: 'appkit',
   _inputTypes: {},
   _templates: {},
   registerWrapper: function(name, wrapper) {
