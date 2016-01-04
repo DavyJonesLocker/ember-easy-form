@@ -1,6 +1,6 @@
 {
   "name": "ember-easy-form",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-rc.1",
   "description": "Ember EasyForm provides a DSL for quickly building forms similar to ActionPack's EasyForm and SimpleForm.",
   "directories": {
     "doc": "doc",
