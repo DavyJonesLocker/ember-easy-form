@@ -1,10 +1,12 @@
 <h2>Person form</h2>
 <div id="teste">
-{{#form-for model}}
-  {{input-for "firstName"}}
-  {{input-for "lastName"}}
+
+{{#form-for model as |f|}}
+  {{f.input "firstName"}}
+  {{f.input "lastName"}}
   <input type="submit">
 {{/form-for}}
+
 
 <p class="bound-values">
   First name: <span class="first-name">{{model.firstName}}</span><br>

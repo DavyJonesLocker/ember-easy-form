@@ -10,6 +10,7 @@ export default {
       hintClass: 'hint',
       labelClass: '',
       submitClass: '',
+      formTemplate: 'components/easy-form/form',
       inputTemplate: 'components/easy-form/input-for',
       errorTemplate: 'components/easy-form/error-field',
       labelTemplate: 'components/easy-form/label-field',

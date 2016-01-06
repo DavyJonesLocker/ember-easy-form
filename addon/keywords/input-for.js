@@ -14,7 +14,7 @@ export default {
       }
     }
 
-    customHash.inputOptions = inputOptions;
+    customHash.savedInputOptions = inputOptions;
     return assign({}, state, { customHash: customHash });
   },
 

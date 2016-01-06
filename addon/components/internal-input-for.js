@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import WrapperMixin from 'ember-easy-form/wrapper-mixin';
 import {humanize} from 'ember-easy-form/utilities';
+import {assign} from 'ember-easy-form/utilities';
 
 const PropertyNameNotDefinedMessage = 'Please, define the property name. ' +
   'You probably forgot to quote the property name in some `input-for` component.';
@@ -88,6 +89,20 @@ var FormInputComponent = Ember.Component.extend(WrapperMixin, {
     this.set('hasFocusedOut', true);
     this.showValidationError();
   },
+  inputOptions: Ember.computed('savedInputOptions', 'attrs', function() {
+    var inputOptions = this.get('savedInputOptions');
+    if (!inputOptions) {
+      // Move all values to the `inputOptions` hash, except the ones we use in the `internal-input-for`
+      inputOptions = assign({}, this.get('attrs'));
+      for(let i=0; i<knownProperties.length; i++) {
+        const key = knownProperties[i];
+        if (inputOptions.hasOwnProperty(key)) {
+          delete inputOptions[key];
+        }
+      }
+    }
+    return inputOptions;
+  }),
   showValidationError: function() {
     if (this.get('hasFocusedOut')) {
       var property = this.get('propertyName');
