@@ -7,6 +7,8 @@ var FormFormComponent = Ember.Component.extend(WrapperMixin, {
   classNameBindings: ['wrapperConfig.formClass'],
   novalidate: 'novalidate',
   wrapper: 'default',
+  layoutName: Ember.computed.oneWay('wrapperConfig.formTemplate'),
+
 
   init: function() {
     this._super(...arguments);
