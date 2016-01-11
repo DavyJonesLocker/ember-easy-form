@@ -67,7 +67,7 @@ var FormInputComponent = Ember.Component.extend(WrapperMixin, {
   tagName: 'div',
   classNames: ['string'],
   classNameBindings: ['wrapperConfig.inputClass', 'propertyName'],
-  didInsertElement: function() {
+  didRender: function() {
     var labelComponent, inputComponent;
 
     this.forEachChildView((view) => {
@@ -81,7 +81,9 @@ var FormInputComponent = Ember.Component.extend(WrapperMixin, {
 
     if (labelComponent && inputComponent) {
       // This is not the best way to do it. We should not change the element after it was created.
-      labelComponent.set('for', Ember.get(inputComponent, 'elementId'));
+      Ember.run.scheduleOnce('afterRender', this, function() {
+        labelComponent.set('for', Ember.get(inputComponent, 'elementId'));
+      });
     }
   },
   focusOut: function() {
