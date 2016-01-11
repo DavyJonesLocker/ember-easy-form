@@ -261,7 +261,7 @@ test('sets input attributes property as bindings', function(assert) {
     label: 'My label',
     hint: 'Some hint'
   });
-  this.render(hbs`{{#form-for model}}{{input-for "firstName" placeholderBinding="placeholder" labelBinding="label" hintBinding="hint"}}{{/form-for}}`);
+  this.render(hbs`{{#form-for model}}{{input-for "firstName" placeholder=placeholder label=label hint=hint}}{{/form-for}}`);
   assert.equal(this.$().find('input').prop('placeholder'), 'The placeholder');
   assert.equal(this.$().find('label').text(), 'My label');
   assert.equal(this.$().find('.hint').text(), 'Some hint');
