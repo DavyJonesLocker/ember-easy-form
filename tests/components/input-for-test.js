@@ -215,6 +215,23 @@ test('binds label to input field', function(assert) {
   assert.equal(input.prop('id'), label.prop('for'));
 });
 
+test('binds label to input field across re-rendering', function(assert) {
+  Ember.run(() => {
+    this.get('model.errors.firstName').pushObject("can't be blank");
+  });
+  this.render(hbs`{{#form-for model}}{{input-for "firstName"}}{{/form-for}}`);
+  var initialInput = this.$().find('input');
+  var initialLabel = this.$().find('label');
+  assert.equal(initialInput.prop('id'), initialLabel.prop('for'));
+  Ember.run(() => {
+    this.$().find('input').blur();
+  });
+  var reRenderedInput = this.$().find('input');
+  var reRenderedLabel = this.$().find('label');
+  assert.notEqual(initialInput.prop('id'), reRenderedInput.prop('id'));
+  assert.equal(reRenderedInput.prop('id'), reRenderedLabel.prop('for'));
+});
+
 test('uses the wrapper config', function(assert) {
   config.registerWrapper('my_wrapper', {inputClass: 'my-input', errorClass: 'my-error', fieldErrorClass: 'my-fieldWithErrors'});
 
@@ -244,7 +261,7 @@ test('sets input attributes property as bindings', function(assert) {
     label: 'My label',
     hint: 'Some hint'
   });
-  this.render(hbs`{{#form-for model}}{{input-for "firstName" placeholderBinding="placeholder" labelBinding="label" hintBinding="hint"}}{{/form-for}}`);
+  this.render(hbs`{{#form-for model}}{{input-for "firstName" placeholder=placeholder label=label hint=hint}}{{/form-for}}`);
   assert.equal(this.$().find('input').prop('placeholder'), 'The placeholder');
   assert.equal(this.$().find('label').text(), 'My label');
   assert.equal(this.$().find('.hint').text(), 'Some hint');
