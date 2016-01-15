@@ -228,8 +228,26 @@ test('binds label to input field across re-rendering', function(assert) {
   });
   var reRenderedInput = this.$().find('input');
   var reRenderedLabel = this.$().find('label');
-  assert.notEqual(initialInput.prop('id'), reRenderedInput.prop('id'));
   assert.equal(reRenderedInput.prop('id'), reRenderedLabel.prop('for'));
+});
+
+test('does not lose focus across re-rendering', function(assert) {
+  Ember.run(() => {
+    this.get('model.errors.firstName').pushObject("can't be blank");
+  });
+  this.render(hbs`{{#form-for model}}{{input-for "firstName"}}{{/form-for}}`);
+
+  Ember.run(() => {
+    this.$().find('input').blur();
+  });
+  assert.ok(this.$().find('.error').get(0), 'display the error');
+
+  Ember.run(() => {
+    this.$().find('input').focus();
+    this.get('model.errors.firstName').clear();
+  });
+  assert.ok(!this.$().find('.error').get(0), 'hide the error');
+  assert.equal(document.activeElement, this.$().find('input').get(0), 'input has focus');
 });
 
 test('uses the wrapper config', function(assert) {
