@@ -1,0 +1,9 @@
+{{#if hasBlock}}
+  {{yield}}
+{{else}}
+  <label for={{controlId}}>{{label}}</label>
+  {{component controlType id=controlId value=value type=type}}
+  {{#if helper}}
+    {{form-control-helper text=helper}}
+  {{/if}}
+{{/if}}
