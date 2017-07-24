@@ -1,5 +1,7 @@
 # Ember-easy-form
 
+**[ember-easy-form is built and maintained by DockYard, contact us for expert Ember.js consulting](https://dockyard.com/ember-consulting)**.
+
 This README outlines the details of collaborating on this Ember addon.
 
 ## Installation
